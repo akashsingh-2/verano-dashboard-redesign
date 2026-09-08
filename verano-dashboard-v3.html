@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verano — Monthly Business Review</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           DESIGN SYSTEM: Notion-Inspired Enterprise Aesthetic
+           Canvas: Warm paper (#f6f5f4) | Primary: Confident Blue (#0075de)
+           Principle: Restraint + Hierarchy | Elevation: Hairlines + Soft Shadows
+           ══════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* Canvas & Surface */
+            --canvas: #f6f5f4;
+            --surface: #ffffff;
+            --surface-hover: #fafaf8;
+
+            /* Text (Ink Hierarchy) */
+            --ink-primary: #000000;
+            --ink-secondary: #31302e;
+            --ink-muted: #615d59;
+            --ink-faint: #a39e98;
+
+            /* Brand Accent (Single Blue, Disciplined Use) */
+            --primary: #0075de;
+            --primary-active: #005bab;
+
+            /* Semantic Colors (Enterprise Context) */
+            --positive: #1aae39;
+            --caution: #dd5b00;
+            --critical: #e53e3e;
+            --info: #0975c4;
+
+            /* Borders & Dividers */
+            --hairline: #e6e6e6;
+            --border-subtle: #d9d7d3;
+
+            /* Shadows (Soft, Layered Approach) */
+            --shadow-1: 0 0.175px 1.041px rgba(0,0,0,0.01),
+                        0 0.8px 2.925px rgba(0,0,0,0.02),
+                        0 2.025px 7.847px rgba(0,0,0,0.027),
+                        0 4px 18px rgba(0,0,0,0.04);
+            --shadow-2: 0 23px 52px rgba(0,0,0,0.05);
+
+            /* Typography Scale (NotionInter → System UI Fallback) */
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', Inter, sans-serif;
+            --font-display: 64px 700 / 1.0;
+            --font-h1: 40px 700 / 1.1;
+            --font-h2: 26px 700 / 1.23;
+            --font-h3: 22px 700 / 1.27;
+            --font-title: 20px 600 / 1.4;
+            --font-body-md: 16px 400 / 1.5;
+            --font-body-sm: 15px 400 / 1.33;
+            --font-button: 16px 500 / 1.5;
+            --font-caption: 14px 400 / 1.43;
+            --font-eyebrow: 12px 600 / 1.33;
+
+            /* Spacing (8px base) */
+            --space-xs: 8px;
+            --space-sm: 12px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+
+            /* Radius (Notion: Tight corners on utility, soft on cards) */
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--canvas);
+            color: var(--ink-secondary);
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           LAYOUT: Responsive Container System
+           ══════════════════════════════════════════════════════════════ */
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--canvas);
+        }
+
+        .viewport {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           HEADER / BANNER
+           ══════════════════════════════════════════════════════════════ */
+
+        .header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--hairline);
+            background: var(--surface);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            padding: var(--space-lg) var(--space-md);
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                padding: var(--space-lg) var(--space-lg);
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .header {
+                padding: var(--space-lg) var(--space-xl);
+            }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1440px;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary) 0%, #0056b3 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-1);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .logo-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-period {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+
+        .nav-item {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .nav-item {
+                display: inline-flex;
+            }
+
+            .nav-item:hover {
+                background: var(--canvas);
+                color: var(--primary);
+            }
+
+            .nav-item.active {
+                background: rgba(0, 117, 222, 0.08);
+                color: var(--primary);
+            }
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           MAIN CONTENT GRID
+           ══════════════════════════════════════════════════════════════ */
+
+        .main {
+            flex: 1;
+            padding: var(--space-lg) var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+            overflow-y: auto;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .main {
+                padding: var(--space-lg) var(--space-lg);
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .main {
+                padding: var(--space-lg) var(--space-xl);
+            }
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        /* Section Spacing */
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            width: 100%;
+        }
+
+        .section-label {
+            font: var(--font-eyebrow);
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-xs);
+            display: block;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           PRIMARY LAYER: Status Cards (30% Visual Weight)
+           ══════════════════════════════════════════════════════════════ */
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+        }
+
+        @media (min-width: 768px) {
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .status-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .status-card {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card:hover {
+            border-color: var(--border-subtle);
+            box-shadow: var(--shadow-2);
+            transform: translateY(-2px);
+        }
+
+        /* Status Indicator: Left Border */
+        .status-card.positive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--positive);
+        }
+
+        .status-card.caution::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--caution);
+        }
+
+        .status-card.critical::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--critical);
+        }
+
+        .card-content {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .card-icon.positive {
+            background: rgba(26, 174, 57, 0.1);
+            color: var(--positive);
+        }
+
+        .card-icon.caution {
+            background: rgba(221, 91, 0, 0.1);
+            color: var(--caution);
+        }
+
+        .card-icon.critical {
+            background: rgba(229, 62, 62, 0.1);
+            color: var(--critical);
+        }
+
+        .card-label {
+            font: var(--font-eyebrow);
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .card-value {
+            font: var(--font-h2);
+            color: var(--ink-primary);
+            letter-spacing: -0.625px;
+        }
+
+        .card-subtitle {
+            font: var(--font-caption);
+            color: var(--ink-muted);
+            margin-top: 4px;
+        }
+
+        .card-delta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font: var(--font-caption);
+            font-weight: 600;
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--hairline);
+            margin-top: auto;
+        }
+
+        .delta-positive {
+            color: var(--positive);
+        }
+
+        .delta-caution {
+            color: var(--caution);
+        }
+
+        .delta-critical {
+            color: var(--critical);
+        }
+
+        .delta-icon {
+            font-size: 13px;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           CONTROLS: Filters & Actions
+           ══════════════════════════════════════════════════════════════ */
+
+        .controls-bar {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg) var(--space-md);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .controls-bar {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: var(--space-lg) var(--space-lg);
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .controls-bar {
+                padding: var(--space-lg) var(--space-xl);
+            }
+        }
+
+        .controls-label {
+            font: var(--font-eyebrow);
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filters-primary {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .filters-primary {
+                width: auto;
+                flex: 1;
+            }
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--canvas);
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-md);
+            font: var(--font-caption);
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 117, 222, 0.04);
+        }
+
+        .filter-chip.active {
+            background: rgba(0, 117, 222, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-reset {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-md);
+            font: var(--font-caption);
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-reset:hover {
+            background: var(--canvas);
+            border-color: var(--ink-muted);
+            color: var(--ink-muted);
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           SECONDARY LAYER: Charts (50% Visual Weight)
+           ══════════════════════════════════════════════════════════════ */
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+        }
+
+        @media (min-width: 768px) {
+            .charts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .charts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            border-color: var(--border-subtle);
+            box-shadow: var(--shadow-2);
+            transform: translateY(-2px);
+        }
+
+        .chart-title {
+            font: var(--font-title);
+            color: var(--ink-primary);
+            letter-spacing: -0.125px;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-canvas {
+            position: relative;
+            height: 180px;
+            min-height: 180px;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           TERTIARY LAYER: Data Table (20% Visual Weight)
+           ══════════════════════════════════════════════════════════════ */
+
+        .table-card {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-1);
+            overflow-x: auto;
+        }
+
+        .table-title {
+            font: var(--font-title);
+            color: var(--ink-primary);
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font: var(--font-body-sm);
+        }
+
+        .data-table thead {
+            background: var(--canvas);
+            border-bottom: 2px solid var(--hairline);
+        }
+
+        .data-table th {
+            padding: 10px 12px;
+            text-align: left;
+            font: var(--font-eyebrow);
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table th.numeric {
+            text-align: right;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--hairline);
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--canvas);
+        }
+
+        .data-table td {
+            padding: 12px;
+            color: var(--ink-secondary);
+        }
+
+        .data-table td.numeric {
+            text-align: right;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-weight: 500;
+            color: var(--ink-primary);
+        }
+
+        .data-table td.category {
+            font-weight: 500;
+            color: var(--ink-primary);
+        }
+
+        .region-header {
+            background: var(--canvas);
+            font-weight: 600;
+            color: var(--ink-primary);
+            border-top: 2px solid var(--hairline);
+        }
+
+        .metric-positive {
+            color: var(--positive);
+            font-weight: 600;
+        }
+
+        .metric-caution {
+            color: var(--caution);
+            font-weight: 600;
+        }
+
+        .metric-critical {
+            color: var(--critical);
+            font-weight: 600;
+            background: rgba(229, 62, 62, 0.08);
+            padding: 2px 8px;
+            border-radius: var(--radius-xs);
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════════════════════════════ */
+
+        .footer {
+            width: 100%;
+            border-top: 1px solid var(--hairline);
+            background: var(--surface);
+            padding: var(--space-lg) var(--space-md);
+            font: var(--font-caption);
+            color: var(--ink-muted);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            text-align: center;
+            margin-top: auto;
+        }
+
+        @media (min-width: 768px) {
+            .footer {
+                padding: var(--space-lg) var(--space-lg);
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .footer {
+                padding: var(--space-lg) var(--space-xl);
+            }
+        }
+
+        .footer-content {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           ACCESSIBILITY & FOCUS STATES
+           ══════════════════════════════════════════════════════════════ */
+
+        button, [role="button"], input, select {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline 0.2s ease;
+        }
+
+        button:focus, [role="button"]:focus, input:focus, select:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: more) {
+            .status-card {
+                border-width: 2px;
+            }
+
+            .chart-card {
+                border-width: 2px;
+            }
+
+            .table-card {
+                border-width: 2px;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .footer, .controls-bar {
+                display: none;
+            }
+
+            .status-card, .chart-card, .table-card {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- STICKY HEADER -->
+        <header class="header">
+            <div class="header-inner">
+                <div class="header-left">
+                    <div class="logo-mark">V</div>
+                    <div class="logo-text">
+                        <div class="logo-name">Verano</div>
+                        <div class="logo-period">September 2026</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <nav class="nav-item active">
+                        <span>📊</span> Dashboard
+                    </nav>
+                    <a href="verano-presentation.html" class="nav-item" target="_blank" style="text-decoration: none; color: inherit;">
+                        <span>📋</span> Case Study
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT VIEWPORT -->
+        <div class="viewport">
+            <main class="main">
+                <div class="main-content">
+                <!-- PRIMARY LAYER: STATUS CARDS -->
+                <section class="section">
+                    <h2 class="section-label">Executive Status</h2>
+                    <div class="status-grid">
+                        <!-- Monthly Status -->
+                        <div class="status-card positive">
+                            <div class="card-content">
+                                <div class="card-icon positive">✓</div>
+                                <div>
+                                    <div class="card-label">Monthly Status</div>
+                                    <div class="card-value">On Track</div>
+                                    <div class="card-subtitle">Revenue target achieved</div>
+                                </div>
+                            </div>
+                            <div class="card-delta delta-positive">
+                                <span class="delta-icon">↑</span>
+                                <span>+4.2% vs target</span>
+                            </div>
+                        </div>
+
+                        <!-- Primary Metric: Revenue -->
+                        <div class="status-card positive">
+                            <div class="card-content">
+                                <div class="card-icon positive">💰</div>
+                                <div>
+                                    <div class="card-label">Primary Metric</div>
+                                    <div class="card-value">$1.25M</div>
+                                    <div class="card-subtitle">Monthly Revenue</div>
+                                </div>
+                            </div>
+                            <div class="card-delta delta-positive">
+                                <span class="delta-icon">↑</span>
+                                <span>+$50K from Aug</span>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Metric: CAC -->
+                        <div class="status-card caution">
+                            <div class="card-content">
+                                <div class="card-icon caution">⚠</div>
+                                <div>
+                                    <div class="card-label">Efficiency Metric</div>
+                                    <div class="card-value">$450</div>
+                                    <div class="card-subtitle">Customer Acquisition Cost</div>
+                                </div>
+                            </div>
+                            <div class="card-delta delta-caution">
+                                <span class="delta-icon">↓</span>
+                                <span>−6.3% vs target</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTROLS SECTION -->
+                <section class="section">
+                    <div class="controls-bar" role="region" aria-label="Dashboard filters">
+                        <div class="controls-label">Active Filters</div>
+                        <div class="filters-primary">
+                            <div class="filter-chip active" role="button" tabindex="0">
+                                Metric: Revenue
+                            </div>
+                            <div class="filter-chip active" role="button" tabindex="0">
+                                Period: This Month
+                            </div>
+                            <div class="filter-chip" role="button" tabindex="0">
+                                Region: All
+                            </div>
+                        </div>
+                        <button class="btn-reset">Reset All</button>
+                    </div>
+                </section>
+
+                <!-- SECONDARY LAYER: CHARTS -->
+                <section class="section">
+                    <h2 class="section-label">Performance Trends</h2>
+                    <div class="charts-grid">
+                        <!-- Trend Chart -->
+                        <div class="chart-card">
+                            <h3 class="chart-title">Revenue Trend</h3>
+                            <div class="chart-canvas">
+                                <canvas id="trendChart" role="img" aria-label="Revenue trend over 4 months"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- CAC Comparison -->
+                        <div class="chart-card">
+                            <h3 class="chart-title">CAC vs Target</h3>
+                            <div class="chart-canvas">
+                                <canvas id="cacChart" role="img" aria-label="Customer acquisition cost vs target"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Churn Rate -->
+                        <div class="chart-card">
+                            <h3 class="chart-title">Churn by Region</h3>
+                            <div class="chart-canvas">
+                                <canvas id="churnChart" role="img" aria-label="Churn rate by geographic region"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TERTIARY LAYER: DATA TABLE -->
+                <section class="section">
+                    <div class="table-card">
+                        <h2 class="table-title">Regional Breakdown</h2>
+                        <table class="data-table" role="table">
+                            <thead role="rowgroup">
+                                <tr role="row">
+                                    <th role="columnheader">Region</th>
+                                    <th class="numeric" role="columnheader">Revenue</th>
+                                    <th class="numeric" role="columnheader">Growth</th>
+                                    <th class="numeric" role="columnheader">Churn</th>
+                                    <th class="numeric" role="columnheader">CAC</th>
+                                </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                                <tr class="region-header" role="row">
+                                    <td colspan="5">AMERICAS</td>
+                                </tr>
+                                <tr role="row">
+                                    <td class="category">North America</td>
+                                    <td class="numeric">$750K</td>
+                                    <td class="numeric metric-positive">+8.2%</td>
+                                    <td class="numeric">2.1%</td>
+                                    <td class="numeric">$420</td>
+                                </tr>
+                                <tr role="row">
+                                    <td class="category">Latin America</td>
+                                    <td class="numeric">$120K</td>
+                                    <td class="numeric metric-caution">−1.5%</td>
+                                    <td class="numeric"><span class="metric-critical">3.8%</span></td>
+                                    <td class="numeric">$480</td>
+                                </tr>
+
+                                <tr class="region-header" role="row">
+                                    <td colspan="5">EMEA</td>
+                                </tr>
+                                <tr role="row">
+                                    <td class="category">Western Europe</td>
+                                    <td class="numeric">$320K</td>
+                                    <td class="numeric metric-positive">+5.7%</td>
+                                    <td class="numeric">1.9%</td>
+                                    <td class="numeric">$410</td>
+                                </tr>
+                                <tr role="row">
+                                    <td class="category">MENA</td>
+                                    <td class="numeric">$110K</td>
+                                    <td class="numeric">+0.3%</td>
+                                    <td class="numeric">2.3%</td>
+                                    <td class="numeric">$520</td>
+                                </tr>
+
+                                <tr class="region-header" role="row">
+                                    <td colspan="5">APAC</td>
+                                </tr>
+                                <tr role="row">
+                                    <td class="category">Asia-Pacific</td>
+                                    <td class="numeric">$520K</td>
+                                    <td class="numeric metric-positive">+12.4%</td>
+                                    <td class="numeric">1.7%</td>
+                                    <td class="numeric">$410</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- STICKY FOOTER -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div>Verano Monthly Business Review • September 2026</div>
+                <div>Last updated: Today at 9:45 AM • v3.0 Enterprise Edition</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ══════════════════════════════════════════════════════════════
+        // CHART CONFIGURATION
+        // Design: Notion aesthetic with semantic colors
+        // ══════════════════════════════════════════════════════════════
+
+        const chartDefaults = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    padding: 10,
+                    titleFont: { size: 13, weight: 600 },
+                    bodyFont: { size: 12 },
+                    borderRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        padding: () => 8
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: { size: 12, weight: 500 },
+                        color: '#615d59'
+                    }
+                },
+                y: {
+                    grid: {
+                        color: '#e6e6e6',
+                        drawBorder: false,
+                        drawTicks: false
+                    },
+                    ticks: {
+                        font: { size: 12, weight: 500 },
+                        color: '#615d59',
+                        padding: 8
+                    }
+                }
+            }
+        };
+
+        // 1. REVENUE TREND (Line chart - shows momentum/trajectory)
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['June', 'July', 'Aug', 'Sept'],
+                datasets: [{
+                    label: 'Monthly Revenue',
+                    data: [1050000, 1150000, 1200000, 1250000],
+                    borderColor: '#1aae39',
+                    backgroundColor: 'rgba(26, 174, 57, 0.06)',
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#1aae39',
+                    pointBorderColor: '#ffffff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBorderWidth: 2.5,
+                    pointHoverBorderWidth: 3
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        ...chartDefaults.plugins.tooltip,
+                        callbacks: {
+                            label: (context) => `$${(context.parsed.y / 1000000).toFixed(2)}M`
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. CAC COMPARISON (Grouped bar - us vs target side-by-side)
+        const cacCtx = document.getElementById('cacChart').getContext('2d');
+        new Chart(cacCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Target', 'Actual'],
+                datasets: [{
+                    label: 'CAC',
+                    data: [480, 450],
+                    backgroundColor: ['#a39e98', '#0075de'],
+                    borderRadius: [6, 6],
+                    barThickness: 45,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        ...chartDefaults.plugins.tooltip,
+                        callbacks: {
+                            label: (context) => `$${context.parsed.y}`
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. CHURN RATE BY REGION (Horizontal bar - easy regional comparison)
+        const churnCtx = document.getElementById('churnChart').getContext('2d');
+        new Chart(churnCtx, {
+            type: 'bar',
+            indexAxis: 'y',
+            data: {
+                labels: ['N. America', 'W. Europe', 'APAC', 'MENA', 'Lat. Am.'],
+                datasets: [{
+                    label: 'Churn Rate %',
+                    data: [2.1, 1.9, 1.7, 2.3, 3.8],
+                    backgroundColor: (context) => {
+                        const value = context.parsed.x;
+                        if (value > 3) return '#e53e3e'; // Critical
+                        if (value > 2.5) return '#dd5b00'; // Caution
+                        return '#1aae39'; // Positive
+                    },
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    barThickness: 26,
+                    categoryPercentage: 0.60,
+                    barPercentage: 1.0
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                ...chartDefaults,
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#e6e6e6',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: { size: 12, weight: 500 },
+                            color: '#615d59',
+                            callback: (value) => value + '%'
+                        }
+                    },
+                    y: {
+                        grid: { display: false, drawBorder: false },
+                        ticks: {
+                            font: { size: 12, weight: 500 },
+                            color: '#615d59'
+                        }
+                    }
+                },
+                plugins: {
+                    ...chartDefaults.plugins,
+                    tooltip: {
+                        ...chartDefaults.plugins.tooltip,
+                        callbacks: {
+                            label: (context) => context.parsed.x.toFixed(1) + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ══════════════════════════════════════════════════════════════
+        // INTERACTIVE ELEMENTS
+        // ══════════════════════════════════════════════════════════════
+
+        // Filter chip interaction
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.classList.toggle('active');
+            });
+            chip.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    chip.click();
+                }
+            });
+        });
+
+        // Reset button
+        document.querySelector('.btn-reset').addEventListener('click', () => {
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            document.querySelectorAll('.filter-chip:nth-child(1), .filter-chip:nth-child(2)').forEach(chip => {
+                chip.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

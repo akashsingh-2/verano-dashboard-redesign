@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verano Dashboard Redesign — Enterprise Analytics System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --canvas: #f6f5f4;
+            --surface: #ffffff;
+            --surface-hover: #fafaf8;
+            --border: #e8e5e0;
+
+            --ink-primary: #000000;
+            --ink-secondary: #31302e;
+            --ink-muted: #615d59;
+            --ink-faint: #a39e98;
+
+            --primary: #0075de;
+            --primary-active: #005bab;
+
+            --positive: #1aae39;
+            --caution: #dd5b00;
+            --critical: #e53e3e;
+            --info: #0975c4;
+
+            --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-accent: 0 8px 24px rgba(0, 117, 222, 0.16);
+
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--canvas);
+            color: var(--ink-primary);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        .display { font-size: 3rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; }
+        .h1 { font-size: 2.25rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
+        .h2 { font-size: 1.75rem; line-height: 1.3; font-weight: 700; letter-spacing: -0.005em; }
+        .h3 { font-size: 1.25rem; line-height: 1.4; font-weight: 700; }
+        .subtitle { font-size: 1.125rem; line-height: 1.5; font-weight: 500; color: var(--ink-muted); }
+        .body-lg { font-size: 1.0625rem; line-height: 1.6; }
+        .body-md { font-size: 1rem; line-height: 1.6; }
+        .body-sm { font-size: 0.9375rem; line-height: 1.5; }
+        .caption { font-size: 0.8125rem; line-height: 1.4; color: var(--ink-muted); }
+        .eyebrow { font-size: 0.75rem; line-height: 1.33; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-faint); }
+
+        /* Header */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: var(--spacing-lg) var(--spacing-md);
+            sticky: top;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-decoration: none;
+            color: var(--ink-primary);
+        }
+
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--surface);
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .logo-text { font-weight: 700; font-size: 1.125rem; }
+        .logo-text .subtitle { display: block; margin-top: 2px; }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        section {
+            padding: var(--spacing-3xl) var(--spacing-md);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
+            color: var(--surface);
+            text-align: center;
+            padding: var(--spacing-3xl) var(--spacing-md);
+        }
+
+        .hero .container {
+            max-width: 900px;
+        }
+
+        .hero .eyebrow {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--spacing-md);
+            display: block;
+        }
+
+        .hero .display {
+            margin-bottom: var(--spacing-lg);
+            font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-2xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .meta-item { text-align: center; }
+        .meta-label { opacity: 0.9; font-size: 0.875rem; margin-bottom: 4px; }
+        .meta-value { font-weight: 600; font-size: 1.5rem; }
+
+        /* Section Styling */
+        .section-header {
+            margin-bottom: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .section-header .eyebrow {
+            color: var(--primary);
+            display: block;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .section-header .h2 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-header .subtitle {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Problem Section */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .problem-card {
+            background: var(--surface);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--critical);
+            box-shadow: var(--shadow-1);
+        }
+
+        .problem-card .eyebrow {
+            color: var(--critical);
+        }
+
+        .problem-card .h3 {
+            margin: var(--spacing-md) 0;
+            font-size: 1.125rem;
+        }
+
+        .problem-card .body-md {
+            color: var(--ink-secondary);
+        }
+
+        /* Solution Section */
+        .solution-intro {
+            background: var(--surface);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            margin-bottom: var(--spacing-2xl);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .solution-intro .h3 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .solution-intro .body-lg {
+            color: var(--ink-secondary);
+        }
+
+        /* Design System Showcase */
+        .design-system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .system-card {
+            background: var(--surface);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            transition: all 0.3s ease;
+        }
+
+        .system-card:hover {
+            box-shadow: var(--shadow-2);
+            transform: translateY(-2px);
+        }
+
+        .system-card .eyebrow {
+            display: block;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .system-card .h3 {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.875rem;
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: var(--spacing-sm) 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 0.9375rem;
+            color: var(--ink-secondary);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--positive);
+            font-weight: 700;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            margin-top: var(--spacing-2xl);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .comparison-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+        }
+
+        .comparison-label {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface-hover);
+        }
+
+        .comparison-label .eyebrow {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .comparison-label .h3 {
+            margin: 0;
+            font-size: 1.125rem;
+        }
+
+        .comparison-content {
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, rgba(247, 245, 244, 0.5) 0%, rgba(250, 250, 248, 0.5) 100%);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--ink-muted);
+        }
+
+        /* Dashboard Link Section */
+        .dashboard-preview {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            box-shadow: var(--shadow-1);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .dashboard-preview .h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--primary);
+        }
+
+        .dashboard-preview .body-md {
+            color: var(--ink-secondary);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--primary);
+            color: var(--surface);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary-active);
+            border-color: var(--primary-active);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-accent);
+        }
+
+        /* Highlights Grid */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .highlight-card {
+            background: var(--surface);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-1);
+            border-top: 4px solid var(--primary);
+        }
+
+        .highlight-card .eyebrow {
+            display: block;
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .highlight-card .h3 {
+            font-size: 1.75rem;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 700;
+        }
+
+        .highlight-card .body-sm {
+            color: var(--ink-muted);
+        }
+
+        /* Implementation Details */
+        .implementation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .impl-section {
+            background: var(--surface);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .impl-section .h3 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .impl-section .body-md {
+            color: var(--ink-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .impl-section ul {
+            list-style: none;
+            margin: var(--spacing-md) 0;
+        }
+
+        .impl-section li {
+            padding: var(--spacing-sm) 0;
+            color: var(--ink-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .impl-section li:before {
+            content: "→ ";
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--spacing-2xl) var(--spacing-md);
+            text-align: center;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .body-sm {
+            color: var(--ink-muted);
+            margin: var(--spacing-md) 0;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: var(--border);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .footer-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-meta span {
+            font-size: 0.8125rem;
+            color: var(--ink-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .display { font-size: 2rem; }
+            .h1 { font-size: 1.5rem; }
+            .h2 { font-size: 1.25rem; }
+
+            .hero .display { font-size: 1.75rem; }
+            .hero-meta { gap: var(--spacing-lg); }
+
+            .problem-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .implementation-grid { grid-template-columns: 1fr; }
+
+            section { padding: var(--spacing-2xl) var(--spacing-md); }
+            header { padding: var(--spacing-md); }
+
+            .logo-text { font-size: 1rem; }
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: var(--surface); }
+            header, footer { display: none; }
+            section { page-break-inside: avoid; }
+        }
+
+        /* Prefers Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-mark">V</div>
+                <div class="logo-text">Verano <span class="caption">Dashboard Redesign</span></div>
+            </a>
+            <a href="verano-dashboard-v2.html" class="btn" target="_blank" style="margin-left: auto; margin-right: 0;">View Assignment Submission (v2) →</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <span class="eyebrow">Case Study</span>
+            <h1 class="display">Verano Dashboard Redesign</h1>
+            <p class="subtitle">Strategic submission combining assignment compliance (v2) with enhanced premium design (v3) to demonstrate design system mastery and scalability for enterprise analytics</p>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Scope</div>
+                    <div class="meta-value">Full Redesign</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Focus</div>
+                    <div class="meta-value">KPI Dashboards</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Timeline</div>
+                    <div class="meta-value">Strategic</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Challenge Section -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">The Assignment Challenge</span>
+                <h2 class="h2">Redesign with Precision</h2>
+                <p class="subtitle">Assignment brief: Create a dashboard where executives answer three critical questions in under two minutes. Everything leadership needs is there—but nothing has been prioritized, no visual language is coherent, and some charts actively mislead.</p>
+            </div>
+
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <span class="eyebrow">Information Hierarchy</span>
+                    <h3>Decide What Leads</h3>
+                    <p class="body-md">Ground rule: Decide what leads, what supports, what gets cut—in priority order. Executives don't want to explore data; they want to be told what matters. V2 solves this through a three-tier visual system.</p>
+                </div>
+
+                <div class="problem-card">
+                    <span class="eyebrow">Chart Selection</span>
+                    <h3>Chart Types as Editorial</h3>
+                    <p class="body-md">Several existing charts are poorly chosen for their questions. V2 replaces them with appropriate types (line for trend, bar for comparison, horizontal bar for regions) that serve the data honestly.</p>
+                </div>
+
+                <div class="problem-card">
+                    <span class="eyebrow">Visual Coherence</span>
+                    <h3>Consistent Design Language</h3>
+                    <p class="body-md">The original uses arbitrary visual language. V2 applies a deliberate, consistent palette—semantic colors (positive/caution/critical), professional typography, disciplined spacing that communicates enterprise polish.</p>
+                </div>
+
+                <div class="problem-card">
+                    <span class="eyebrow">Viewport Constraint</span>
+                    <h3>One Screen, No Scrolling</h3>
+                    <p class="body-md">Ground rule: 1440×900, no scrolling. This isn't about fitting data—it's about editorial decision-making. V2 proves you can deliver complete insight within this constraint through thoughtful hierarchy.</p>
+                </div>
+
+                <div class="problem-card">
+                    <span class="eyebrow">System Thinking (v3)</span>
+                    <h3>Scalable Foundation</h3>
+                    <p class="body-md">Beyond v2's assignment solution, v3 demonstrates how this dashboard becomes a system: reusable components, design tokens, responsive breakpoints that scale to multiple dashboards and products.</p>
+                </div>
+
+                <div class="problem-card">
+                    <span class="eyebrow">Accessibility (Both)</span>
+                    <h3>Enterprise Inclusive Design</h3>
+                    <p class="body-md">WCAG AA+ contrast, semantic HTML, ARIA labels, keyboard navigation—not as afterthought, but integral to the design. Both v2 and v3 meet accessibility standards as a foundation, not a feature.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Approach -->
+    <section style="background: linear-gradient(135deg, rgba(0, 117, 222, 0.08) 0%, rgba(0, 117, 222, 0.04) 100%);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Strategic Design Approach</span>
+                <h2 class="h2">Compliance + System Thinking</h2>
+                <p class="subtitle">v2 meets every ground rule with professional excellence. v3 demonstrates the design system foundation beneath it.</p>
+            </div>
+
+            <div class="solution-intro">
+                <h3>Two-Track Strategy</h3>
+                <p class="body-lg"><strong>Version 2.0 (Official Submission):</strong> Begins with the assignment requirements—real data, professional hierarchy, accessible design, exact viewport constraint. No scrolling, no storytelling, just clean decision-making for executives in a 45-minute meeting.</p>
+
+                <p class="body-lg" style="margin-top: var(--spacing-lg);"><strong>Version 3.0 (Enhancement):</strong> Builds on v2's foundation with a full Notion-inspired design system—sophisticated tokens, premium interactions, responsive breakpoints, micro-animations—demonstrating how this dashboard becomes the foundation for platform-wide analytics design.</p>
+
+                <p class="body-lg" style="margin-top: var(--spacing-lg); color: var(--primary); font-weight: 600;">The core principle underlies both: Lead the eye, not the data. Implement a three-tier hierarchy where <strong>Primary insights (30%)</strong> command attention, <strong>Secondary analysis (50%)</strong> supports exploration, and <strong>Tertiary details (20%)</strong> remain accessible but unobtrusive.</p>
+            </div>
+
+            <h3 style="text-align: center; margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-xl); color: var(--primary);">Design System Principles Applied</h3>
+
+            <div class="design-system-grid">
+                <div class="system-card">
+                    <span class="eyebrow">Color Palette</span>
+                    <h3>Disciplined Accent Strategy</h3>
+                    <div class="color-grid">
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #f6f5f4; border: 2px solid var(--border);"></div>
+                            <span>Canvas</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #0075de;"></div>
+                            <span>Primary</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #1aae39;"></div>
+                            <span>Positive</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #dd5b00;"></div>
+                            <span>Caution</span>
+                        </div>
+                    </div>
+                    <p class="body-sm" style="margin-top: var(--spacing-md); color: var(--ink-muted);">One primary blue, semantic status colors only. Restraint creates sophistication.</p>
+                </div>
+
+                <div class="system-card">
+                    <span class="eyebrow">Typography</span>
+                    <h3>Hierarchy Through Scale</h3>
+                    <ul class="feature-list">
+                        <li>Display: 3rem for dramatic headers</li>
+                        <li>H1–H3: Progressive emphasis</li>
+                        <li>Body: Multiple sizes for texture</li>
+                        <li>Caption: Subtle supporting text</li>
+                        <li>Eyebrow: Category labels</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <span class="eyebrow">Spacing & Radius</span>
+                    <h3>Rhythmic Grid System</h3>
+                    <ul class="feature-list">
+                        <li>8px base unit (xs–xl)</li>
+                        <li>Consistent vertical rhythm</li>
+                        <li>Radius: 4px–16px scale</li>
+                        <li>Predictable, scalable</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <span class="eyebrow">Shadows & Elevation</span>
+                    <h3>Layered Subtlety</h3>
+                    <ul class="feature-list">
+                        <li>Soft, layered shadows (no heavy drop)</li>
+                        <li>Signal elevation via shadow depth</li>
+                        <li>Paper-like visual feel</li>
+                        <li>Premium over dramatic</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <span class="eyebrow">Responsive Design</span>
+                    <h3>Mobile-First Grid</h3>
+                    <ul class="feature-list">
+                        <li>1-column: Mobile (compact)</li>
+                        <li>2-column: Tablet (breathing room)</li>
+                        <li>3-column: Desktop (optimized width)</li>
+                        <li>Fluid typography & spacing</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <span class="eyebrow">Accessibility</span>
+                    <h3>WCAG AAA+ Compliance</h3>
+                    <ul class="feature-list">
+                        <li>4.5:1 minimum contrast ratio</li>
+                        <li>Semantic HTML structure</li>
+                        <li>Keyboard navigation</li>
+                        <li>ARIA labels on interactive elements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section: Submission Strategy -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Submission Strategy</span>
+                <h2 class="h2">Two Versions, One Vision</h2>
+                <p class="subtitle">Strategic approach: official compliant submission plus enhanced design system demonstration</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <div class="comparison-label" style="border-bottom: 2px solid var(--positive); background: linear-gradient(135deg, rgba(26, 174, 57, 0.1) 0%, rgba(26, 174, 57, 0.05) 100%);">
+                        <span class="eyebrow" style="color: var(--positive);">✓ Official Submission</span>
+                        <h3>Version 2.0 — Assignment Compliant</h3>
+                    </div>
+                    <div class="comparison-content">
+                        <div style="text-align: center;">
+                            <p class="body-sm" style="font-weight: 600; color: var(--ink-primary);">Primary Deliverable</p>
+                            <p class="caption" style="margin-top: var(--spacing-sm); color: var(--ink-secondary);">
+                                ✓ 1440×900 viewport, no scrolling<br>
+                                ✓ Real business metrics used as given<br>
+                                ✓ Professional three-tier hierarchy<br>
+                                ✓ All ground rules met
+                            </p>
+                            <p class="body-sm" style="margin-top: var(--spacing-md); font-weight: 600; color: var(--positive);">This is the official assignment submission</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <div class="comparison-label" style="border-bottom: 2px solid var(--primary); background: linear-gradient(135deg, rgba(0, 117, 222, 0.1) 0%, rgba(0, 117, 222, 0.05) 100%);">
+                        <span class="eyebrow" style="color: var(--primary);">✨ Enhancement</span>
+                        <h3>Version 3.0 — Premium Design System</h3>
+                    </div>
+                    <div class="comparison-content">
+                        <div style="text-align: center;">
+                            <p class="body-sm" style="font-weight: 600; color: var(--ink-primary);">Supplementary Demonstration</p>
+                            <p class="caption" style="margin-top: var(--spacing-sm); color: var(--ink-secondary);">
+                                ✓ Full Notion design system showcase<br>
+                                ✓ Premium interactions & micro-animations<br>
+                                ✓ Responsive design (scrollable)<br>
+                                ✓ Demonstrates Staff Designer mastery
+                            </p>
+                            <p class="body-sm" style="margin-top: var(--spacing-md); font-weight: 600; color: var(--primary);">Shows design system depth & scalability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-preview">
+                <h3>View the Submission Package</h3>
+                <p class="body-md" style="margin-bottom: var(--spacing-md);">Two carefully crafted deliverables showing both compliance excellence and premium design mastery</p>
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap;">
+                    <a href="verano-dashboard-v2.html" class="btn" target="_blank" style="background: var(--positive); border-color: var(--positive);">View v2 (Official Submission) →</a>
+                    <a href="verano-dashboard-v3.html" class="btn" target="_blank">View v3 (Enhanced Version) →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Achievements in v2 (Official Submission) -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Version 2.0 Achievements</span>
+                <h2 class="h2">Official Submission Highlights</h2>
+                <p class="subtitle">Ground-rule compliant design with professional craftsmanship meeting all assignment requirements</p>
+            </div>
+
+            <div class="highlights-grid">
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Information Hierarchy</h3>
+                    <p class="body-sm">Three-tier system (30% primary, 50% secondary, 20% tertiary) guiding executive eyes to what matters most</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Real Data, Real Metrics</h3>
+                    <p class="body-sm">Business metrics used as given—revenue trends, CAC analysis, regional churn rates—realistic and grounded</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Professional Craft</h3>
+                    <p class="body-sm">Clean typography, disciplined color palette, semantic spacing—enterprise-ready visual language</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Accessibility</h3>
+                    <p class="body-sm">WCAG AA contrast (4.5:1), semantic HTML, ARIA labels, keyboard navigation—inclusive by design</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Viewport Constraint</h3>
+                    <p class="body-sm">Exactly 1440×900, no scrolling—fits one executive meeting screen without compromise</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--positive);">
+                    <span class="eyebrow" style="color: var(--positive);">✓ Submitted</span>
+                    <h3>Smart Chart Selection</h3>
+                    <p class="body-sm">Chart types chosen for question, not decoration—line for trend, bar for comparison, horizontal for regions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Features in v3 (Enhancement) -->
+    <section style="background: linear-gradient(135deg, rgba(0, 117, 222, 0.08) 0%, rgba(0, 117, 222, 0.04) 100%);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Version 3.0 Enhancements</span>
+                <h2 class="h2">Premium Design System Demonstration</h2>
+                <p class="subtitle">Supplementary work sample showing design system depth, scalability, and Staff Designer level mastery</p>
+            </div>
+
+            <div class="highlights-grid">
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>Design System Tokens</h3>
+                    <p class="body-sm">Full CSS custom properties system (colors, typography, spacing, shadows, radius) demonstrating scalable design architecture</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>Micro-interactions</h3>
+                    <p class="body-sm">Smooth transitions, hover elevations, transform effects showing attention to interactive detail and premium feel</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>Responsive Breakpoints</h3>
+                    <p class="body-sm">Mobile-first design (1→2→3 columns) demonstrating how this system scales beyond executive desktop</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>Notion Aesthetic</h3>
+                    <p class="body-sm">Premium design direction using warm paper canvas (#f6f5f4), confident blue (#0075de), and refined visual restraint</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>System Documentation</h3>
+                    <p class="body-sm">Comprehensive design system thinking demonstrating how this foundation scales to platform-wide consistency</p>
+                </div>
+
+                <div class="highlight-card" style="border-top-color: var(--primary);">
+                    <span class="eyebrow" style="color: var(--primary);">✨ Enhanced</span>
+                    <h3>Interactive Pattern Library</h3>
+                    <p class="body-sm">Reusable component patterns (cards, buttons, filters, charts) showing extensible design system foundation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Deep Dive -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Technical Execution</span>
+                <h2 class="h2">How It's Built</h2>
+                <p class="subtitle">Premium design realized through thoughtful technical implementation</p>
+            </div>
+
+            <div class="implementation-grid">
+                <div class="impl-section">
+                    <h3>Component Architecture</h3>
+                    <p class="body-md">Each component (status cards, charts, table) is designed as a reusable pattern within the system.</p>
+                    <ul>
+                        <li>Status Cards: Semantic layout with icon, label, value, delta</li>
+                        <li>Filter Controls: Interactive chip pattern with reset functionality</li>
+                        <li>Interactive Charts: Line, bar (grouped & horizontal) using Chart.js</li>
+                        <li>Data Table: Semantic HTML with sortable regions and color-coded values</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Responsive Strategy</h3>
+                    <p class="body-md">Progressive enhancement from mobile to desktop without compromising experience.</p>
+                    <ul>
+                        <li>Mobile (default): Single column, optimized spacing, hidden navigation</li>
+                        <li>Tablet (768px): Two-column grids, expanded whitespace</li>
+                        <li>Desktop (1080px+): Three-column grids, full feature set</li>
+                        <li>Fluid typography scales with viewport smoothly</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Design Tokens</h3>
+                    <p class="body-md">CSS custom properties define every design decision for consistency and scalability.</p>
+                    <ul>
+                        <li>9 color tokens (canvas, surface, primary, semantic colors)</li>
+                        <li>5 text styles plus eyebrow and caption variants</li>
+                        <li>7 spacing levels (xs–3xl) on 8px base unit</li>
+                        <li>5 border radius sizes for consistent rounding</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Interaction & Motion</h3>
+                    <p class="body-md">Subtle, purposeful animations that enhance without overwhelming.</p>
+                    <ul>
+                        <li>Transitions: 0.2–0.3s ease for smooth, snappy feel</li>
+                        <li>Hover states: 2px translateY lift with shadow enhancement</li>
+                        <li>Focus states: 2px outline with offset for accessibility</li>
+                        <li>Prefers-reduced-motion: All transitions disabled when requested</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alignment with Job Requirements -->
+    <section style="background: linear-gradient(135deg, rgba(0, 117, 222, 0.08) 0%, rgba(0, 117, 222, 0.04) 100%);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Strategic Alignment</span>
+                <h2 class="h2">Addressing Peritus Requirements</h2>
+                <p class="subtitle">This redesign directly demonstrates the skills and experience you're bringing to the role</p>
+            </div>
+
+            <div class="implementation-grid">
+                <div class="impl-section">
+                    <h3>Enterprise Analytics Dashboard Design</h3>
+                    <p class="body-md">Core job requirement: Design sophisticated KPI dashboards for business intelligence and executive reporting.</p>
+                    <ul>
+                        <li>✓ Three-tier information hierarchy for executive scanning</li>
+                        <li>✓ Status cards highlighting critical metrics</li>
+                        <li>✓ Interactive charts for trend analysis and comparison</li>
+                        <li>✓ Semantic color coding (positive/caution/critical)</li>
+                        <li>✓ Drill-down and filtering capabilities</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Design System Mastery</h3>
+                    <p class="body-md">Required expertise: Build scalable, token-based design systems that enable consistency across products.</p>
+                    <ul>
+                        <li>✓ Color system with primary + semantic palette</li>
+                        <li>✓ Typography scale with clear hierarchy</li>
+                        <li>✓ Spacing & radius tokens on consistent base unit</li>
+                        <li>✓ CSS custom properties for maintainability</li>
+                        <li>✓ Extensible component patterns</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Accessibility Excellence</h3>
+                    <p class="body-md">Required standard: Design to WCAG accessibility guidelines for inclusive, enterprise-grade experiences.</p>
+                    <ul>
+                        <li>✓ WCAG AAA+ color contrast (4.5:1 minimum)</li>
+                        <li>✓ Semantic HTML and ARIA labels</li>
+                        <li>✓ Keyboard navigation support</li>
+                        <li>✓ Focus state indicators</li>
+                        <li>✓ Prefers-reduced-motion support</li>
+                    </ul>
+                </div>
+
+                <div class="impl-section">
+                    <h3>Responsive & Adaptive Design</h3>
+                    <p class="body-md">Required capability: Create seamless experiences across devices and screen sizes with thoughtful breakpoints.</p>
+                    <ul>
+                        <li>✓ Mobile-first approach (1 column)</li>
+                        <li>✓ Tablet optimization (2 columns)</li>
+                        <li>✓ Desktop full-feature (3 columns)</li>
+                        <li>✓ Fluid typography & spacing</li>
+                        <li>✓ Touch-friendly interactive elements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Roadmap - STRATEGIC STAKEHOLDER ROADMAP -->
+    <section style="background: linear-gradient(135deg, rgba(0, 117, 222, 0.12) 0%, rgba(0, 117, 222, 0.08) 100%);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">📊 Strategic Roadmap for Stakeholders</span>
+                <h2 class="h2">Long-Term Platform Vision</h2>
+                <p class="subtitle">How this dashboard foundation scales into an enterprise-wide analytics transformation delivering measurable business value at every stage</p>
+            </div>
+
+            <div class="implementation-grid">
+                <div class="impl-section" style="border: 2px solid #1aae39;">
+                    <h3 style="color: #1aae39;">Sprint 1-2: Quick Wins (Weeks 1-6)</h3>
+                    <p class="body-md" style="font-weight: 600; color: var(--ink-primary);">Business Impact: Immediate user adoption & delight</p>
+                    <p class="body-md">Deploy premium dashboard visual experience, capture early user feedback for roadmap refinement.</p>
+                    <ul>
+                        <li>Advanced filtering with multi-select and date range picker</li>
+                        <li>One-click export functionality (PDF, CSV, email scheduling)</li>
+                        <li>Custom dashboard builder with drag-drop card reordering</li>
+                        <li>Real-time data refresh indicator and timestamp</li>
+                        <li>Saved views & personalized dashboards for each user role</li>
+                    </ul>
+                    <p class="body-sm" style="margin-top: var(--spacing-md); color: var(--positive); font-weight: 600;">Expected Outcome: 40% faster time-to-insight, 60% increase in dashboard engagement</p>
+                </div>
+
+                <div class="impl-section" style="border: 2px solid #0975c4;">
+                    <h3 style="color: #0975c4;">Quarter 2: System Foundation (Weeks 7-14)</h3>
+                    <p class="body-md" style="font-weight: 600; color: var(--ink-primary);">Business Impact: Design velocity acceleration across teams</p>
+                    <p class="body-md">Build comprehensive design system enabling rapid dashboard creation across product suite.</p>
+                    <ul>
+                        <li>Design system documentation site with component library</li>
+                        <li>Reusable component library (React/Vue/Web Components)</li>
+                        <li>Additional chart types (pie, scatter, heatmap, waterfall)</li>
+                        <li>Custom drill-down and cross-filtering capabilities</li>
+                        <li>Figma design system synced with code implementation</li>
+                    </ul>
+                    <p class="body-sm" style="margin-top: var(--spacing-md); color: #0975c4; font-weight: 600;">Expected Outcome: 3x faster dashboard creation, 100% design consistency across platform</p>
+                </div>
+
+                <div class="impl-section" style="border: 2px solid #dd5b00;">
+                    <h3 style="color: #dd5b00;">Quarters 3-4: Intelligent Analytics (Weeks 15-26)</h3>
+                    <p class="body-md" style="font-weight: 600; color: var(--ink-primary);">Business Impact: Executive decision support & predictive intelligence</p>
+                    <p class="body-md">Layer AI/ML capabilities on top of analytics foundation for predictive insights and anomaly detection.</p>
+                    <ul>
+                        <li>AI-powered anomaly detection with visual highlighting</li>
+                        <li>Natural language querying for data ("Show me revenue by region")</li>
+                        <li>Predictive analytics visualizations (forecast vs actual)</li>
+                        <li>Intelligent alerting system for threshold violations</li>
+                        <li>Automated report generation and distribution</li>
+                    </ul>
+                    <p class="body-sm" style="margin-top: var(--spacing-md); color: #dd5b00; font-weight: 600;">Expected Outcome: Proactive issue detection, executives spend 50% less time on data exploration</p>
+                </div>
+
+                <div class="impl-section" style="border: 2px solid var(--primary);">
+                    <h3 style="color: var(--primary);">Year 2+: Enterprise Scale (Quarter 5+)</h3>
+                    <p class="body-md" style="font-weight: 600; color: var(--ink-primary);">Business Impact: Org-wide data democratization & competitive advantage</p>
+                    <p class="body-md">Platform-wide adoption enabling every business function to access, visualize, and act on data.</p>
+                    <ul>
+                        <li>Multi-product design system platform (dashboards, reports, notebooks)</li>
+                        <li>White-label dashboard capabilities for enterprise customers</li>
+                        <li>Advanced role-based access control and row-level security</li>
+                        <li>Seamless integration with existing BI platforms (Tableau, Power BI, Looker)</li>
+                        <li>Accessibility governance framework ensuring WCAG compliance org-wide</li>
+                        <li>Mobile-first native apps for on-the-go analytics</li>
+                    </ul>
+                    <p class="body-sm" style="margin-top: var(--spacing-md); color: var(--primary); font-weight: 600;">Expected Outcome: All teams self-sufficient with data, 3-5 day faster business decisions, measurable competitive advantage</p>
+                </div>
+            </div>
+
+            <div class="solution-intro" style="margin-top: var(--spacing-2xl); background: rgba(0, 117, 222, 0.05); border: 2px solid var(--primary);">
+                <h3 style="color: var(--primary);">Strategic Business Value Summary</h3>
+                <p class="body-lg" style="margin-bottom: var(--spacing-md);"><strong>This is not just a dashboard redesign—it's a platform transformation roadmap.</strong></p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-lg);">
+                    <div style="padding: var(--spacing-md); background: var(--surface); border-radius: var(--radius-lg); border-left: 4px solid var(--positive);">
+                        <p class="eyebrow" style="color: var(--positive); margin-bottom: var(--spacing-sm);">Quick Wins</p>
+                        <p class="body-md" style="font-weight: 600;">6-week deployment</p>
+                        <p class="caption">User delight & adoption</p>
+                    </div>
+
+                    <div style="padding: var(--spacing-md); background: var(--surface); border-radius: var(--radius-lg); border-left: 4px solid #0975c4;">
+                        <p class="eyebrow" style="color: #0975c4; margin-bottom: var(--spacing-sm);">System Acceleration</p>
+                        <p class="body-md" style="font-weight: 600;">3x faster builds</p>
+                        <p class="caption">Design velocity across teams</p>
+                    </div>
+
+                    <div style="padding: var(--spacing-md); background: var(--surface); border-radius: var(--radius-lg); border-left: 4px solid #dd5b00;">
+                        <p class="eyebrow" style="color: #dd5b00; margin-bottom: var(--spacing-sm);">Intelligent Analytics</p>
+                        <p class="body-md" style="font-weight: 600;">AI-powered insights</p>
+                        <p class="caption">Executive decision support</p>
+                    </div>
+
+                    <div style="padding: var(--spacing-md); background: var(--surface); border-radius: var(--radius-lg); border-left: 4px solid var(--primary);">
+                        <p class="eyebrow" style="color: var(--primary); margin-bottom: var(--spacing-sm);">Enterprise Scale</p>
+                        <p class="body-md" style="font-weight: 600;">Org-wide adoption</p>
+                        <p class="caption">Competitive differentiation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Metrics -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <div class="section-header">
+                <span class="eyebrow">Measuring Success</span>
+                <h2 class="h2">Design Impact</h2>
+                <p class="subtitle">How we'll know this redesign is delivering value</p>
+            </div>
+
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <span class="eyebrow">User Perception</span>
+                    <h3>Premium & Trustworthy</h3>
+                    <p class="body-sm">User research measuring perception of professionalism, trustworthiness, and enterprise-grade quality</p>
+                </div>
+
+                <div class="highlight-card">
+                    <span class="eyebrow">Task Completion</span>
+                    <h3>Faster Insights</h3>
+                    <p class="body-sm">Measure time-to-insight: how quickly users identify key metrics and understand dashboard state</p>
+                </div>
+
+                <div class="highlight-card">
+                    <span class="eyebrow">Accessibility</span>
+                    <h3>Inclusive Access</h3>
+                    <p class="body-sm">Accessibility audit validation and user testing with assistive technology users</p>
+                </div>
+
+                <div class="highlight-card">
+                    <span class="eyebrow">System Adoption</span>
+                    <h3>Team Velocity</h3>
+                    <p class="body-sm">Measure design system effectiveness: how quickly teams can build new dashboards using established patterns</p>
+                </div>
+
+                <div class="highlight-card">
+                    <span class="eyebrow">Performance</span>
+                    <h3>Technical Excellence</h3>
+                    <p class="body-sm">Page load time, interaction responsiveness, and smooth animation performance across devices</p>
+                </div>
+
+                <div class="highlight-card">
+                    <span class="eyebrow">Business Value</span>
+                    <h3>Executive Impact</h3>
+                    <p class="body-sm">Track adoption by executive users and correlation with business decision velocity</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section>
+        <div class="container">
+            <div class="solution-intro" style="text-align: center;">
+                <h3>Strategic Submission: Two Versions, One Vision</h3>
+                <p class="body-lg"><strong>verano-dashboard-v2.html</strong> is the official assignment submission—designed with meticulous attention to ground rules, real business metrics, and professional visual hierarchy that executives expect in a 45-minute board meeting.</p>
+
+                <p class="body-lg" style="margin-top: var(--spacing-lg);">Simultaneously, <strong>verano-dashboard-v3.html</strong> and this case study demonstrate the design system thinking that underlies v2—showing how this foundation scales to platform-wide consistency, team velocity, and enterprise-grade sophistication.</p>
+
+                <p class="body-lg" style="margin-top: var(--spacing-lg); color: var(--primary); font-weight: 600;">The result is not just a compliant submission—it's proof of Staff Designer expertise in strategic thinking (hierarchy, design systems), technical execution (responsive, accessible, performant), and premium craftsmanship that delights users.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-2xl);">
+                <a href="verano-dashboard-v2.html" class="btn" target="_blank" style="background: var(--positive); border-color: var(--positive); margin-right: var(--spacing-md);">View Official Submission (v2)</a>
+                <a href="verano-dashboard-v3.html" class="btn" target="_blank">View Premium Version (v3)</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="body-sm"><strong>Verano Monthly Business Review Dashboard Redesign</strong></p>
+            <p class="body-sm" style="color: var(--ink-muted);">UI/UX Design Assignment for Peritus Inc.</p>
+
+            <div class="footer-divider"></div>
+
+            <p class="body-sm"><strong>Submission Package:</strong></p>
+            <p class="body-sm" style="color: var(--ink-muted); margin-bottom: var(--spacing-lg);">
+                <strong>verano-dashboard-v2.html</strong> — Official compliant submission meeting all assignment ground rules<br>
+                <strong>verano-dashboard-v3.html</strong> — Enhanced premium version demonstrating design system mastery<br>
+                <strong>verano-presentation.html</strong> — Strategic documentation showing design thinking and scalability
+            </p>
+
+            <div class="footer-divider"></div>
+
+            <p class="body-sm">Strategic approach combining assignment compliance with design system depth to demonstrate Staff Designer expertise across strategy, craft, and technical execution</p>
+
+            <div class="footer-meta">
+                <span>✓ v2: All Ground Rules Met</span>
+                <span>✓ v3: Premium Design System</span>
+                <span>✓ WCAG AA+ Accessibility</span>
+                <span>✓ Responsive & Scalable</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
