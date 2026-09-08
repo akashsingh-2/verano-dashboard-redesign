@@ -30,4 +30,4 @@ Open any HTML file directly in browser or view at GitHub Pages URL (after enabli
 ## 👤 Designer
 Akash Singh | Staff Product Designer | 14+ years enterprise B2B SaaS
 - Portfolio: https://akashsingh-2.github.io/portfolio/
-- LinkedIn: linkedin.com/in/akash02
+- LinkedIn: [linkedin.com/in/akash02](https://www.linkedin.com/in/akash02/)
