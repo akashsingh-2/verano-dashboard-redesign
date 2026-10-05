@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verano Monthly Business Review, July 2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317343A'/%3E%3Cpath d='M7 20a9 9 0 0 1 18 0z' fill='%23E3A21A'/%3E%3Crect x='5' y='22' width='22' height='2.5' rx='1.25' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Design tokens. Components read these; themes swap them.
+   ========================================================= */
+:root{
+  --ink:#17343A; --ink-2:#44585C; --ink-3:#5E7074;
+  --line:#DCE2E1; --line-soft:#EDF0EF;
+  --canvas:#F2F5F4; --surface:#FFFFFF; --surface-2:#F5F7F6; --hover:#EEF3F2; --select:#E3EFED;
+  --mobile:#0B6E69; --web:#7C9194; --partner:#A87E2F;
+  --alert:#B42318; --alert-bg:#FCF1EF; --alert-line:#EBC9C4;
+  --ok:#0B6E69; --ok-bg:#E7F3F1; --warn:#9A6206; --warn-bg:#FBF3E2;
+  --sun:#E3A21A;
+  --banner:#17343A; --banner-ink:#FFFFFF; --banner-ink-2:#C5D6D3;
+  --shadow:0 1px 2px rgba(23,52,58,.06), 0 1px 1px rgba(23,52,58,.04);
+  --shadow-pop:0 12px 32px rgba(23,52,58,.18), 0 2px 6px rgba(23,52,58,.08);
+  --font:"IBM Plex Sans","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --r-card:10px; --r-ctl:7px;
+}
+[data-theme="dark"]{
+  --ink:#E4ECEA; --ink-2:#B3C2C0; --ink-3:#8D9F9D;
+  --line:#2A3D41; --line-soft:#213337;
+  --canvas:#0D191C; --surface:#13242A; --surface-2:#182C32; --hover:#1C333A; --select:#1D3B3D;
+  --mobile:#3DB5A6; --web:#8EA4A6; --partner:#D4A24A;
+  --alert:#F2786A; --alert-bg:#331D1C; --alert-line:#5C2E2A;
+  --ok:#3DB5A6; --ok-bg:#16332F; --warn:#E3B04B; --warn-bg:#33291A;
+  --banner:#183A40; --banner-ink:#F2F7F6; --banner-ink-2:#A9C2BE;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  --shadow-pop:0 14px 36px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+}
+
+*{ box-sizing:border-box; }
+[hidden]{ display:none !important; }
+html,body{ height:100%; margin:0; }
+body{ overflow:hidden; background:var(--canvas); font-family:var(--font); font-size:14px; color:var(--ink);
+  font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased; }
+button,input,select,textarea{ font:inherit; color:inherit; }
+button{ cursor:pointer; }
+:focus-visible{ outline:2px solid var(--mobile); outline-offset:2px; }
+svg.i{ width:18px; height:18px; flex:none; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+
+.stage{ position:fixed; left:0; top:0; width:1440px; height:900px; transform-origin:0 0; background:var(--canvas); overflow:hidden; }
+.app{ height:100%; display:grid; grid-template-columns:232px 1fr; grid-template-rows:56px minmax(0,1fr); transition:grid-template-columns .22s ease; }
+.app.collapsed{ grid-template-columns:72px 1fr; }
+.main{ min-width:0; min-height:0; display:grid; grid-template-rows:minmax(0,1fr) 36px; }
+
+/* ---------- Side navigation ---------- */
+.side{ background:var(--surface); border-right:1px solid var(--line); display:flex; flex-direction:column; padding:12px 12px 12px; min-width:0; overflow:hidden; }
+.brand{ height:56px; flex:none; display:flex; align-items:center; gap:10px; padding-left:9px; margin:0 -12px 8px; padding-right:12px; border-bottom:1px solid var(--line); color:var(--ink); text-decoration:none; white-space:nowrap; }
+.brand-name{ font-size:19px; font-weight:600; letter-spacing:-.2px; }
+.side-group{ margin-bottom:8px; }
+.side-group>p{ margin:0 0 4px; padding:0 11px; font-size:12px; color:var(--ink-3); white-space:nowrap; height:16px; }
+.nav-item{ display:flex; align-items:center; gap:11px; width:100%; height:34px; padding:0 11px; border:0; border-radius:var(--r-ctl); background:none;
+  color:var(--ink-2); font-weight:500; text-align:left; white-space:nowrap; position:relative; }
+.nav-item:hover{ background:var(--hover); color:var(--ink); }
+.nav-item[aria-current="page"]{ background:var(--select); color:var(--ink); font-weight:600; }
+.nav-item[aria-current="page"]::before{ content:""; position:absolute; left:-12px; top:8px; bottom:8px; width:3px; border-radius:0 3px 3px 0; background:var(--mobile); }
+.nav-item .badge{ margin-left:auto; min-width:20px; height:20px; padding:0 6px; border-radius:10px; background:var(--alert); color:#fff; font-size:11.5px; font-weight:600; display:grid; place-items:center; }
+.side-foot{ margin-top:auto; border-top:1px solid var(--line); padding-top:8px; }
+.app.collapsed .nav-label, .app.collapsed .brand-name, .app.collapsed .side-group>p{ opacity:0; pointer-events:none; }
+.app.collapsed .side-group>p{ height:1px; margin:6px 8px 9px; background:var(--line); }
+.app.collapsed .nav-item .badge{ position:absolute; top:3px; left:28px; min-width:16px; height:16px; font-size:10px; padding:0 4px; }
+.nav-label, .brand-name{ transition:opacity .15s; }
+
+/* ---------- Top bar ---------- */
+.topbar{ grid-column:1 / -1; display:flex; align-items:center; gap:12px; padding:0 20px 0 19px; background:var(--surface); border-bottom:1px solid var(--line); min-width:0; }
+.crumbs{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-3); white-space:nowrap; }
+.crumbs b{ color:var(--ink); font-weight:600; font-size:15px; }
+.crumbs svg{ width:14px; height:14px; }
+.chips{ display:flex; gap:6px; min-width:0; overflow:hidden; }
+.chip{ flex:none; display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 6px 0 10px; border-radius:13px; background:var(--select); color:var(--ink); font-size:12.5px; font-weight:500; border:0; white-space:nowrap; }
+.chip svg{ width:14px; height:14px; }
+.chip:hover{ background:var(--hover); }
+.tools{ margin-left:auto; display:flex; align-items:center; gap:8px; }
+.sel{ height:34px; padding:0 30px 0 11px; border:1px solid var(--line); border-radius:var(--r-ctl); background:var(--surface); appearance:none; font-size:13.5px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%237C9194' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 11px center; }
+.sel:hover{ border-color:var(--web); }
+.btn{ height:34px; display:inline-flex; align-items:center; gap:7px; padding:0 12px; border:1px solid var(--line); border-radius:var(--r-ctl); background:var(--surface); font-weight:500; font-size:13.5px; white-space:nowrap; }
+.btn:hover{ background:var(--hover); }
+.btn.primary{ background:var(--mobile); border-color:var(--mobile); color:#fff; }
+.btn.primary:hover{ filter:brightness(1.08); }
+[data-theme="dark"] .btn.primary{ color:#062522; }
+.btn.danger{ color:var(--alert); border-color:var(--alert-line); }
+.btn svg.i{ width:16px; height:16px; }
+.ibtn{ width:34px; height:34px; display:grid; place-items:center; border:1px solid transparent; border-radius:var(--r-ctl); background:none; color:var(--ink-2); position:relative; }
+.ibtn:hover{ background:var(--hover); color:var(--ink); }
+.ibtn .dot{ position:absolute; top:1px; right:0px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--alert); color:#fff; font-size:10px; font-weight:600; display:grid; place-items:center; border:2px solid var(--surface); }
+.sep{ width:1px; height:22px; background:var(--line); margin:0 2px; }
+.avatar{ width:32px; height:32px; border-radius:50%; background:var(--banner); color:var(--banner-ink); display:grid; place-items:center; font-size:12.5px; font-weight:600; border:0; }
+.filter-count{ min-width:18px; height:18px; border-radius:9px; background:var(--mobile); color:#fff; font-size:11px; display:grid; place-items:center; padding:0 5px; }
+[data-theme="dark"] .filter-count{ color:#062522; }
+
+/* ---------- Views ---------- */
+.view{ min-height:0; overflow:auto; padding:8px 24px 12px; display:none; }
+.view.active{ display:block; }
+.view-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:12px; padding-top:4px; }
+.view-head h1{ margin:0; font-size:24px; font-weight:600; letter-spacing:-.3px; }
+.view-head p{ margin:3px 0 0; color:var(--ink-2); }
+
+/* Banner */
+.banner{ position:relative; overflow:hidden; border-radius:var(--r-card); background:var(--banner); color:var(--banner-ink);
+  padding:14px 20px 14px 26px; display:flex; align-items:center; gap:24px; min-height:88px; }
+.banner::after{ content:""; position:absolute; right:-70px; top:-120px; width:360px; height:360px; border-radius:50%;
+  border:46px solid var(--sun); opacity:.10; pointer-events:none; }
+.banner .accent{ position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--sun); }
+.banner h1{ margin:0; font-size:24px; line-height:1.25; font-weight:600; letter-spacing:-.35px; }
+.banner h1 span{ display:block; font-size:16.5px; font-weight:400; color:var(--banner-ink-2); letter-spacing:-.1px; margin-top:3px; }
+.banner-side{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:10px; position:relative; z-index:1; flex:none; }
+.fresh{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--banner-ink-2); }
+.fresh button{ width:26px; height:26px; border-radius:6px; border:1px solid rgba(255,255,255,.22); background:transparent; color:var(--banner-ink); display:grid; place-items:center; }
+.fresh button:hover{ background:rgba(255,255,255,.1); }
+.fresh svg.i{ width:15px; height:15px; }
+.issue-btn{ display:flex; align-items:center; gap:10px; height:38px; padding:0 8px 0 12px; border-radius:8px; border:0; background:#FFFFFF; color:#17343A; font-weight:600; font-size:13.5px; box-shadow:0 2px 8px rgba(0,0,0,.18); }
+.issue-btn .sev{ display:inline-flex; align-items:center; gap:5px; color:#B42318; }
+.issue-btn .st{ font-size:12px; font-weight:600; padding:3px 8px; border-radius:5px; background:#FCF1EF; color:#B42318; }
+.issue-btn.resolved .sev{ color:#0B6E69; } .issue-btn.resolved .st{ background:#E7F3F1; color:#0B6E69; }
+.issue-btn:hover{ transform:translateY(-1px); }
+.pulse{ width:8px; height:8px; border-radius:50%; background:#B42318; box-shadow:0 0 0 0 rgba(180,35,24,.5); animation:pulse 2s infinite; }
+.resolved .pulse{ background:#0B6E69; animation:none; }
+@keyframes pulse{ 0%{ box-shadow:0 0 0 0 rgba(180,35,24,.45);} 70%{ box-shadow:0 0 0 8px rgba(180,35,24,0);} 100%{ box-shadow:0 0 0 0 rgba(180,35,24,0);} }
+
+/* KPI strip */
+.kpis{ display:grid; grid-template-columns:184px repeat(4,1fr); gap:12px; margin-top:10px; }
+.kpi-sum{ padding:12px 4px; display:flex; flex-direction:column; justify-content:center; }
+.kpi-sum strong{ font-size:17px; font-weight:600; }
+.kpi-sum small{ color:var(--ink-3); font-size:12.5px; margin-top:2px; }
+.ring{ display:flex; gap:4px; margin-top:8px; }
+.ring i{ width:24px; height:6px; border-radius:3px; background:var(--mobile); }
+.ring i.miss{ background:var(--alert); }
+.kpi{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); box-shadow:var(--shadow); padding:7px 14px 8px; position:relative; }
+.kpi-top{ display:flex; align-items:center; gap:8px; color:var(--ink-2); font-size:12.5px; }
+.kpi-ico{ width:26px; height:26px; border-radius:7px; background:var(--ok-bg); color:var(--ok); display:grid; place-items:center; }
+.kpi-ico svg.i{ width:15px; height:15px; }
+.kpi-val{ font-size:22px; font-weight:600; letter-spacing:-.3px; line-height:1.15; margin-top:4px; display:flex; align-items:baseline; gap:8px; }
+.delta{ font-size:12px; font-weight:600; color:var(--ok); display:inline-flex; align-items:center; gap:2px; }
+.delta.down{ color:var(--alert); }
+.kpi-note{ font-size:12px; color:var(--ink-3); margin-top:2px; height:15px; }
+.bullet{ margin-top:5px; height:6px; border-radius:3px; background:var(--line-soft); position:relative; }
+.bullet b{ position:absolute; left:0; top:0; bottom:0; border-radius:3px; background:var(--mobile); }
+.bullet em{ position:absolute; top:-3px; width:2px; height:12px; background:var(--ink); border-radius:1px; }
+
+/* Cards */
+.card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); box-shadow:var(--shadow); display:flex; flex-direction:column; min-width:0; }
+.card-head{ display:flex; align-items:flex-start; gap:10px; padding:11px 8px 0 14px; }
+.card-ico{ width:30px; height:30px; flex:none; border-radius:8px; background:var(--surface-2); border:1px solid var(--line-soft); color:var(--ink-2); display:grid; place-items:center; }
+.card-ico svg.i{ width:16px; height:16px; }
+.card-ico.bad{ background:var(--alert-bg); color:var(--alert); border-color:var(--alert-line); }
+.card-ico.warn{ background:var(--warn-bg); color:var(--warn); border-color:transparent; }
+.card-ico.good{ background:var(--ok-bg); color:var(--ok); border-color:transparent; }
+.card-titles{ min-width:0; flex:1; }
+.card-titles h2, .card-titles h3{ margin:0; font-size:15px; font-weight:600; line-height:1.3; }
+.card-titles h3{ font-size:14px; }
+.card-titles p{ margin:2px 0 0; font-size:12.5px; color:var(--ink-3); }
+.card-acts{ display:flex; gap:2px; flex:none; }
+.card-acts .ibtn{ width:30px; height:30px; }
+.card-acts svg.i{ width:16px; height:16px; }
+.card-body{ padding:6px 16px 12px; min-width:0; position:relative; }
+.legend{ display:flex; gap:6px; flex-wrap:wrap; }
+.lg{ display:inline-flex; align-items:center; gap:7px; height:26px; padding:0 10px 0 8px; border:1px solid var(--line); border-radius:13px; background:var(--surface); font-size:12.5px; color:var(--ink-2); }
+.lg:hover{ border-color:var(--web); color:var(--ink); }
+.lg[aria-pressed="true"]{ background:var(--select); border-color:var(--mobile); color:var(--ink); font-weight:600; }
+.lg.dim{ opacity:.45; }
+.hint{ font-size:12px; color:var(--ink-3); display:inline-flex; align-items:center; gap:5px; }
+.hint svg.i{ width:13px; height:13px; }
+svg.chart{ display:block; overflow:visible; }
+svg.chart text{ font-family:var(--font); }
+.hit{ cursor:pointer; }
+.hit:focus{ outline:none; }
+.hit:focus-visible .focus-ring{ stroke:var(--mobile); stroke-width:2; }
+
+.biz{ display:grid; grid-template-columns:1fr 404px; gap:14px; margin-top:10px; }
+.col{ display:flex; flex-direction:column; gap:10px; min-width:0; }
+.col > .card:last-child{ flex:1; }
+.col-title{ display:flex; align-items:center; justify-content:space-between; font-size:13px; color:var(--ink-2); font-weight:600; padding:0 2px; margin-bottom:-4px; }
+.months{ display:flex; gap:6px; }
+.months span{ display:inline-flex; align-items:center; gap:4px; padding:2px 8px 2px 6px; border:1px solid var(--alert-line); border-radius:99px; font-size:11.5px; color:var(--ink-2); background:var(--surface); }
+.fig{ font-size:20px; font-weight:600; color:var(--alert); white-space:nowrap; text-align:right; line-height:1.1; }
+.fig small{ display:block; font-size:12px; font-weight:400; color:var(--ink-3); }
+.mini-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+.mini-table th{ text-align:right; font-weight:500; color:var(--ink-3); padding:0 0 5px; }
+.mini-table th:first-child, .mini-table td:first-child{ text-align:left; }
+.mini-table td{ padding:5px 0; border-top:1px solid var(--line-soft); text-align:right; color:var(--ink-2); }
+.mini-table td.bad{ color:var(--alert); font-weight:600; }
+.mini-table tr.rowbtn{ cursor:pointer; } .mini-table tr.rowbtn:hover td{ background:var(--hover); }
+
+/* Footer */
+.foot{ display:flex; align-items:center; gap:18px; padding:0 24px; border-top:1px solid var(--line); background:var(--surface); font-size:12px; color:var(--ink-3); white-space:nowrap; }
+.foot .grow{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.foot button{ border:0; background:none; padding:0; color:var(--ink-2); display:inline-flex; align-items:center; gap:5px; font-size:12px; }
+.foot button:hover{ color:var(--ink); text-decoration:underline; }
+.foot .warnlink{ color:var(--warn); font-weight:600; }
+.foot svg.i{ width:14px; height:14px; }
+
+/* Regions + Fulfilment */
+#v-regions.active, #v-fulfil.active{ display:flex; flex-direction:column; }
+#v-regions .grid2, #v-fulfil .grid2{ flex:1; min-height:0; }
+.card-body.fill{ flex:1; min-height:0; position:relative; display:flex; flex-direction:column; }
+.card-body.fill > svg.chart{ position:absolute; left:16px; bottom:12px; }
+.card-body.fill > .dtable{ height:100%; }
+.tiles{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.tile{ text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card); box-shadow:var(--shadow); padding:14px 16px; position:relative; }
+.tile:hover{ border-color:var(--web); }
+.tile[aria-pressed="true"]{ border-color:var(--mobile); box-shadow:0 0 0 2px var(--mobile) inset; }
+.tile.flag{ background:var(--alert-bg); border-color:var(--alert-line); }
+.tile.flag[aria-pressed="true"]{ box-shadow:0 0 0 2px var(--alert) inset; }
+.tile h3{ margin:0; font-size:14px; font-weight:600; display:flex; justify-content:space-between; align-items:center; }
+.tile .big{ font-size:24px; font-weight:600; letter-spacing:-.3px; margin-top:6px; display:flex; align-items:baseline; gap:8px; }
+.tile dl{ display:grid; grid-template-columns:1fr 1fr; gap:4px 12px; margin:10px 0 0; font-size:12px; }
+.tile dt{ color:var(--ink-3); } .tile dd{ margin:0; text-align:right; font-weight:500; }
+.status{ font-size:11.5px; font-weight:600; padding:2px 8px; border-radius:5px; background:var(--ok-bg); color:var(--ok); }
+.status.bad{ background:var(--alert-bg); color:var(--alert); border:1px solid var(--alert-line); }
+.status.warn{ background:var(--warn-bg); color:var(--warn); }
+.grid2{ display:grid; grid-template-columns:1.25fr 1fr; gap:12px; margin-top:12px; }
+.dtable{ width:100%; border-collapse:collapse; font-size:13px; }
+.dtable th{ text-align:right; font-weight:500; color:var(--ink-3); padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+.dtable th button{ border:0; background:none; padding:0; color:inherit; font-weight:500; display:inline-flex; align-items:center; gap:4px; }
+.dtable th button:hover{ color:var(--ink); }
+.dtable th[aria-sort] button{ color:var(--ink); font-weight:600; }
+.dtable th:first-child, .dtable td:first-child{ text-align:left; padding-left:4px; }
+.dtable td{ text-align:right; padding:10px; border-bottom:1px solid var(--line-soft); }
+.dtable tbody tr{ cursor:pointer; }
+.dtable tbody tr:hover td{ background:var(--hover); }
+.dtable tbody tr.on td{ background:var(--select); }
+.dtable td.bad{ color:var(--alert); font-weight:600; }
+.inbar{ display:inline-block; vertical-align:middle; width:60px; height:6px; border-radius:3px; background:var(--line-soft); margin-left:8px; position:relative; overflow:hidden; }
+.inbar b{ position:absolute; left:0; top:0; bottom:0; background:var(--web); }
+.alert-strip{ display:flex; align-items:center; gap:14px; padding:12px 14px 12px 16px; border-radius:var(--r-card); border:1px solid var(--alert-line); background:var(--alert-bg); margin-bottom:12px; }
+.alert-strip.resolved{ border-color:transparent; background:var(--ok-bg); }
+.alert-strip .card-ico{ background:var(--surface); }
+.alert-strip p{ margin:0; font-size:13px; color:var(--ink-2); }
+.alert-strip strong{ display:block; color:var(--ink); font-size:14px; }
+
+/* Empty / skeleton */
+.empty{ height:100%; min-height:520px; display:grid; place-items:center; text-align:center; }
+.empty-box{ max-width:420px; }
+.empty-ico{ width:56px; height:56px; border-radius:14px; background:var(--surface); border:1px solid var(--line); display:grid; place-items:center; margin:0 auto 16px; color:var(--ink-2); }
+.empty-ico svg.i{ width:26px; height:26px; }
+.empty h2{ margin:0; font-size:18px; font-weight:600; }
+.empty p{ color:var(--ink-2); line-height:1.5; margin:8px 0 18px; }
+.sk{ background:linear-gradient(90deg, var(--line-soft) 0%, var(--hover) 50%, var(--line-soft) 100%); background-size:200% 100%; animation:sk 1.1s infinite linear; border-radius:var(--r-card); }
+@keyframes sk{ from{ background-position:200% 0;} to{ background-position:-200% 0;} }
+
+/* Overlays */
+.tip{ position:absolute; z-index:60; pointer-events:none; background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow-pop);
+  padding:9px 11px; font-size:12.5px; min-width:150px; max-width:260px; opacity:0; transform:translateY(4px); transition:opacity .1s, transform .1s; }
+.tip.on{ opacity:1; transform:none; }
+.tip b{ display:block; font-size:13px; margin-bottom:5px; }
+.tip .r{ display:flex; justify-content:space-between; gap:14px; color:var(--ink-2); line-height:1.6; }
+.tip .r span:last-child{ color:var(--ink); font-weight:600; }
+.tip .foot-hint{ margin-top:6px; padding-top:6px; border-top:1px solid var(--line-soft); color:var(--ink-3); font-size:11.5px; }
+.menu{ position:absolute; z-index:70; min-width:226px; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow-pop); padding:6px; display:none; }
+.menu.on{ display:block; }
+.menu h4{ margin:6px 10px 4px; font-size:11.5px; font-weight:500; color:var(--ink-3); }
+.menu hr{ border:0; border-top:1px solid var(--line-soft); margin:5px 2px; }
+.menu button{ display:flex; align-items:center; gap:10px; width:100%; height:32px; padding:0 10px; border:0; background:none; border-radius:6px; font-size:13px; text-align:left; color:var(--ink); }
+.menu button:hover, .menu button:focus-visible{ background:var(--hover); outline:none; }
+.menu button svg.i{ width:16px; height:16px; color:var(--ink-2); }
+.menu button kbd{ margin-left:auto; font-family:var(--font); font-size:11px; color:var(--ink-3); }
+.notif{ width:340px; padding:0; }
+.notif header{ display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-bottom:1px solid var(--line); font-weight:600; }
+.notif header button{ width:auto; height:auto; padding:0; font-size:12.5px; color:var(--mobile); font-weight:500; }
+.notif .n{ display:flex; gap:10px; padding:11px 14px; border-bottom:1px solid var(--line-soft); height:auto; border-radius:0; align-items:flex-start; }
+.notif .n p{ margin:0; font-size:13px; line-height:1.4; }
+.notif .n small{ color:var(--ink-3); font-size:11.5px; }
+.notif .n .card-ico{ width:28px; height:28px; }
+.notif .n.unread{ background:var(--surface-2); }
+
+.scrim{ position:absolute; inset:0; z-index:80; background:rgba(13,25,28,.42); display:none; }
+.scrim.on{ display:block; }
+.modal{ position:absolute; z-index:90; left:50%; top:50%; transform:translate(-50%,-48%); width:520px; max-height:780px; background:var(--surface); border-radius:12px; box-shadow:var(--shadow-pop);
+  display:none; flex-direction:column; opacity:0; transition:opacity .15s, transform .15s; }
+.modal.on{ display:flex; opacity:1; transform:translate(-50%,-50%); }
+.modal.wide{ width:1040px; }
+.modal header{ display:flex; align-items:center; gap:10px; padding:16px 16px 12px 20px; border-bottom:1px solid var(--line); }
+.modal header h2{ margin:0; font-size:16px; font-weight:600; flex:1; }
+.modal .mbody{ padding:16px 20px; overflow:auto; }
+.modal footer{ display:flex; justify-content:flex-end; gap:8px; padding:12px 20px 16px; border-top:1px solid var(--line); }
+.form{ display:flex; flex-direction:column; gap:14px; }
+.form label{ display:flex; flex-direction:column; gap:6px; font-size:12.5px; color:var(--ink-2); font-weight:500; }
+.form input[type=text], .form input[type=number], .form input[type=date], .form textarea, .form select{ height:36px; border:1px solid var(--line); border-radius:var(--r-ctl); background:var(--surface); padding:0 10px; font-size:13.5px; color:var(--ink); }
+.form textarea{ height:74px; padding:8px 10px; resize:none; }
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.seg{ display:flex; border:1px solid var(--line); border-radius:var(--r-ctl); overflow:hidden; }
+.seg button{ flex:1; height:34px; border:0; background:var(--surface); font-size:13px; border-right:1px solid var(--line); color:var(--ink-2); }
+.seg button:last-child{ border-right:0; }
+.seg button[aria-pressed="true"]{ background:var(--select); color:var(--ink); font-weight:600; }
+.people{ display:flex; flex-wrap:wrap; gap:6px; padding:6px; min-height:40px; border:1px solid var(--line); border-radius:var(--r-ctl); }
+.person{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 4px 0 4px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line-soft); font-size:12.5px; color:var(--ink); }
+.person i{ width:20px; height:20px; border-radius:50%; background:var(--banner); color:var(--banner-ink); font-style:normal; font-size:9.5px; font-weight:600; display:grid; place-items:center; }
+.person button{ border:0; background:none; padding:0 4px; color:var(--ink-3); }
+.suggest{ display:flex; flex-wrap:wrap; gap:6px; }
+.suggest button{ border:1px dashed var(--line); background:none; border-radius:14px; height:28px; padding:0 10px; font-size:12.5px; color:var(--ink-2); }
+.check{ flex-direction:row !important; align-items:center; gap:8px !important; font-weight:400 !important; color:var(--ink) !important; font-size:13.5px !important; }
+.check input{ width:16px; height:16px; accent-color:var(--mobile); }
+.comment{ display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--line-soft); }
+.comment p{ margin:2px 0 0; font-size:13px; line-height:1.45; color:var(--ink-2); }
+.comment b{ font-size:13px; } .comment small{ color:var(--ink-3); margin-left:6px; }
+.about dl{ display:grid; grid-template-columns:120px 1fr; gap:10px 16px; margin:0; font-size:13px; }
+.about dt{ color:var(--ink-3); } .about dd{ margin:0; line-height:1.5; }
+
+/* Drawers */
+.drawer{ position:absolute; z-index:90; top:0; right:0; bottom:0; width:460px; background:var(--surface); box-shadow:var(--shadow-pop); transform:translateX(105%); transition:transform .22s ease; display:flex; flex-direction:column; }
+.drawer.on{ transform:none; }
+.drawer:focus{ outline:none; }
+.drawer>header{ display:flex; align-items:flex-start; gap:12px; padding:18px 16px 14px 20px; border-bottom:1px solid var(--line); }
+.drawer>header h2{ margin:0; font-size:17px; font-weight:600; line-height:1.3; }
+.drawer>header p{ margin:3px 0 0; font-size:12.5px; color:var(--ink-3); }
+.dbody{ flex:1; overflow:auto; padding:16px 20px; }
+.dfoot{ padding:12px 20px 16px; border-top:1px solid var(--line); display:flex; gap:8px; }
+.steps{ display:flex; margin:4px 0 18px; }
+.step{ flex:1; position:relative; text-align:center; font-size:11.5px; color:var(--ink-3); }
+.step i{ display:grid; place-items:center; width:24px; height:24px; margin:0 auto 6px; border-radius:50%; border:2px solid var(--line); background:var(--surface); font-style:normal; font-size:11px; font-weight:600; position:relative; z-index:1; }
+.step::before{ content:""; position:absolute; top:11px; left:-50%; right:50%; height:2px; background:var(--line); }
+.step:first-child::before{ display:none; }
+.step.done i{ background:var(--mobile); border-color:var(--mobile); color:#fff; }
+.step.done::before, .step.cur::before{ background:var(--mobile); }
+.step.cur i{ border-color:var(--mobile); color:var(--mobile); }
+.step.done, .step.cur{ color:var(--ink); font-weight:500; }
+.facts{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.fact{ background:var(--surface-2); border-radius:8px; padding:10px 12px; }
+.fact small{ display:block; color:var(--ink-3); font-size:11.5px; }
+.fact b{ font-size:18px; font-weight:600; }
+.fact b.bad{ color:var(--alert); }
+.dsec{ margin:0 0 16px; }
+.dsec h3{ margin:0 0 8px; font-size:13px; font-weight:600; color:var(--ink); }
+.dsec p{ margin:0; font-size:13px; color:var(--ink-2); line-height:1.5; }
+.acts4{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.acts4 .btn{ justify-content:flex-start; }
+.log{ list-style:none; margin:0; padding:0; }
+.log li{ display:flex; gap:10px; padding:0 0 12px; position:relative; font-size:12.5px; }
+.log li::before{ content:""; position:absolute; left:4px; top:12px; bottom:0; width:1px; background:var(--line); }
+.log li:last-child::before{ display:none; }
+.log li i{ width:9px; height:9px; border-radius:50%; background:var(--web); margin-top:4px; flex:none; }
+.log li i.k{ background:var(--mobile); } .log li i.a{ background:var(--alert); }
+.log p{ margin:0; color:var(--ink); line-height:1.4; } .log small{ color:var(--ink-3); }
+.fgroup{ margin-bottom:20px; }
+.fgroup h3{ margin:0 0 8px; font-size:13px; font-weight:600; }
+.fgroup .check{ margin:6px 0; }
+
+/* Toasts */
+.toasts{ position:absolute; z-index:120; right:24px; bottom:52px; display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.toast{ display:flex; align-items:center; gap:10px; background:var(--ink); color:var(--surface); border-radius:8px; padding:10px 14px; font-size:13px; box-shadow:var(--shadow-pop); animation:tin .18s ease; }
+.toast svg.i{ width:16px; height:16px; color:var(--sun); }
+.toast button{ border:0; background:none; color:var(--sun); font-weight:600; padding:0 0 0 6px; }
+@keyframes tin{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none;} }
+
+.navtip{ position:absolute; z-index:65; pointer-events:none; background:var(--ink); color:var(--surface); font-size:12px; padding:5px 9px; border-radius:6px; white-space:nowrap; opacity:0; }
+.navtip.on{ opacity:1; }
+
+
+/* =========================================================
+   Round 3: clean headline, page-level alert, cards kept
+   ========================================================= */
+.lede{ padding:0 0 8px; }
+.lede h1{ margin:0; font-size:27px; line-height:1.2; font-weight:600; letter-spacing:-.45px; }
+.lede h1 span{ display:block; margin-top:3px; color:var(--ink-2); font-weight:400; font-size:18px; letter-spacing:-.2px; }
+.page-alert{ display:flex; align-items:center; gap:12px; height:34px; padding:0 4px 0 14px; border-radius:8px;
+  background:#FBE4E1; border:1px solid #EFC0BA; border-left:4px solid var(--alert); color:#5A1A14; font-size:13.5px; cursor:pointer; }
+.page-alert:hover{ background:#F9DAD6; }
+.page-alert .pa-label{ display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#B42318; white-space:nowrap; }
+.page-alert .pa-label svg.i{ width:16px; height:16px; }
+.page-alert .pa-text{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#3D1410; }
+.page-alert .pa-text b{ font-weight:600; color:#2A0E0B; }
+.page-alert .pa-status{ font-size:12px; font-weight:600; padding:3px 9px; border-radius:5px; background:#FFFFFF; color:#B42318; border:1px solid #EFC0BA; white-space:nowrap; }
+.page-alert .pa-btn{ height:28px; display:inline-flex; align-items:center; gap:4px; padding:0 8px 0 12px; border-radius:6px; border:1px solid #B42318; background:#FFFFFF; color:#B42318; font-weight:600; font-size:12.5px; white-space:nowrap; }
+.page-alert .pa-btn svg.i{ width:15px; height:15px; }
+.page-alert .pa-btn:hover{ background:#FFF5F4; }
+[data-theme="dark"] .page-alert .pa-btn{ background:transparent; border-color:#F2786A; color:#F2786A; }
+.page-alert.resolved{ background:var(--ok-bg); border-color:transparent; border-left-color:var(--ok); color:var(--ink); }
+.page-alert.resolved .pa-label{ color:var(--ok); } .page-alert.resolved .pa-text, .page-alert.resolved .pa-text b{ color:var(--ink); }
+.page-alert.resolved .pa-status{ color:var(--ok); border-color:transparent; }
+.page-alert.resolved .pa-btn{ background:var(--surface); color:var(--ink); border:1px solid var(--line); }
+.page-alert .pa-x{ width:28px; height:28px; border:0; background:none; border-radius:6px; color:var(--ink-2); display:grid; place-items:center; }
+[data-theme="dark"] .page-alert:not(.resolved){ background:#3A1C1A; border-color:#5C2E2A; color:#F6D6D2; }
+[data-theme="dark"] .page-alert:not(.resolved) .pa-text, [data-theme="dark"] .page-alert:not(.resolved) .pa-text b{ color:#F6D6D2; }
+[data-theme="dark"] .page-alert:not(.resolved) .pa-label{ color:#F2786A; }
+[data-theme="dark"] .page-alert .pa-status{ background:#13242A; border-color:#5C2E2A; color:#F2786A; }
+/* targets met: segmented bar, filled = met, outlined = missed */
+.score{ display:flex; gap:4px; margin-top:9px; width:100%; max-width:168px; }
+.score i{ flex:1; height:8px; border-radius:4px; background:var(--mobile); }
+.score i.miss{ background:transparent; box-shadow:inset 0 0 0 1.5px var(--alert); }
+.missed{ margin-top:7px; font-size:12px; color:var(--ink-3); line-height:1.35; }
+.missed button{ border:0; background:none; padding:0; font-size:12px; font-weight:600; color:var(--alert); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
+.missed button:hover{ text-decoration-thickness:2px; }
+.status-row{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-2); }
+.status-row .st-text{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.status-row .st-text b{ color:var(--ink); font-weight:600; }
+.status-row .btn{ height:28px; padding:0 10px; font-size:12.5px; }
+.sevtag{ display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:2px 7px 2px 5px; border-radius:4px; background:var(--alert-bg); color:var(--alert); border:1px solid var(--alert-line); flex:none; }
+.sevtag svg{ width:12px; height:12px; }
+.sevtag.warn{ background:var(--warn-bg); color:var(--warn); border-color:transparent; }
+.sevtag.ok{ background:var(--ok-bg); color:var(--ok); border-color:transparent; }
+.card-ico.warn{ background:var(--warn-bg); color:var(--warn); border-color:transparent; }
+.app.collapsed .nav-item .badge{ top:4px; left:22px; border:2px solid var(--surface); min-width:18px; height:18px; }
+#v-biz .kpis{ margin-top:8px; }
+#v-biz .biz > .col:last-child .card-acts [data-x="expand"]{ display:none; }
+.nav-item.soon{ color:var(--ink-3); }
+.nav-item.soon svg.i{ opacity:.6; }
+.soon-tag{ margin-left:auto; font-size:11px; font-weight:500; color:var(--ink-3); border:1px solid var(--line); border-radius:4px; padding:0 5px; line-height:17px; }
+.app.collapsed .soon-tag{ display:none; }
+#v-biz .kpi-sum{ padding:8px 4px; }
+
+/* =========================================================
+   Final: global top bar, page-level controls, page header
+   ========================================================= */
+.topbar .brand{ height:auto; margin:0; padding:0; border:0; display:flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink); }
+.topbar .brand-name{ font-size:19px; font-weight:600; letter-spacing:-.2px; }
+.app.collapsed .topbar .brand-name{ opacity:1; pointer-events:auto; }
+.brand-div{ width:1px; height:22px; background:var(--line); margin:0 4px; }
+.product{ font-size:14.5px; color:var(--ink-2); font-weight:500; white-space:nowrap; }
+.ham{ color:var(--ink); }
+.acct{ display:flex; align-items:center; gap:9px; height:40px; padding:0 6px 0 4px; border:0; background:none; border-radius:8px; text-align:left; }
+.acct:hover{ background:var(--hover); }
+.acct-txt{ display:flex; flex-direction:column; line-height:1.2; }
+.acct-txt b{ font-size:13px; font-weight:600; } .acct-txt small{ font-size:11.5px; color:var(--ink-3); }
+.acct svg.i{ width:16px; height:16px; color:var(--ink-3); }
+.page-tools{ display:flex; align-items:center; gap:8px; }
+body > .page-tools, .stage > .page-tools{ display:none; }
+.ibtn.bordered{ border:1px solid var(--line); background:var(--surface); }
+.ibtn.bordered:hover{ background:var(--hover); }
+.btn.primary .filter-count{ background:#fff; color:var(--mobile); }
+.page-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; padding-bottom:8px; }
+.ph-main{ min-width:0; }
+.eyebrow{ display:flex; align-items:center; gap:10px; height:24px; margin-bottom:2px; font-size:12.5px; font-weight:500; color:var(--ink-3); }
+.eyebrow .chips{ display:flex; gap:6px; }
+.eyebrow .chip{ height:22px; font-size:12px; }
+.headline{ margin:0; font-size:26px; line-height:1.2; font-weight:600; letter-spacing:-.45px; white-space:nowrap; }
+.headline span{ display:block; margin-top:3px; color:var(--ink-2); font-weight:400; font-size:17px; letter-spacing:-.2px; }
+.tools-slot{ flex:none; padding-bottom:2px; }
+.view-head .tools-slot{ padding-bottom:0; }
+/* dashes: filled = met, outlined = missed */
+.score{ display:flex; gap:4px; margin-top:9px; }
+.score i{ width:24px; height:6px; border-radius:3px; background:var(--mobile); }
+.score i.miss{ background:transparent; box-shadow:inset 0 0 0 1.5px var(--alert); }
+/* drawer header */
+.dhead{ display:flex; align-items:flex-start; gap:12px; padding:20px 16px 18px 24px; border-bottom:1px solid var(--line); }
+.dhead .dh-main{ flex:1; min-width:0; }
+.dh-eyebrow{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.dh-eyebrow .code{ font-size:12px; color:var(--ink-3); font-weight:500; letter-spacing:.2px; }
+.dhead h2{ margin:0; font-size:19px; line-height:1.3; font-weight:600; letter-spacing:-.2px; }
+.dhead .meta{ margin:6px 0 0; font-size:12.5px; color:var(--ink-3); }
+.dhead .ibtn{ margin-top:-2px; }
+.drawer .dbody{ padding:18px 24px; }
+.drawer .dfoot{ padding:14px 24px 18px; }
+
+/* ===== Shared by both looks ===== */
+.page-alert.amber{ background:rgba(251,241,222,.95); border-color:#EED7A8; color:#4A3205; }
+.page-alert.amber .pa-label{ color:#8A5600; } .page-alert.amber .pa-text, .page-alert.amber .pa-text b{ color:#3A2804; }
+.page-alert.amber .pa-btn{ border-color:#8A5600; color:#8A5600; }
+.page-alert.resolved{ border-radius:999px; }
+.ilist{ display:flex; flex-direction:column; gap:10px; }
+.irow{ display:flex; align-items:center; gap:14px; width:100%; text-align:left; padding:16px 14px 16px 18px; border-radius:18px; border:1px solid var(--line); background:var(--surface); }
+.irow:hover{ border-color:var(--mobile); background:var(--hover); }
+.irow .ir-main{ flex:1; min-width:0; }
+.irow .ir-top{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.irow .ir-top .code{ font-size:12px; color:var(--ink-3); }
+.irow h3{ margin:0; font-size:15px; font-weight:600; }
+.irow .ir-meta{ display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:6px; font-size:12.5px; color:var(--ink-2); }
+.irow .ir-meta b{ color:var(--ink); font-weight:600; }
+.irow > svg.i{ color:var(--ink-3); }
+.esctag{ display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:2px 9px 2px 7px; border-radius:999px; background:var(--select); color:var(--mobile); }
+.esctag svg{ width:12px; height:12px; }
+.stpill{ font-size:11.5px; font-weight:600; padding:2px 9px; border-radius:999px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--line); }
+.stpill.prog{ background:var(--warn-bg); color:var(--warn); border-color:transparent; }
+.stpill.done{ background:var(--ok-bg); color:var(--ok); border-color:transparent; }
+.ihint{ margin:14px 2px 0; font-size:12.5px; color:var(--ink-3); line-height:1.5; }
+.backlink{ display:inline-flex; align-items:center; gap:4px; border:0; background:none; padding:0; margin:0 0 10px; font-size:12.5px; font-weight:500; color:var(--mobile); }
+.backlink svg.i{ width:14px; height:14px; transform:rotate(180deg); }
+
+
+/* ===== Modern look (scoped) ===== */
+html[data-ui="modern"]{
+  --font:"Outfit","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --ink:#16202B; --ink-2:#46525F; --ink-3:#66717E;
+  --line:#D9E2EB; --line-soft:#E6EDF4;
+  --canvas:#EEF3F8; --surface:#FFFFFF; --surface-2:#F2F6FA; --hover:#EAF2FB; --select:#DCEAF9;
+  --mobile:#2668C9; --web:#8794A2; --partner:#6E5A48;
+  --alert:#C0321F; --alert-bg:#FCEBE8; --alert-line:#F1C4BD;
+  --ok:#2668C9; --ok-bg:#E3EEFB; --warn:#9A6206; --warn-bg:#FBF1DE;
+  --accent:#9CC8F2; --accent-2:#CFE3F8; --dark:#16202B;
+  --r-card:24px; --r-ctl:999px;
+  --glass:rgba(255,255,255,.72);
+}
+html[data-ui="modern"] body{ font-size:14px; }
+html[data-ui="modern"] .stage{ background:
+  radial-gradient(900px 520px at 88% -8%, #BFDCF7 0%, rgba(191,220,247,0) 70%),
+  radial-gradient(700px 480px at 6% 108%, #D3E6FA 0%, rgba(211,230,250,0) 70%),
+  linear-gradient(160deg, #F4F7FB 0%, #EAF1F8 55%, #E2ECF7 100%); }
+html[data-ui="modern"] .app, html[data-ui="modern"] .app.collapsed{ grid-template-columns:92px 1fr; grid-template-rows:64px minmax(0,1fr); }
+html[data-ui="modern"] .side{ position:relative; z-index:55; width:78px; transition:width .2s ease, box-shadow .2s ease; overflow:hidden; }
+html[data-ui="modern"] .app:not(.collapsed) .side{ width:238px; background:#FFFFFF; box-shadow:0 18px 48px rgba(22,32,43,.18); }
+html[data-ui="modern"] .app.collapsed{ grid-template-columns:92px 1fr; grid-template-rows:64px minmax(0,1fr); }
+html[data-ui="modern"] .side{ display:flex; grid-row:1 / -1; grid-column:1; margin:14px 0 14px 14px; padding:14px 10px 10px; border-radius:24px;
+  background:var(--glass); border:1px solid rgba(255,255,255,.85); }
+html[data-ui="modern"] .side .brand{ display:flex; align-items:center; gap:10px; height:44px; margin:0 0 14px; padding:0 4px; border:0; text-decoration:none; color:var(--ink); }
+html[data-ui="modern"] .brand-mark{ width:44px; height:44px; flex:none; border-radius:50%; background:#fff; border:1px solid var(--line); display:grid; place-items:center; }
+html[data-ui="modern"] .side .brand-name{ font-size:20px; font-weight:500; letter-spacing:-.2px; }
+html[data-ui="modern"] .side-group>p{ padding:0 14px; font-size:12px; }
+html[data-ui="modern"] .side .nav-item{ height:42px; border-radius:999px; padding:0 14px; gap:12px; font-weight:500; color:var(--ink-2); }
+html[data-ui="modern"] .side .nav-item svg.i{ width:18px; height:18px; }
+html[data-ui="modern"] .side .nav-item::before{ display:none; }
+html[data-ui="modern"] .side .nav-item:hover{ background:rgba(22,32,43,.06); color:var(--ink); }
+html[data-ui="modern"] .side .nav-item[aria-current="page"]{ background:var(--dark); color:#fff; font-weight:500; }
+html[data-ui="modern"] .side-foot{ border-top:1px solid var(--line); }
+html[data-ui="modern"] .app.collapsed .side .nav-item{ width:46px; padding:0 14px; }
+html[data-ui="modern"] .app.collapsed .side-group>p{ height:1px; margin:8px 12px 9px; }
+html[data-ui="modern"] .app.collapsed .nav-item .badge{ top:3px; left:27px; border:2px solid #fff; }
+html[data-ui="modern"] .main{ grid-template-rows:minmax(0,1fr) 30px; grid-column:2; grid-row:2; }
+html[data-ui="modern"] .topbar{ grid-column:2; grid-row:1; background:transparent; border:0; padding:14px 28px 0 24px; gap:16px; }
+html[data-ui="modern"] .topbar .tools{ margin-left:auto; display:flex; align-items:center; gap:8px; }
+html[data-ui="modern"] .vsep{ width:1px; height:26px; background:var(--line); margin:0 4px; }
+html[data-ui="modern"] .circ{ width:42px; height:42px; border-radius:50%; border:1px solid rgba(255,255,255,.85); background:var(--glass); display:grid; place-items:center; color:var(--ink); position:relative; padding:0; }
+html[data-ui="modern"] .circ:hover{ background:#fff; }
+html[data-ui="modern"] .circ svg.i{ width:18px; height:18px; }
+html[data-ui="modern"] .circ .dot{ position:absolute; top:4px; right:3px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--alert); color:#fff; font-size:10px; font-weight:600; display:grid; place-items:center; }
+html[data-ui="modern"] .circ.avatar{ background:var(--dark); color:#fff; font-size:13px; font-weight:600; border:0; }
+html[data-ui="modern"] .view{ padding:6px 28px 14px 24px; }
+html[data-ui="modern"] #v-biz.active{ display:flex; flex-direction:column; }
+html[data-ui="modern"] #v-biz .page-alert{ flex:none; }
+html[data-ui="modern"] #v-biz .page-alert[hidden]{ display:none !important; }
+html[data-ui="modern"] .eyebar{ display:flex; align-items:center; justify-content:space-between; height:40px; }
+html[data-ui="modern"] .eyebrow{ display:flex; align-items:center; gap:10px; font-size:13px; color:var(--ink-3); font-weight:400; }
+html[data-ui="modern"] .eyebrow .chips{ display:flex; gap:6px; }
+html[data-ui="modern"] .chip{ background:var(--glass); border:1px solid var(--line); }
+html[data-ui="modern"] .page-tools{ gap:8px; }
+html[data-ui="modern"] .page-tools .sel{ height:36px; border-radius:999px; background-color:var(--glass); border-color:var(--line); padding:0 32px 0 14px; }
+html[data-ui="modern"] .page-tools .btn.primary{ height:36px; border-radius:999px; background:var(--dark); border-color:var(--dark); color:#fff; padding:0 16px; }
+html[data-ui="modern"] .page-tools .ibtn.bordered{ width:36px; height:36px; border-radius:50%; background:var(--glass); }
+html[data-ui="modern"] .page-tools .sep{ display:none; }
+html[data-ui="modern"] .headline{ margin:10px 0 0; font-size:40px; line-height:1.1; font-weight:400; letter-spacing:-1px; white-space:nowrap; }
+html[data-ui="modern"] .subline{ margin:8px 0 0; font-size:18px; color:var(--ink-2); font-weight:300; }
+html[data-ui="modern"] .hero-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:26px; margin-top:22px; }
+html[data-ui="modern"] .targets{ flex:1; min-width:0; }
+html[data-ui="modern"] .targets-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:8px; }
+html[data-ui="modern"] .targets-head strong{ font-size:14px; font-weight:600; }
+html[data-ui="modern"] .targets-head span{ font-size:12.5px; color:var(--ink-3); }
+html[data-ui="modern"] .pills{ display:flex; gap:6px; }
+html[data-ui="modern"] .tp{ flex:1; min-width:0; }
+html[data-ui="modern"] .tp label{ display:block; font-size:12.5px; color:var(--ink-2); margin:0 0 5px 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+html[data-ui="modern"] .tp .pill{ height:40px; border-radius:999px; display:flex; align-items:center; padding:0 14px; font-size:14px; font-weight:500; white-space:nowrap; cursor:default; }
+html[data-ui="modern"] .tp.met .pill{ background:rgba(255,255,255,.92); color:var(--ink); border:1px solid var(--line); gap:7px; padding:0 12px 0 9px; overflow:hidden; }
+html[data-ui="modern"] .tp.met .pill small{ padding-left:4px; font-size:11px; }
+html[data-ui="modern"] .tp .pill .tk{ width:16px; height:16px; flex:none; border-radius:50%; background:var(--ink); display:grid; place-items:center; }
+html[data-ui="modern"] .tp .pill .tk svg{ width:10px; height:10px; }
+html[data-ui="modern"] .tp.miss .pill{ color:var(--alert); border:1.5px solid var(--alert-line); font-weight:600;
+  background:repeating-linear-gradient(-45deg, rgba(192,50,31,.10) 0 6px, rgba(255,255,255,.55) 6px 12px); }
+html[data-ui="modern"] .tp .pill small{ margin-left:auto; font-size:11.5px; font-weight:500; opacity:.75; padding-left:8px; }
+html[data-ui="modern"] .tp.miss .pill small{ opacity:1; }
+html[data-ui="modern"] .bignums{ display:flex; gap:20px; flex:none; }
+html[data-ui="modern"] .bn{ display:flex; flex-direction:column; align-items:flex-start; }
+html[data-ui="modern"] .bn b{ font-size:46px; line-height:.95; font-weight:300; letter-spacing:-1.5px; }
+html[data-ui="modern"] .bn b.bad{ color:var(--alert); }
+html[data-ui="modern"] .bn span{ display:flex; align-items:center; gap:5px; font-size:12.5px; color:var(--ink-2); margin-top:6px; }
+html[data-ui="modern"] .bn span svg.i{ width:14px; height:14px; }
+html[data-ui="modern"] .page-alert{ margin-top:18px; height:38px; border-radius:999px; border:1px solid var(--alert-line); border-left:1px solid var(--alert-line); background:rgba(252,235,232,.9); padding:0 4px 0 16px; }
+html[data-ui="modern"] .page-alert .pa-btn{ height:30px; border-radius:999px; }
+html[data-ui="modern"] .bento{ display:grid; grid-template-columns:1fr 320px 290px; grid-template-rows:minmax(0,1.85fr) minmax(0,1fr);
+  grid-template-areas:"hero miss ne" "trend miss ne"; gap:16px; margin-top:18px; flex:1; min-height:0; }
+html[data-ui="modern"] .stack{ display:flex; flex-direction:column; gap:16px; min-height:0; }
+html[data-ui="modern"] .stack .card{ flex:1; }
+html[data-ui="modern"] .card{ border-radius:var(--r-card); box-shadow:none; }
+html[data-ui="modern"] .card.glass{ background:var(--glass); border:1px solid rgba(255,255,255,.85); }
+html[data-ui="modern"] .card .card-ico{ display:none; }
+html[data-ui="modern"] .card-head{ padding:16px 12px 0 20px; }
+html[data-ui="modern"] .card-titles h2, html[data-ui="modern"] .card-titles h3{ font-size:17px; font-weight:500; letter-spacing:-.2px; }
+html[data-ui="modern"] .card-titles p{ font-size:12.5px; }
+html[data-ui="modern"] .card-body{ padding:6px 20px 14px; }
+html[data-ui="modern"] .card-acts{ gap:6px; }
+html[data-ui="modern"] .card-acts .ibtn{ width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.9); border:1px solid var(--line-soft); }
+html[data-ui="modern"] .card-acts .ibtn svg.i{ width:15px; height:15px; }
+html[data-ui="modern"] #v-biz .stack .card-acts [data-x="expand"]{ display:none; }
+html[data-ui="modern"] .fig{ font-size:24px; font-weight:400; letter-spacing:-.4px; }
+html[data-ui="modern"] .legend .lg{ background:rgba(255,255,255,.8); }
+html[data-ui="modern"] .status-row .btn{ border-radius:999px; height:28px; }
+html[data-ui="modern"] .sevtag{ border-radius:999px; padding:2px 9px 2px 7px; }
+html[data-ui="modern"] .btn{ border-radius:999px; }
+html[data-ui="modern"] .card.dark{ background:var(--dark); color:#fff; border:0; }
+html[data-ui="modern"] .card.dark .card-titles h3{ color:#fff; font-size:20px; }
+html[data-ui="modern"] .card.dark .card-titles p{ color:#A9B6C4; }
+html[data-ui="modern"] .big-frac{ font-size:20px; color:#8E9BAA; font-weight:300; padding-right:8px; white-space:nowrap; }
+html[data-ui="modern"] .big-frac b{ font-size:40px; font-weight:300; color:#fff; letter-spacing:-1px; }
+html[data-ui="modern"] .tasklist{ list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:2px; }
+html[data-ui="modern"] .tasklist li{ display:flex; align-items:center; gap:12px; padding:8px 6px; border-radius:14px; cursor:pointer; }
+html[data-ui="modern"] .tasklist li:hover, html[data-ui="modern"] .tasklist li:focus-visible{ background:rgba(255,255,255,.07); outline:none; }
+html[data-ui="modern"] .tasklist .tico{ width:36px; height:36px; flex:none; border-radius:50%; background:#fff; color:#16202B; display:grid; place-items:center; }
+html[data-ui="modern"] .tasklist .tico svg.i{ width:17px; height:17px; }
+html[data-ui="modern"] .tasklist .tt{ flex:1; min-width:0; }
+html[data-ui="modern"] .tasklist .tt b{ display:block; font-size:13.5px; font-weight:500; color:#fff; }
+html[data-ui="modern"] .tasklist .tt small{ font-size:11.5px; color:#9AA7B5; }
+html[data-ui="modern"] .tasklist .tv{ font-size:15px; font-weight:600; color:#FF9A88; white-space:nowrap; }
+html[data-ui="modern"] .tasklist .tx{ width:18px; height:18px; border-radius:50%; background:#FF9A88; display:grid; place-items:center; flex:none; }
+html[data-ui="modern"] .tasklist .tx svg{ width:10px; height:10px; }
+html[data-ui="modern"] .dark-cta{ margin-top:10px; width:100%; height:40px; border-radius:999px; border:0; background:var(--accent); color:#16202B; font-weight:600; font-size:13.5px; display:flex; align-items:center; justify-content:center; gap:4px; }
+html[data-ui="modern"] .dark-cta:hover{ background:#B6D7F6; }
+html[data-ui="modern"] .dark-cta svg.i{ width:16px; height:16px; }
+html[data-ui="modern"] .view-head h1{ font-size:34px; font-weight:400; letter-spacing:-.8px; }
+html[data-ui="modern"] .tile{ border-radius:20px; background:var(--glass); border:1px solid rgba(255,255,255,.85); }
+html[data-ui="modern"] .tile.flag{ background:rgba(252,235,232,.85); border-color:var(--alert-line); }
+html[data-ui="modern"] #v-regions .card, html[data-ui="modern"] #v-fulfil .card{ background:var(--glass); border:1px solid rgba(255,255,255,.85); }
+html[data-ui="modern"] .kpi{ border-radius:20px; background:var(--glass); border:1px solid rgba(255,255,255,.85); }
+html[data-ui="modern"] .alert-strip{ border-radius:999px; padding:8px 8px 8px 18px; }
+html[data-ui="modern"] .alert-strip .btn{ border-radius:999px; }
+html[data-ui="modern"] .alert-strip .btn.primary{ background:var(--dark); border-color:var(--dark); color:#fff; }
+html[data-ui="modern"] .kpi-ico{ border-radius:50%; }
+html[data-ui="modern"] .foot{ background:transparent; border:0; padding:0 28px 0 24px; }
+html[data-ui="modern"] .empty-ico{ border-radius:50%; }
+html[data-ui="modern"] .modal{ border-radius:20px; }
+html[data-ui="modern"] .menu{ border-radius:16px; }
+html[data-ui="modern"] .drawer{ border-radius:24px 0 0 24px; }
+html[data-ui="modern"] .sel{ border-radius:999px; }
+html[data-ui="modern"] .seg{ border-radius:999px; }
+html[data-ui="modern"] .form input[type=text], html[data-ui="modern"] .form input[type=number], html[data-ui="modern"] .form input[type=date], html[data-ui="modern"] .form textarea, html[data-ui="modern"] .form select{ border-radius:12px; }
+
+/* ===== Look switch ===== */
+.ui-switch{ display:inline-flex; align-items:center; gap:9px; height:34px; padding:0 6px 0 12px; border-radius:999px; border:1px solid var(--line); background:var(--surface); font-size:13px; font-weight:500; color:var(--ink); cursor:pointer; white-space:nowrap; }
+.ui-switch:hover{ background:var(--hover); }
+.ui-switch .track{ width:34px; height:20px; border-radius:10px; background:#C5CFD9; position:relative; transition:background .15s; flex:none; }
+.ui-switch .track::after{ content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.25); transition:left .15s; }
+.ui-switch[aria-checked="true"] .track{ background:#2668C9; }
+.ui-switch[aria-checked="true"] .track::after{ left:16px; }
+.ui-switch .new{ font-size:10.5px; font-weight:700; color:#fff; background:#2668C9; border-radius:999px; padding:1px 6px; }
+html[data-ui="modern"] .ui-switch{ height:42px; padding:0 8px 0 16px; background:var(--glass); border-color:rgba(255,255,255,.85); }
+html[data-ui="modern"] .ui-switch:hover{ background:#fff; }
+.stage.swapping{ animation:uiswap .32s ease; }
+@keyframes uiswap{ from{ opacity:.25; } to{ opacity:1; } }
+@media print{
+  @page{ size:1440px 900px; margin:0; }
+  body{ overflow:visible; }
+  .stage{ transform:none !important; position:relative; }
+  .tip,.menu,.scrim,.modal,.drawer,.toasts,.navtip{ display:none !important; }
+}
+@media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+</style>
+</head>
+<body>
+<template id="t-chrome-classic">
+  <header class="topbar">
+    <button class="ibtn ham" id="collapseBtn" aria-label="Expand menu" aria-expanded="false" aria-controls="sidenav"><svg class="i" data-i="menu"></svg></button>
+    <a class="brand" href="#" data-view="biz" aria-label="Verano, go to Business review">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" style="flex:none"><rect width="32" height="32" rx="7" fill="#17343A"/><path d="M7 20a9 9 0 0 1 18 0z" fill="#E3A21A"/><rect x="5" y="22" width="22" height="2.5" rx="1.25" fill="#fff"/></svg>
+      <span class="brand-name">verano</span>
+    </a>
+    <span class="brand-div" aria-hidden="true"></span>
+    <span class="product">Business Insights</span>
+    <div class="tools">
+      <button class="ui-switch" data-uiswitch role="switch" aria-checked="false" title="Try the new look">New look<span class="track" aria-hidden="true"></span></button>
+      <span class="sep"></span>
+      <button class="ibtn" id="themeBtn" aria-label="Switch to dark mode"><svg class="i" data-i="moon"></svg></button>
+      <button class="ibtn" id="bellBtn" aria-label="Notifications" aria-haspopup="menu"><svg class="i" data-i="bell"></svg><span class="dot" id="bellDot">3</span></button>
+      <span class="sep"></span>
+      <button class="acct" id="avatarBtn" aria-haspopup="menu" aria-label="Account: Alex Morgan, VP Commercial"><span class="avatar">AM</span><span class="acct-txt"><b>Alex Morgan</b><small>VP Commercial</small></span><svg class="i" data-i="chevDown"></svg></button>
+    </div>
+  </header>
+
+  <aside class="side" id="sidenav" aria-label="Main navigation">
+    <nav id="nav">
+      <div class="side-group">
+        <button class="nav-item" data-view="biz" aria-current="page"><svg class="i" data-i="review"></svg><span class="nav-label">Business review</span></button>
+      </div>
+      <div class="side-group"><p>Performance</p>
+        <button class="nav-item" data-view="empty" data-name="Revenue"><svg class="i" data-i="dollar"></svg><span class="nav-label">Revenue</span></button>
+        <button class="nav-item" data-view="empty" data-name="Subscribers"><svg class="i" data-i="users"></svg><span class="nav-label">Subscribers</span></button>
+        <button class="nav-item" data-view="empty" data-name="Products"><svg class="i" data-i="box"></svg><span class="nav-label">Products</span></button>
+        <button class="nav-item" data-view="regions"><svg class="i" data-i="globe"></svg><span class="nav-label">Regions</span></button>
+      </div>
+      <div class="side-group"><p>Operations</p>
+        <button class="nav-item" data-view="fulfil"><svg class="i" data-i="truck"></svg><span class="nav-label">Fulfilment</span><span class="badge" id="navBadge">1</span></button>
+        <button class="nav-item" data-view="empty" data-name="Satisfaction"><svg class="i" data-i="smile"></svg><span class="nav-label">Satisfaction</span></button>
+      </div>
+      <div class="side-group"><p>Reporting</p>
+        <button class="nav-item" data-view="empty" data-name="Reports"><svg class="i" data-i="file"></svg><span class="nav-label">Reports</span></button>
+        <button class="nav-item" data-view="empty" data-name="Exports"><svg class="i" data-i="download"></svg><span class="nav-label">Exports</span></button>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="nav-item" data-view="empty" data-name="Settings"><svg class="i" data-i="settings"></svg><span class="nav-label">Settings</span></button>
+      <button class="nav-item" data-view="empty" data-name="Help and support"><svg class="i" data-i="help"></svg><span class="nav-label">Help and support</span></button>
+    </div>
+  </aside>
+
+</template>
+<template id="t-chrome-modern">
+  <aside class="side" id="sidenav" aria-label="Main navigation">
+    <a class="brand" href="#" data-view="biz" aria-label="Verano, go to Business review">
+      <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 21a11 11 0 0 1 22 0z" fill="#2668C9"/><rect x="3" y="23.5" width="26" height="3" rx="1.5" fill="#16202B"/></svg></span>
+      <span class="brand-name">verano</span>
+    </a>
+    <nav id="nav">
+      <div class="side-group">
+        <button class="nav-item" data-view="biz" aria-current="page"><svg class="i" data-i="review"></svg><span class="nav-label">Business review</span></button>
+      </div>
+      <div class="side-group"><p>Performance</p>
+        <button class="nav-item" data-view="empty" data-name="Revenue"><svg class="i" data-i="dollar"></svg><span class="nav-label">Revenue</span></button>
+        <button class="nav-item" data-view="empty" data-name="Subscribers"><svg class="i" data-i="users"></svg><span class="nav-label">Subscribers</span></button>
+        <button class="nav-item" data-view="empty" data-name="Products"><svg class="i" data-i="box"></svg><span class="nav-label">Products</span></button>
+        <button class="nav-item" data-view="regions"><svg class="i" data-i="globe"></svg><span class="nav-label">Regions</span></button>
+      </div>
+      <div class="side-group"><p>Operations</p>
+        <button class="nav-item" data-view="fulfil"><svg class="i" data-i="truck"></svg><span class="nav-label">Fulfilment</span><span class="badge" id="navBadge">1</span></button>
+        <button class="nav-item" data-view="empty" data-name="Satisfaction"><svg class="i" data-i="smile"></svg><span class="nav-label">Satisfaction</span></button>
+      </div>
+      <div class="side-group"><p>Reporting</p>
+        <button class="nav-item" data-view="empty" data-name="Reports"><svg class="i" data-i="file"></svg><span class="nav-label">Reports</span></button>
+        <button class="nav-item" data-view="empty" data-name="Exports"><svg class="i" data-i="download"></svg><span class="nav-label">Exports</span></button>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="nav-item" data-view="empty" data-name="Settings"><svg class="i" data-i="settings"></svg><span class="nav-label">Settings</span></button>
+      <button class="nav-item" data-view="empty" data-name="Help and support"><svg class="i" data-i="help"></svg><span class="nav-label">Help and support</span></button>
+      <button class="nav-item" id="collapseBtn" aria-expanded="false" aria-controls="sidenav"><svg class="i" data-i="sidebarOpen"></svg><span class="nav-label">Collapse menu</span></button>
+    </div>
+  </aside>
+
+  <header class="topbar">
+    <div class="eyebrow"><span id="ebText">Monthly business review, July 2026</span><div class="chips" id="chips"></div></div>
+    <div class="tools">
+      <div class="tools-slot" id="topTools"></div>
+      <span class="vsep"></span>
+      <button class="circ" id="bellBtn" aria-label="Notifications" aria-haspopup="menu"><svg class="i" data-i="bell"></svg><span class="dot" id="bellDot">3</span></button>
+      <button class="circ avatar" id="avatarBtn" aria-haspopup="menu" aria-label="Account: Alex Morgan, VP Commercial">AM</button>
+    </div>
+  </header>
+
+</template>
+<template id="t-biz-classic">
+      <div class="page-head">
+        <div class="ph-main">
+          <div class="eyebrow"><span>Monthly business review, July 2026</span><div class="chips" id="chips"></div></div>
+          <h1 class="headline">July was the best month of the year, led by the mobile app.
+            <span>Deliveries missed target for a third month, and Northeast is falling behind.</span></h1>
+        </div>
+        <div class="tools-slot"></div>
+      </div>
+      <div class="page-alert" id="pageAlert" role="alert"></div>
+
+      <div class="kpis" aria-label="Targets">
+        <div class="kpi-sum"><strong>4 of 6 targets met</strong><small>Compared with July targets</small><div class="score" id="score"></div><div class="missed" id="missed"></div></div>
+        <div id="kpis" style="display:contents"></div>
+      </div>
+
+      <div class="biz">
+        <div class="col">
+          <section class="card" data-chart="dots">
+            <div class="card-head">
+              <span class="card-ico good"><svg class="i" data-i="trend"></svg></span>
+              <div class="card-titles"><h2>Mobile grew fastest in every region. Partners shrank in three of four.</h2><p>Revenue change vs June. Mobile growth comes from the new in-app reorder feature.</p></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body" style="padding-top:8px">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px">
+                <div class="legend" id="legend"></div>
+                <span class="hint"><svg class="i" data-i="cursor"></svg>Click a region or channel to filter</span>
+              </div>
+              <svg class="chart" id="c-dots" role="img"></svg>
+            </div>
+          </section>
+          <section class="card" data-chart="trend">
+            <div class="card-head">
+              <span class="card-ico"><svg class="i" data-i="line"></svg></span>
+              <div class="card-titles"><h3>Mobile's share of revenue rose from 18% to 27% in a year</h3><p>Share of monthly revenue, Aug 2025 to Jul 2026</p></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body" style="padding-top:0"><svg class="chart" id="c-trend" role="img"></svg></div>
+          </section>
+        </div>
+
+        <div class="col">
+          <div class="col-title"><span>2 of 6 targets missed, building for three months</span></div>
+          <section class="card" data-chart="otd">
+            <div class="card-head">
+              <span class="card-ico bad"><svg class="i" data-i="truck"></svg></span>
+              <div class="card-titles"><h3>On-time delivery</h3><p>Missed in May, June and July</p></div>
+              <div class="fig">96.8%<small>target 98.0%</small></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body" style="padding-top:6px">
+              <div class="status-row" id="sr-otd"></div>
+              <svg class="chart" id="c-otd" role="img" style="margin-top:6px"></svg>
+            </div>
+          </section>
+          <section class="card" data-chart="aov">
+            <div class="card-head">
+              <span class="card-ico bad"><svg class="i" data-i="cart"></svg></span>
+              <div class="card-titles"><h3>Average order value</h3><p>Down from $63.16 in June</p></div>
+              <div class="fig">$62.40<small>target $64.00</small></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body" style="padding-top:6px">
+              <div class="status-row" id="sr-aov"></div>
+              <svg class="chart" id="c-aov" role="img" style="margin-top:6px"></svg>
+            </div>
+          </section>
+          <section class="card" data-chart="ne">
+            <div class="card-head">
+              <span class="card-ico bad"><svg class="i" data-i="pin"></svg></span>
+              <div class="card-titles"><h3>Northeast is behind on every measure</h3><p>The reason delivery missed target</p></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body" style="padding-top:2px">
+              <table class="mini-table"><thead><tr><th scope="col">Measure</th><th scope="col">Northeast</th><th scope="col">Other regions</th></tr></thead><tbody id="ne"></tbody></table>
+            </div>
+          </section>
+        </div>
+      </div>
+</template>
+<template id="t-biz-modern">
+      <h1 class="headline">July was the best month of the year, led by the mobile app.</h1>
+      <p class="subline">Deliveries missed target for a third month, and Northeast is falling behind.</p>
+
+      <div class="hero-row">
+        <div class="targets">
+          <div class="targets-head"><strong>4 of 6 targets met</strong><span>July targets. Ticked met, hatched missed.</span></div>
+          <div class="pills" id="kpis"></div>
+        </div>
+        <div class="bignums" id="bignums"></div>
+      </div>
+
+      <div class="page-alert" id="pageAlert" role="alert"></div>
+
+      <div class="bento">
+        <section class="card glass" data-chart="dots" style="grid-area:hero">
+          <div class="card-head">
+            <div class="card-titles"><h2>Mobile grew fastest in every region</h2><p>Revenue change vs June, driven by the new in-app reorder feature</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px">
+              <div class="legend" id="legend"></div>
+              <span class="hint"><svg class="i" data-i="cursor"></svg>Click to filter</span>
+            </div>
+            <svg class="chart" id="c-dots" role="img"></svg>
+          </div>
+        </section>
+
+        <section class="card glass" data-chart="trend" style="grid-area:trend">
+          <div class="card-head">
+            <div class="card-titles"><h3>Mobile share, 12 months</h3><p>18% to 27% of revenue</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill"><svg class="chart" id="c-trend" role="img"></svg></div>
+        </section>
+
+        <div class="stack" style="grid-area:miss">
+          <section class="card glass" data-chart="otd">
+            <div class="card-head">
+              <div class="card-titles"><h3>On-time delivery</h3><p>Missed in May, June and July</p></div>
+              <div class="fig">96.8%<small>target 98.0%</small></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body">
+              <div class="status-row" id="sr-otd"></div>
+              <svg class="chart" id="c-otd" role="img" style="margin-top:8px"></svg>
+            </div>
+          </section>
+          <section class="card glass" data-chart="aov">
+            <div class="card-head">
+              <div class="card-titles"><h3>Average order value</h3><p>Down from $63.16 in June</p></div>
+              <div class="fig">$62.40<small>target $64.00</small></div>
+              <div class="card-acts"></div>
+            </div>
+            <div class="card-body">
+              <div class="status-row" id="sr-aov"></div>
+              <svg class="chart" id="c-aov" role="img" style="margin-top:8px"></svg>
+            </div>
+          </section>
+        </div>
+
+        <section class="card dark" data-chart="ne" style="grid-area:ne">
+          <div class="card-head">
+            <div class="card-titles"><h3>Northeast</h3><p>Behind on every measure. The reason delivery missed.</p></div>
+            <div class="big-frac"><b>4</b>/4</div>
+          </div>
+          <div class="card-body"><ul class="tasklist" id="ne"></ul>
+            <button class="dark-cta" id="neCta">Open Northeast in Fulfilment<svg class="i" data-i="chev"></svg></button>
+          </div>
+        </section>
+      </div>
+</template>
+<div class="stage" id="stage">
+<div class="app collapsed" id="app">
+
+  <div id="chrome" style="display:contents"></div>
+
+  <div class="main">
+    <div style="position:relative; min-height:0; display:grid; grid-template-rows:minmax(0,1fr);">
+    <!-- ================= Business review ================= -->
+    <section class="view active" id="v-biz" aria-label="Business review">
+    </section>
+
+    <!-- ================= Regions ================= -->
+    <section class="view" id="v-regions" aria-label="Regions">
+      <div class="view-head">
+        <div><h1>Regions</h1><p>July 2026 by region. Click a tile, row or bar to filter.</p></div>
+        <div class="tools-slot"></div>
+      </div>
+      <div class="tiles" id="tiles"></div>
+      <div class="grid2">
+        <div class="col" style="min-height:0">
+        <section class="card" data-chart="regtable" style="flex:none">
+          <div class="card-head">
+            <span class="card-ico"><svg class="i" data-i="table"></svg></span>
+            <div class="card-titles"><h2>Region comparison</h2><p>Sort by any column. Averages are weighted by orders.</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body"><table class="dtable" id="regTable"></table></div>
+        </section>
+        <section class="card" data-chart="growth">
+          <div class="card-head">
+            <span class="card-ico"><svg class="i" data-i="trend"></svg></span>
+            <div class="card-titles"><h2>Channel growth vs June</h2><p>Month-on-month change in revenue, by region</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill"><svg class="chart" id="c-growth" role="img"></svg></div>
+        </section>
+        </div>
+        <section class="card" data-chart="mix">
+          <div class="card-head">
+            <span class="card-ico"><svg class="i" data-i="bars"></svg></span>
+            <div class="card-titles"><h2>Revenue by channel</h2><p>July revenue in $K, scale starts at zero</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill"><div class="legend" id="legend2"></div><svg class="chart" id="c-mix" role="img"></svg></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ================= Fulfilment ================= -->
+    <section class="view" id="v-fulfil" aria-label="Fulfilment">
+      <div class="view-head">
+        <div><h1>Fulfilment</h1><p>On-time delivery against the 98% target, July 2026. Click a cell or bar to filter.</p></div>
+        <div class="tools-slot"></div>
+      </div>
+      <div class="alert-strip" id="fstrip" style="flex:none"></div>
+      <div class="kpis" style="grid-template-columns:repeat(4,1fr); margin-top:0" id="fkpis"></div>
+      <div class="grid2" style="grid-template-columns:1.1fr 1fr">
+        <section class="card" data-chart="heat">
+          <div class="card-head">
+            <span class="card-ico bad"><svg class="i" data-i="grid"></svg></span>
+            <div class="card-titles"><h2>On-time delivery by region and channel</h2><p>Darker red means further below the 98% target</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill"><svg class="chart" id="c-heat" role="img"></svg></div>
+        </section>
+        <section class="card" data-chart="late">
+          <div class="card-head">
+            <span class="card-ico"><svg class="i" data-i="clock"></svg></span>
+            <div class="card-titles"><h2>Late orders by region</h2><p>Estimated from orders and on-time rate, scale starts at zero</p></div>
+            <div class="card-acts"></div>
+          </div>
+          <div class="card-body fill"><svg class="chart" id="c-late" role="img"></svg></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="v-empty"><div class="empty"><div class="empty-box" id="emptyBox"></div></div></section>
+    <section class="view" id="v-load" aria-busy="true" aria-label="Loading">
+      <div class="sk" style="height:100px"></div>
+      <div style="display:grid; grid-template-columns:184px repeat(4,1fr); gap:12px; margin-top:12px"><div></div><div class="sk" style="height:96px"></div><div class="sk" style="height:96px"></div><div class="sk" style="height:96px"></div><div class="sk" style="height:96px"></div></div>
+      <div style="display:grid; grid-template-columns:1fr 404px; gap:14px; margin-top:12px"><div class="sk" style="height:520px"></div><div class="sk" style="height:520px"></div></div>
+    </section>
+    </div>
+
+    <footer class="foot">
+      <span class="grow">Source: Verano Analytics Portal. Data as of 1 Aug 2026, 06:00 IST. Changes are month on month.</span>
+      <button class="warnlink" id="checksBtn"><svg class="i" data-i="alert"></svg>2 source checks need review</button>
+      <button id="defsBtn"><svg class="i" data-i="book"></svg>Metric definitions</button>
+      <span>Version 2.0</span>
+      <span>&copy; 2026 Verano</span>
+    </footer>
+  </div>
+</div>
+
+<!-- Overlays live inside the stage so they scale with it -->
+<div class="tip" id="tip" role="tooltip"></div>
+<div class="navtip" id="navtip"></div>
+<div class="menu" id="menu" role="menu"></div>
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <header><h2 id="mTitle"></h2><button class="ibtn" data-close aria-label="Close"><svg class="i" data-i="x"></svg></button></header>
+  <div class="mbody" id="mBody"></div>
+  <footer id="mFoot"></footer>
+</div>
+<aside class="drawer" id="incident" role="dialog" aria-modal="true" aria-labelledby="incTitle"></aside>
+<aside class="drawer" id="filters" role="dialog" aria-modal="true" aria-labelledby="filTitle" style="width:380px"></aside>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="page-tools" id="pageTools">
+  <select class="sel" id="period" aria-label="Reporting period"><option value="2026-07">July 2026</option><option value="2026-06">June 2026</option><option value="Q2">Q2 2026</option></select>
+  <button class="btn primary" id="filtersBtn"><svg class="i" data-i="filter"></svg>Filters<span class="filter-count" id="fcount" hidden>0</span></button>
+  <span class="sep"></span>
+  <button class="ibtn bordered" id="shareBtn" aria-label="Share this view" title="Share"><svg class="i" data-i="share"></svg></button>
+  <button class="ibtn bordered" id="exportBtn" aria-label="Export" aria-haspopup="menu" title="Export"><svg class="i" data-i="download"></svg></button>
+</div>
+</div>
+<script>
+/* =========================================================
+   Stage: designed at 1440 x 900, scaled to fit any window.
+   ========================================================= */
+const stage = document.getElementById("stage");
+let K = 1;
+function fit(){
+  K = Math.min(innerWidth/1440, innerHeight/900);
+  stage.style.transform = `translate(${(innerWidth-1440*K)/2}px, ${(innerHeight-900*K)/2}px) scale(${K})`;
+}
+fit(); addEventListener("resize", fit);
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+/* convert a client point to stage coordinates */
+function sp(x, y){ const r = stage.getBoundingClientRect(); return { x:(x-r.left)/K, y:(y-r.top)/K }; }
+function rectIn(node){ const r = node.getBoundingClientRect(), s = stage.getBoundingClientRect();
+  return { x:(r.left-s.left)/K, y:(r.top-s.top)/K, w:r.width/K, h:r.height/K }; }
+
+/* =========================================================
+   Icons
+   ========================================================= */
+const ICONS = {
+  review:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  dollar:'<path d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3 2 2.6 4.5 3.1 4.5 1.5 4.5 3.4-2 3-4.5 3-4.5-1.3-4.5-3"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.8c1.5.9 2.6 2.6 3 5.2"/>',
+  box:'<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.5 5.7 3.5 9s-1 6.3-3.5 9c-2.5-2.7-3.5-5.7-3.5-9s1-6.3 3.5-9z"/>',
+  truck:'<path d="M2 6h11v10H2zM13 10h4.5l3.5 3.5V16h-8"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  smile:'<circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c.9 1.2 2.1 1.8 3.5 1.8s2.6-.6 3.5-1.8M9 9.5h.01M15 9.5h.01"/>',
+  file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  download:'<path d="M12 3v12M7.5 10.5L12 15l4.5-4.5M4 17v3h16v-3"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3.1 14H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 3.1V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 20.9 10h.1a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>',
+  sidebar:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 10l-2 2 2 2"/>',
+  sidebarOpen:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M13 10l2 2-2 2"/>',
+  chev:'<path d="M9 6l6 6-6 6"/>',
+  chevDown:'<path d="M6 9l6 6 6-6"/>',
+  menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  filter:'<path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/>',
+  share:'<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>',
+  moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  bell:'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0"/>',
+  refresh:'<path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/>',
+  trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+  line:'<path d="M3 3v18h18M7 15l4-4 3 3 5-6"/>',
+  cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.1h8.6a1.5 1.5 0 0 0 1.5-1.2L21 8H6"/>',
+  pin:'<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  cursor:'<path d="M5 3l14 7-6 2-2 6z"/>',
+  table:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/>',
+  bars:'<path d="M4 6h10M4 12h16M4 18h7"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  alert:'<path d="M12 3l9.5 16.5h-19z"/><path d="M12 10v4M12 17h.01"/>',
+  book:'<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5zM4 19.5A1.5 1.5 0 0 0 5.5 21H20"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  more:'<circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/>',
+  expand:'<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+  csv:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6M12 10v10"/>',
+  pdf:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/>',
+  flagAlert:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  report:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M12 11v6M9 14h6"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  up:'<path d="M12 19V5M6 11l6-6 6 6"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  escalate:'<path d="M12 20V8M6 14l6-6 6 6M5 4h14"/>',
+  note:'<path d="M5 3h10l4 4v14H5z"/><path d="M9 12h6M9 16h4"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+  logout:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h11"/>',
+  keyboard:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>'
+};
+const ico = (n, cls="i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||""}</svg>`;
+function paintIcons(root=document){
+  root.querySelectorAll("svg[data-i]").forEach(s => { s.setAttribute("viewBox","0 0 24 24"); s.setAttribute("aria-hidden","true"); s.innerHTML = ICONS[s.dataset.i]||""; });
+}
+
+/* =========================================================
+   Data. One object drives every chart and view.
+   ========================================================= */
+const DATA = {
+  targets: [
+    { key:"rev",  icon:"dollar", label:"Net revenue",        value:4.82,   target:4.60,   fmt:v=>"$"+v.toFixed(2)+"M", delta:"8.4%",   regional:true },
+    { key:"subs", icon:"users",  label:"Active subscribers", value:128450, target:126000, fmt:v=>v.toLocaleString("en-US"), delta:"3.1%" },
+    { key:"ret",  icon:"refresh",label:"Retention",          value:91.2,   target:90.0,   fmt:v=>v.toFixed(1)+"%", delta:"0.6 pts", regional:true },
+    { key:"nps",  icon:"smile",  label:"Net promoter score", value:47,     target:45,     fmt:v=>String(v), delta:"4" }
+  ],
+  channels: [
+    { key:"mobile",  name:"Mobile app" },
+    { key:"web",     name:"Web direct" },
+    { key:"partner", name:"Partners and marketplace", short:"Partners" }
+  ],
+  // [revenue $K, change vs June %, orders, on-time %]
+  regions: [
+    { name:"West",      rows:{ web:[810,12.1,12900,98.1], mobile:[420,16.8,6900,97.8], partner:[310, 3.2,4900,96.5] }, retention:92.4 },
+    { name:"South",     rows:{ web:[720, 8.4,11500,97.2], mobile:[370,14.2,5900,96.9], partner:[270,-1.1,4400,95.8] }, retention:90.8 },
+    { name:"Midwest",   rows:{ web:[530, 4.6, 8400,97.4], mobile:[250,10.9,4000,97.1], partner:[200,-2.8,3300,96.2] }, retention:91.5 },
+    { name:"Northeast", rows:{ web:[490,-1.9, 7800,94.3], mobile:[280, 6.1,4500,93.8], partner:[170,-9.4,2750,92.1] }, retention:89.6, flag:true }
+  ],
+  otdTarget:98, retTarget:90,
+  aov:{ value:62.40, target:64.00, last:63.16 },
+  months:["Aug 2025","Sep 2025","Oct 2025","Nov 2025","Dec 2025","Jan 2026","Feb 2026","Mar 2026","Apr 2026","May 2026","Jun 2026","Jul 2026"],
+  share:{ mobile:[18.1,18.8,19.7,20.1,20.8,21.6,22.7,23.8,24.8,26.4,26.9,27.4], partner:[23.6,23.1,23.2,22.8,22.5,22.7,22.2,21.4,21.1,20.0,20.2,19.5] }
+};
+const CH = k => DATA.channels.find(c=>c.key===k);
+const chName = k => CH(k).short || CH(k).name;
+
+/* derived figures, computed rather than typed */
+function regionStats(r){
+  const rows = Object.values(r.rows);
+  const now = rows.reduce((s,x)=>s+x[0],0);
+  const prev = rows.reduce((s,x)=>s+x[0]/(1+x[1]/100),0);
+  const orders = rows.reduce((s,x)=>s+x[2],0);
+  const otd = rows.reduce((s,x)=>s+x[2]*x[3],0)/orders;
+  const late = rows.reduce((s,x)=>s+x[2]*(1-x[3]/100),0);
+  return { now, change:(now/prev-1)*100, orders, otd, late, aov: now*1000/orders, mobileShare: r.rows.mobile[0]/now*100 };
+}
+function channelTotal(key){ let now=0, prev=0, orders=0, ot=0;
+  DATA.regions.forEach(r=>{ const x=r.rows[key]; now+=x[0]; prev+=x[0]/(1+x[1]/100); orders+=x[2]; ot+=x[2]*x[3]; });
+  return { now, change:(now/prev-1)*100, orders, otd: ot/orders };
+}
+const ALL = (()=>{ let orders=0, ot=0, late=0; DATA.regions.forEach(r=>{ const s=regionStats(r); orders+=s.orders; ot+=s.orders*s.otd; late+=s.late; }); return { orders, otd:ot/orders, late }; })();
+const pts = v => (v>0?"+":v<0?"\u2212":"") + Math.abs(v).toFixed(1) + " pts";
+const pct = v => (v>0?"+":v<0?"\u2212":"") + Math.abs(v).toFixed(1) + "%";
+const fmtK = v => "$" + Math.round(v).toLocaleString("en-US") + "K";
+const n0 = v => Math.round(v).toLocaleString("en-US");
+
+/* =========================================================
+   State
+   ========================================================= */
+const STATE = { view:"biz", region:null, channel:null, theme:"light", period:"2026-07",
+  alerts:[], pinned:false
+};
+const STEPS = ["Open","Acknowledged","In progress","Resolved"];
+const OWNERS = [["","Unassigned"],["Sam Whitfield","Sam Whitfield, Chief Operating Officer"],["Rhea Kapoor","Rhea Kapoor, Pricing lead"],["Priya Nair","Priya Nair, Northeast fulfilment lead"],["Daniel Ortiz","Daniel Ortiz, Carrier operations"],["Mei Chen","Mei Chen, VP Operations"]];
+const PEOPLE = ["Priya Nair","Daniel Ortiz","Mei Chen","Sam Whitfield","Rhea Kapoor"];
+/* Missed targets each carry an issue with the same workflow */
+const ISSUES = {
+  otd:{ code:"INC-0412", sev:"Critical", title:"On-time delivery below target", status:0, owner:"", due:"2026-08-08",
+    log:[{ t:"1 Aug 2026, 06:00", who:"System", txt:"Opened automatically: on-time delivery below 98% for a third month.", c:"a" }] },
+  aov:{ code:"INC-0413", sev:"Warning", title:"Average order value below target", status:1, owner:"Rhea Kapoor", due:"2026-08-15",
+    log:[{ t:"1 Aug 2026, 09:40", who:"Rhea Kapoor", txt:"Acknowledged. Reviewing starter-plan pricing and upsell in the reorder flow.", c:"k" },
+         { t:"1 Aug 2026, 06:00", who:"System", txt:"Opened automatically: average order value below the $64 target.", c:"a" }] }
+};
+const initials = n => n.split(" ").map(w=>w[0]).join("").slice(0,2);
+const now = () => { const d = new Date(); return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}) + ", " + d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}); };
+
+/* =========================================================
+   SVG helpers
+   ========================================================= */
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs={}, text) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (text!=null) n.textContent = text; return n; };
+const C = v => getComputedStyle(document.documentElement).getPropertyValue("--"+v).trim();
+function clear(svg){ while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function size(svg, W, H){ svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("width",W); svg.setAttribute("height",H); }
+function marker(g, key, x, y, s=1){
+  if (key==="mobile")  return g.appendChild(el("circle",{cx:x,cy:y,r:7*s,fill:C("mobile")}));
+  if (key==="web")     return g.appendChild(el("circle",{cx:x,cy:y,r:5.5*s,fill:C("surface"),stroke:C("web"),"stroke-width":2.5}));
+  if (key==="partner") return g.appendChild(el("rect",{x:x-5.5*s,y:y-5.5*s,width:11*s,height:11*s,transform:`rotate(45 ${x} ${y})`,fill:C("partner")}));
+}
+function hit(node, {tip, click, label}){
+  node.classList.add("hit");
+  if (label){ node.setAttribute("tabindex","0"); node.setAttribute("role","button"); node.setAttribute("aria-label",label); }
+  if (tip){
+    node.addEventListener("mouseenter", e=>showTip(tip(), e));
+    node.addEventListener("mousemove", e=>moveTip(e));
+    node.addEventListener("mouseleave", hideTip);
+    node.addEventListener("focus", ()=>{ const r = rectIn(node); showTipAt(tip(), r.x+r.w/2, r.y); });
+    node.addEventListener("blur", hideTip);
+  }
+  if (click){
+    node.addEventListener("click", e=>{ e.stopPropagation(); hideTip(); click(e); });
+    node.addEventListener("keydown", e=>{ if (e.key==="Enter"||e.key===" "){ e.preventDefault(); hideTip(); click(e); } });
+  }
+}
+
+/* =========================================================
+   Tooltip
+   ========================================================= */
+const tipEl = $("#tip");
+function tipHTML(t){ return `<b>${t.title}</b>` + t.rows.map(r=>`<div class="r"><span>${r[0]}</span><span>${r[1]}</span></div>`).join("") + (t.hint?`<div class="foot-hint">${t.hint}</div>`:""); }
+function showTip(t, e){ tipEl.innerHTML = tipHTML(t); tipEl.classList.add("on"); moveTip(e); }
+function showTipAt(t, x, y){ tipEl.innerHTML = tipHTML(t); tipEl.classList.add("on"); placeTip(x, y); }
+function moveTip(e){ const p = sp(e.clientX, e.clientY); placeTip(p.x, p.y); }
+function placeTip(x, y){
+  const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+  let left = x + 14, top = y - h - 12;
+  if (left + w > 1430) left = x - w - 14;
+  if (top < 8) top = y + 18;
+  tipEl.style.left = left+"px"; tipEl.style.top = top+"px";
+}
+function hideTip(){ tipEl.classList.remove("on"); }
+
+/* =========================================================
+   Charts. Each has a renderer, a data table and a definition,
+   so card actions (expand, table, CSV, PNG, about) work for all.
+   ========================================================= */
+const CHARTS = {};
+
+/* ---- hero: channel growth dot plot ---- */
+CHARTS.dots = {
+  title:"Revenue change vs June, by region and channel",
+  about:{ Metric:"Month-on-month change in net revenue for each sales channel, by region.", Calculation:"(July revenue ÷ June revenue) − 1. Region totals are weighted by revenue. The all-regions total uses the reported +8.4%.", Source:"Verano Analytics Portal, channel detail table", Owner:"Revenue analytics", Refresh:"Daily at 06:00 IST" },
+  render(svg, W, Hset){
+    clear(svg);
+    const labelW=128, right=96, top=22;
+    const rows = [{ name:"All regions", total:true }, ...DATA.regions];
+    const rowH = Hset ? Math.max(38, Math.min(64, (Hset-top-4)/rows.length)) : (W>900?60:(UI()==="classic"?44:40));
+    const H = top + rows.length*rowH + 4; size(svg, W, H);
+    const x0 = labelW+10, x1 = W-right-10, lo=-12, hi=20, X = v => x0 + (v-lo)/(hi-lo)*(x1-x0);
+    for (let v=-10; v<=20; v+=5){
+      svg.appendChild(el("line",{x1:X(v),x2:X(v),y1:top-6,y2:H-2,stroke:v===0?C("ink-3"):C("line-soft"),"stroke-width":v===0?1.2:1}));
+      svg.appendChild(el("text",{x:X(v),y:11,"text-anchor":"middle","font-size":12,fill:C("ink-3")}, v===0?"0%":(v>0?"+":"\u2212")+Math.abs(v)+"%"));
+    }
+    svg.appendChild(el("text",{x:W-4,y:11,"text-anchor":"end","font-size":12,fill:C("ink-3")},"Region total"));
+    const summary = [];
+    rows.forEach((r,i)=>{
+      const y = top + i*rowH + rowH/2, g = el("g");
+      let vals, total, rev, det = {};
+      if (r.total){
+        DATA.channels.forEach(c=>{ const t = channelTotal(c.key); det[c.key] = { ch:t.change, rev:t.now, orders:t.orders, otd:t.otd }; });
+        total = 8.4; rev = "$4.82M";
+      } else {
+        DATA.channels.forEach(c=>{ const x = r.rows[c.key]; det[c.key] = { ch:x[1], rev:x[0], orders:x[2], otd:x[3] }; });
+        const s = regionStats(r); total = s.change; rev = "$"+(s.now/1000).toFixed(2)+"M";
+      }
+      vals = { mobile:det.mobile.ch, web:det.web.ch, partner:det.partner.ch };
+      const faded = STATE.region && !r.total && r.name!==STATE.region;
+      const selected = STATE.region && r.name===STATE.region;
+      if (faded) g.setAttribute("opacity",".28");
+      const bg = el("rect",{x:0,y:y-rowH/2+3,width:W,height:rowH-6,rx:6,fill: r.flag ? C("alert-bg") : selected ? C("select") : "transparent", class:"focus-ring"});
+      g.appendChild(bg);
+      if (r.total) g.appendChild(el("line",{x1:0,x2:W,y1:y+rowH/2,y2:y+rowH/2,stroke:C("line")}));
+      const col = r.flag ? C("alert") : C("ink");
+      g.appendChild(el("text",{x:10,y:y-2,"font-size":14,"font-weight":600,fill:col}, r.name));
+      g.appendChild(el("text",{x:10,y:y+15,"font-size":12,fill:C("ink-3")}, rev+" revenue"));
+      const v = Object.values(vals);
+      g.appendChild(el("line",{x1:X(Math.min(...v)),x2:X(Math.max(...v)),y1:y,y2:y,stroke:C("line"),"stroke-width":3,"stroke-linecap":"round"}));
+      // row hit area (region filter)
+      hit(bg, { label: r.total ? "Show all regions" : `Filter to ${r.name}`, click: ()=> setRegion(r.total ? null : (STATE.region===r.name ? null : r.name)),
+        tip: ()=>({ title: r.name, rows:[["Revenue",rev],["Change vs June",pct(total)]].concat(r.total?[]:[["On-time delivery", regionStats(r).otd.toFixed(1)+"%"]]), hint: r.total ? "Click to show all regions" : (STATE.region===r.name?"Click to clear the filter":"Click to filter the page to "+r.name) }) });
+      ["partner","web","mobile"].forEach(k=>{
+        const mg = el("g"); const dim = STATE.channel && STATE.channel!==k;
+        if (dim) mg.setAttribute("opacity",".18");
+        mg.appendChild(el("circle",{cx:X(vals[k]),cy:y,r:13,fill:"transparent"}));
+        marker(mg,k,X(vals[k]),y);
+        const strong = k==="mobile" || (r.flag && k==="partner");
+        if (!dim) mg.appendChild(el("text",{x:X(vals[k]),y:y-13,"text-anchor":"middle","font-size":12,"font-weight":strong?600:400,
+          fill: k==="mobile"?C("mobile"):(r.flag&&k==="partner")?C("alert"):C("ink-2")}, pct(vals[k])));
+        const d = det[k];
+        hit(mg, { label:`${r.name}, ${CH(k).name}, ${pct(vals[k])}. Filter to ${CH(k).name}`, click: ()=> setChannel(STATE.channel===k?null:k),
+          tip: ()=>({ title:`${r.name}, ${CH(k).name}`, rows:[["Change vs June",pct(d.ch)],["July revenue",fmtK(d.rev)],["Orders",n0(d.orders)],["On-time delivery",d.otd.toFixed(1)+"%"]], hint: STATE.channel===k?"Click to clear the channel filter":"Click to focus on "+CH(k).name }) });
+        g.appendChild(mg);
+      });
+      g.appendChild(el("text",{x:W-4,y:y+5,"text-anchor":"end","font-size":15,"font-weight":600,fill: total<0?C("alert"):C("ink")}, pct(total)));
+      if (r.flag) g.appendChild(el("text",{x:W-4,y:y+19,"text-anchor":"end","font-size":12,fill:C("alert")},"only region down"));
+      svg.appendChild(g);
+      summary.push(`${r.name}: mobile ${pct(vals.mobile)}, web ${pct(vals.web)}, partners ${pct(vals.partner)}`);
+    });
+    svg.setAttribute("aria-label","Revenue change versus June. "+summary.join(". "));
+  },
+  table(){ const rows = [["All regions", ...DATA.channels.map(c=>pct(channelTotal(c.key).change)), "+8.4%"]];
+    DATA.regions.forEach(r=>rows.push([r.name, ...DATA.channels.map(c=>pct(r.rows[c.key][1])), pct(regionStats(r).change)]));
+    return { cols:["Region","Mobile app","Web direct","Partners","Region total"], rows }; }
+};
+
+/* ---- 12-month share trend ---- */
+CHARTS.trend = {
+  title:"Share of monthly revenue by channel",
+  about:{ Metric:"Each channel's share of total monthly net revenue.", Calculation:"Channel revenue ÷ total revenue for the month.", Source:"Verano Analytics Portal, 12-month channel trend", Note:"Web direct is the remainder and is not plotted, to keep the comparison between the rising and falling channels clear.", Refresh:"Monthly" },
+  render(svg, W, Hset){
+    clear(svg);
+    const H = Hset || (UI()==="classic"?120:96), l = UI()==="classic"?138:44, r = 120, t = 12, b = 22; size(svg, W, H);
+    const n = DATA.months.length, lo = 15, hi = 30;
+    const X = i => l + i*(W-l-r)/(n-1), Y = v => t + (hi-v)/(hi-lo)*(H-t-b);
+    [15,20,25,30].forEach(v=>{ svg.appendChild(el("line",{x1:l,x2:W-r,y1:Y(v),y2:Y(v),stroke:C("line-soft")}));
+      svg.appendChild(el("text",{x:l-10,y:Y(v)+4,"text-anchor":"end","font-size":12,fill:C("ink-3")},v+"%")); });
+    DATA.months.forEach((m,i)=>svg.appendChild(el("text",{x:X(i),y:H-5,"text-anchor":"middle","font-size":12,fill:C("ink-3")},m.slice(0,3))));
+    [["partner","Partners"],["mobile","Mobile app"]].forEach(([k,name])=>{
+      const dim = STATE.channel && STATE.channel!==k;
+      const g = el("g",{opacity: dim?.2:1});
+      const d = DATA.share[k].map((v,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)).join(" ");
+      g.appendChild(el("path",{d,fill:"none",stroke:C(k),"stroke-width":k==="mobile"?2.5:2,"stroke-dasharray":k==="partner"?"5 4":"none"}));
+      const last = DATA.share[k][n-1], first = DATA.share[k][0];
+      marker(g,k,X(n-1),Y(last));
+      g.appendChild(el("text",{x:X(n-1)+14,y:Y(last)+4,"font-size":12.5,"font-weight":600,fill:k==="mobile"?C("mobile"):C("ink-2")},`${name} ${Math.round(last)}%`));
+      g.appendChild(el("text",{x:X(0),y:Y(first)+(k==="mobile"?16:-8),"text-anchor":"start","font-size":12,fill:C("ink-3")},Math.round(first)+"%"));
+      svg.appendChild(g);
+    });
+    // hover guide
+    const guide = el("line",{y1:t,y2:H-b,stroke:C("ink-3"),"stroke-dasharray":"3 3",opacity:0}); svg.appendChild(guide);
+    const dotM = el("circle",{r:4.5,fill:C("mobile"),opacity:0}), dotP = el("circle",{r:4.5,fill:C("partner"),opacity:0});
+    svg.appendChild(dotM); svg.appendChild(dotP);
+    const ov = el("rect",{x:l-10,y:t,width:W-l-r+20,height:H-t-b,fill:"transparent",class:"hit"});
+    const at = e => { const p = sp(e.clientX, e.clientY), sr = rectIn(svg); const sx = (p.x - sr.x) * (W/sr.w);
+      return Math.max(0, Math.min(n-1, Math.round((sx-l)/((W-l-r)/(n-1))))); };
+    ov.addEventListener("mousemove", e=>{ const i = at(e);
+      guide.setAttribute("x1",X(i)); guide.setAttribute("x2",X(i)); guide.setAttribute("opacity",1);
+      dotM.setAttribute("cx",X(i)); dotM.setAttribute("cy",Y(DATA.share.mobile[i])); dotM.setAttribute("opacity",1);
+      dotP.setAttribute("cx",X(i)); dotP.setAttribute("cy",Y(DATA.share.partner[i])); dotP.setAttribute("opacity",1);
+      showTip({ title:DATA.months[i], rows:[["Mobile app",DATA.share.mobile[i].toFixed(1)+"%"],["Partners",DATA.share.partner[i].toFixed(1)+"%"],["Web direct",(100-DATA.share.mobile[i]-DATA.share.partner[i]).toFixed(1)+"%"]] }, e); });
+    ov.addEventListener("mouseleave", ()=>{ hideTip(); [guide,dotM,dotP].forEach(n=>n.setAttribute("opacity",0)); });
+    svg.appendChild(ov);
+    svg.setAttribute("aria-label","Mobile app share of revenue rose from 18% in August 2025 to 27% in July 2026. Partners share fell from 24% to 20%.");
+  },
+  table(){ return { cols:["Month","Mobile app","Partners","Web direct"], rows: DATA.months.map((m,i)=>[m, DATA.share.mobile[i].toFixed(1)+"%", DATA.share.partner[i].toFixed(1)+"%", (100-DATA.share.mobile[i]-DATA.share.partner[i]).toFixed(1)+"%"]) }; }
+};
+
+/* ---- on-time delivery by region ---- */
+CHARTS.otd = {
+  title:"On-time delivery by region",
+  about:{ Metric:"Share of orders delivered by the promised date.", Calculation:"On-time orders ÷ all delivered orders, weighted by order volume across channels.", Target:"98.0%, set in the FY26 operating plan", Source:"Fulfilment events, Verano Analytics Portal", Note:"The axis starts at 92% because each line shows the gap to target rather than a length. A one-point gap matters at this level." },
+  render(svg, W){
+    clear(svg);
+    const rowH = 18, l = 82, r = 48, lo = 92, hi = 100;
+    const regs = DATA.regions.map(r=>({ r, name:r.name, flag:r.flag, s:regionStats(r) }));
+    const H = 18 + regs.length*rowH; size(svg, W, H);
+    const X = v => l + (v-lo)/(hi-lo)*(W-l-r);
+    [92,94,96,98,100].forEach(v=>svg.appendChild(el("text",{x:X(v),y:10,"text-anchor":"middle","font-size":12,fill:C("ink-3")},v+"%")));
+    svg.appendChild(el("line",{x1:X(DATA.otdTarget),x2:X(DATA.otdTarget),y1:15,y2:H,stroke:C("ink"),"stroke-width":1.5,"stroke-dasharray":"3 3"}));
+    regs.forEach((g,i)=>{
+      const y = 18 + i*rowH + rowH/2, v = g.s.otd, grp = el("g");
+      if (STATE.region && STATE.region!==g.name) grp.setAttribute("opacity",".28");
+      grp.appendChild(el("rect",{x:-6,y:y-rowH/2,width:W+12,height:rowH,rx:4,fill:STATE.region===g.name?C("select"):"transparent",class:"focus-ring"}));
+      grp.appendChild(el("line",{x1:X(lo),x2:X(hi),y1:y,y2:y,stroke:C("line")}));
+      grp.appendChild(el("line",{x1:X(v),x2:X(DATA.otdTarget),y1:y,y2:y,stroke:g.flag?C("alert"):C("web"),"stroke-width":3}));
+      grp.appendChild(el("circle",{cx:X(v),cy:y,r:5,fill:g.flag?C("alert"):C("ink-2")}));
+      grp.appendChild(el("text",{x:0,y:y+4,"font-size":12,"font-weight":g.flag?600:400,fill:g.flag?C("alert"):C("ink-2")},g.name));
+      grp.appendChild(el("text",{x:W,y:y+4,"text-anchor":"end","font-size":12,"font-weight":g.flag?600:400,fill:g.flag?C("alert"):C("ink-2")},v.toFixed(1)+"%"));
+      hit(grp,{ label:`${g.name} on-time ${v.toFixed(1)}%. Filter to ${g.name}`, click:()=>setRegion(STATE.region===g.name?null:g.name),
+        tip:()=>({ title:g.name, rows:[["On-time delivery",v.toFixed(1)+"%"],["Gap to target",pts(v-98)],["Late orders (est.)",n0(g.s.late)],["Orders",n0(g.s.orders)]], hint: STATE.region===g.name?"Click to clear the filter":"Click to filter to "+g.name }) });
+      svg.appendChild(grp);
+    });
+    svg.setAttribute("aria-label","On-time delivery by region against a 98% target. "+regs.map(g=>`${g.name} ${g.s.otd.toFixed(1)}%`).join(", "));
+  },
+  table(){ return { cols:["Region","On-time delivery","Gap to target","Late orders (est.)","Orders"], rows: DATA.regions.map(r=>{ const s=regionStats(r); return [r.name, s.otd.toFixed(1)+"%", pts(s.otd-98), n0(s.late), n0(s.orders)]; }) }; }
+};
+
+/* ---- AOV gap to target (zero-based) ---- */
+CHARTS.aov = {
+  title:"Average order value vs target",
+  about:{ Metric:"Net revenue divided by number of orders.", Target:"$64.00", Calculation:"Net revenue ÷ orders, all channels.", Note:"The bar starts at $0 so the $1.60 gap is not exaggerated.", Source:"Verano Analytics Portal" },
+  render(svg, W){
+    clear(svg);
+    const H = 36, a = DATA.aov; size(svg, W, H);
+    const X = v => v/64*(W-140);
+    const g = el("g");
+    g.appendChild(el("rect",{x:0,y:6,width:X(a.value),height:12,rx:2,fill:C("web")}));
+    g.appendChild(el("rect",{x:X(a.value),y:6,width:X(a.target)-X(a.value),height:12,fill:"none",stroke:C("alert"),"stroke-width":1.5,"stroke-dasharray":"3 2"}));
+    g.appendChild(el("line",{x1:X(a.target),x2:X(a.target),y1:1,y2:23,stroke:C("ink"),"stroke-width":2}));
+    g.appendChild(el("rect",{x:0,y:0,width:X(a.target)+4,height:24,fill:"transparent"}));
+    hit(g,{ tip:()=>({ title:"Average order value", rows:[["July","$62.40"],["June","$63.16"],["Target","$64.00"],["Gap to target","\u2212$1.60"]] }) });
+    svg.appendChild(g);
+    svg.appendChild(el("text",{x:X(a.target)+8,y:16,"font-size":12,fill:C("alert"),"font-weight":600},"\u2212$1.60 to target"));
+    svg.appendChild(el("text",{x:0,y:35,"font-size":12,fill:C("ink-3")},"$0"));
+    svg.appendChild(el("text",{x:X(a.target),y:35,"text-anchor":"middle","font-size":12,fill:C("ink-3")},"$64 target"));
+    svg.setAttribute("aria-label","Average order value $62.40, $1.60 below the $64 target.");
+  },
+  table(){ return { cols:["Measure","Value"], rows:[["July","$62.40"],["June","$63.16"],["Target","$64.00"],["Gap to target","\u2212$1.60"]] }; }
+};
+
+/* ---- Northeast comparison (HTML table) ---- */
+function neRows(){
+  const ne = DATA.regions.find(r=>r.flag), others = DATA.regions.filter(r=>!r.flag);
+  const s = regionStats(ne), os = others.map(regionStats);
+  const rng = (arr, f=v=>v.toFixed(1)) => f(Math.min(...arr)) + " to " + f(Math.max(...arr));
+  return [
+    ["Revenue vs June", pct(s.change), rng(os.map(o=>o.change), pct)],
+    ["Retention (target 90%)", ne.retention.toFixed(1)+"%", rng(others.map(o=>o.retention))+"%"],
+    ["On-time delivery", s.otd.toFixed(1)+"%", rng(os.map(o=>o.otd))+"%"],
+    ["Partner revenue vs June", pct(ne.rows.partner[1]), rng(others.map(o=>o.rows.partner[1]), pct)]
+  ];
+}
+CHARTS.ne = {
+  title:"Northeast compared with other regions",
+  about:{ Purpose:"Shows how far Northeast sits from the range of the other three regions.", Note:"The three measures are revenue, retention and delivery. Partner revenue is shown as the breakdown that explains most of the revenue decline.", Source:"Verano Analytics Portal, region detail" },
+  html(){ return neRows().map(r=>`<tr class="rowbtn" tabindex="0"><td>${r[0]}</td><td class="bad">${r[1]}</td><td>${r[2]}</td></tr>`).join(""); },
+  table(){ return { cols:["Measure","Northeast","Other regions"], rows: neRows() }; }
+};
+
+/* ---- Regions: revenue by channel, stacked, zero-based ---- */
+CHARTS.mix = {
+  title:"July revenue by region and channel",
+  about:{ Metric:"Net revenue in July by region, split by sales channel.", Scale:"Starts at zero, so bar lengths compare fairly.", Source:"Verano Analytics Portal, channel detail table" },
+  render(svg, W, Hset){
+    clear(svg);
+    const l = 92, r = 64, top = 6, regs = DATA.regions;
+    const rowH = Hset ? Math.min(90,(Hset-top-22)/regs.length) : 54;
+    const H = Hset || top + regs.length*rowH + 22; size(svg, W, H);
+    const max = 1600, X = v => l + v/max*(W-l-r);
+    [0,400,800,1200,1600].forEach(v=>{ svg.appendChild(el("line",{x1:X(v),x2:X(v),y1:top,y2:H-20,stroke:C("line-soft")}));
+      svg.appendChild(el("text",{x:X(v),y:H-5,"text-anchor":"middle","font-size":12,fill:C("ink-3")}, v?("$"+v/1000+"M").replace("$0.","$0."):"$0")); });
+    regs.forEach((rg,i)=>{
+      const y = top + i*rowH + rowH/2 - 11, s = regionStats(rg), bh = Math.min(34, Math.max(22, rowH*.42));
+      const g = el("g"); if (STATE.region && STATE.region!==rg.name) g.setAttribute("opacity",".3");
+      g.appendChild(el("text",{x:0,y:y+15,"font-size":13,"font-weight":600,fill:rg.flag?C("alert"):C("ink")},rg.name));
+      let acc = 0;
+      ["mobile","web","partner"].forEach(k=>{
+        const v = rg.rows[k][0], seg = el("g");
+        const dim = STATE.channel && STATE.channel!==k;
+        seg.appendChild(el("rect",{x:X(acc)+1,y:y+11-bh/2,width:Math.max(0,X(acc+v)-X(acc)-2),height:bh,rx:3,fill:C(k),opacity:dim?.2:(k==="web"?.85:1)}));
+        if (X(acc+v)-X(acc) > 44 && !dim) seg.appendChild(el("text",{x:X(acc)+8,y:y+15,"font-size":12,"font-weight":600,fill:k==="web"?C("surface"):"#fff"},fmtK(v)));
+        const share = v/s.now*100;
+        hit(seg,{ label:`${rg.name} ${CH(k).name} ${fmtK(v)}`, click:()=>{ STATE.region=rg.name; setChannel(STATE.channel===k?null:k); },
+          tip:()=>({ title:`${rg.name}, ${CH(k).name}`, rows:[["July revenue",fmtK(v)],["Share of region",share.toFixed(1)+"%"],["Change vs June",pct(rg.rows[k][1])]], hint:"Click to filter to this region and channel" }) });
+        g.appendChild(seg); acc += v;
+      });
+      g.appendChild(el("text",{x:X(acc)+8,y:y+15,"font-size":12.5,"font-weight":600,fill:C("ink")},"$"+(acc/1000).toFixed(2)+"M"));
+      svg.appendChild(g);
+    });
+    svg.setAttribute("aria-label","July revenue by region and channel. "+regs.map(rg=>`${rg.name} $${(regionStats(rg).now/1000).toFixed(2)}M`).join(", "));
+  },
+  table(){ return { cols:["Region","Mobile app","Web direct","Partners","Total"], rows: DATA.regions.map(r=>[r.name, fmtK(r.rows.mobile[0]), fmtK(r.rows.web[0]), fmtK(r.rows.partner[0]), fmtK(regionStats(r).now)]) }; }
+};
+CHARTS.regtable = {
+  title:"Region comparison",
+  about:{ Purpose:"Compares regions on revenue, growth, order value, delivery and retention.", Calculation:"Average order value is revenue ÷ orders. On-time delivery is weighted by orders.", Source:"Verano Analytics Portal, region detail" },
+  table(){ return { cols:["Region","Revenue","vs June","Orders","Avg order value","On-time","Retention"], rows: DATA.regions.map(r=>{ const s=regionStats(r); return [r.name, "$"+(s.now/1000).toFixed(2)+"M", pct(s.change), n0(s.orders), "$"+s.aov.toFixed(2), s.otd.toFixed(1)+"%", r.retention.toFixed(1)+"%"]; }) }; }
+};
+
+/* ---- Regions: channel growth, grouped columns around zero ---- */
+CHARTS.growth = {
+  title:"Channel growth vs June, by region",
+  about:{ Metric:"Month-on-month change in net revenue for each channel.", Scale:"Bars grow up or down from zero, so growth and decline read at a glance.", Source:"Verano Analytics Portal, channel detail table" },
+  render(svg, W, Hset){
+    clear(svg);
+    const H = Hset || 230, l = 40, top = 18, b = 28, regs = DATA.regions, chs = ["mobile","web","partner"]; size(svg, W, H);
+    const lo = -12, hi = 20, Y = v => top + (hi-v)/(hi-lo)*(H-top-b);
+    [-10,0,10,20].forEach(v=>{ svg.appendChild(el("line",{x1:l,x2:W,y1:Y(v),y2:Y(v),stroke:v===0?C("ink-3"):C("line-soft"),"stroke-width":v===0?1.2:1}));
+      svg.appendChild(el("text",{x:l-8,y:Y(v)+4,"text-anchor":"end","font-size":12,fill:C("ink-3")},(v>0?"+":v<0?"\u2212":"")+Math.abs(v)+"%")); });
+    const gw = (W-l)/regs.length, bw = Math.min(34, gw/5);
+    regs.forEach((rg,i)=>{
+      const cx = l + gw*i + gw/2;
+      const fade = STATE.region && STATE.region!==rg.name;
+      svg.appendChild(el("text",{x:cx,y:H-6,"text-anchor":"middle","font-size":12.5,"font-weight":600,fill:rg.flag?C("alert"):C("ink"),opacity:fade?.35:1},rg.name));
+      chs.forEach((k,j)=>{
+        const v = rg.rows[k][1], x = cx + (j-1)*(bw+6) - bw/2, g = el("g");
+        if (fade || (STATE.channel && STATE.channel!==k)) g.setAttribute("opacity",".2");
+        g.appendChild(el("rect",{x,y:Math.min(Y(v),Y(0)),width:bw,height:Math.abs(Y(v)-Y(0)),rx:3,fill:C(k),class:"focus-ring"}));
+        g.appendChild(el("text",{x:x+bw/2,y:v>=0?Y(v)-5:Y(v)+13,"text-anchor":"middle","font-size":12,"font-weight":600,fill:v<0?C("alert"):C("ink-2")},pct(v).replace(".0","")));
+        hit(g,{ label:`${rg.name} ${CH(k).name} ${pct(v)}`, click:()=>{ STATE.region = rg.name; setChannel(STATE.channel===k && STATE.region===rg.name ? null : k); },
+          tip:()=>({ title:`${rg.name}, ${CH(k).name}`, rows:[["Change vs June",pct(v)],["July revenue",fmtK(rg.rows[k][0])]], hint:"Click to filter to this region and channel" }) });
+        svg.appendChild(g);
+      });
+    });
+    svg.setAttribute("aria-label","Channel growth versus June by region.");
+  },
+  table(){ return CHARTS.dots.table(); }
+};
+
+/* ---- Fulfilment: heatmap ---- */
+CHARTS.heat = {
+  title:"On-time delivery by region and channel",
+  about:{ Metric:"Share of orders delivered by the promised date, for each region and channel.", Colour:"Teal meets the 98% target. Red deepens as the gap grows. Every cell also shows its value, so colour is never the only signal.", Source:"Fulfilment events, Verano Analytics Portal" },
+  render(svg, W, Hset){
+    clear(svg);
+    const l = 92, top = 30, chs = ["mobile","web","partner"], regs = DATA.regions;
+    const rowH = Hset ? Math.min(96,(Hset-top-34)/regs.length) : 58;
+    const cw = (W-l)/chs.length, H = Hset || top + regs.length*rowH + 34; size(svg, W, H);
+    chs.forEach((k,j)=>svg.appendChild(el("text",{x:l+j*cw+cw/2,y:16,"text-anchor":"middle","font-size":12,"font-weight":500,fill:C("ink-2")},chName(k))));
+    regs.forEach((rg,i)=>{
+      const y = top + i*rowH;
+      svg.appendChild(el("text",{x:0,y:y+rowH/2+4,"font-size":13,"font-weight":600,fill:rg.flag?C("alert"):C("ink")},rg.name));
+      chs.forEach((k,j)=>{
+        const v = rg.rows[k][3], gap = 98 - v, g = el("g");
+        const dim = (STATE.region && STATE.region!==rg.name) || (STATE.channel && STATE.channel!==k);
+        if (dim) g.setAttribute("opacity",".3");
+        const t = Math.max(0, Math.min(1, gap/6));
+        const fill = gap <= 0 ? C("ok-bg") : mix(C("alert-bg"), C("alert"), .12 + t*.88);
+        const txt = gap <= 0 ? C("ok") : t > .45 ? "#fff" : C("alert");
+        g.appendChild(el("rect",{x:l+j*cw+3,y:y+3,width:cw-6,height:rowH-6,rx:6,fill,class:"focus-ring"}));
+        g.appendChild(el("text",{x:l+j*cw+cw/2,y:y+rowH/2+1,"text-anchor":"middle","font-size":15,"font-weight":600,fill:txt},v.toFixed(1)+"%"));
+        g.appendChild(el("text",{x:l+j*cw+cw/2,y:y+rowH/2+16,"text-anchor":"middle","font-size":12,fill:txt,opacity:.9}, gap<=0?"meets target":pts(-gap)));
+        const late = rg.rows[k][2]*(1-v/100);
+        hit(g,{ label:`${rg.name} ${CH(k).name} ${v}%`, click:()=>{ STATE.channel = (STATE.region===rg.name && STATE.channel===k) ? null : k; setRegion(STATE.region===rg.name && !STATE.channel ? null : rg.name); },
+          tip:()=>({ title:`${rg.name}, ${CH(k).name}`, rows:[["On-time delivery",v.toFixed(1)+"%"],["Gap to target",pts(v-98)],["Orders",n0(rg.rows[k][2])],["Late orders (est.)",n0(late)]], hint:"Click to filter to this region and channel" }) });
+        svg.appendChild(g);
+      });
+    });
+    // scale key
+    const ky = top + regs.length*rowH + 20; svg.appendChild(el("text",{x:l,y:ky+4,"font-size":12,fill:C("ink-3")},"Meets target"));
+    [0,.25,.5,.75,1].forEach((t,i)=>svg.appendChild(el("rect",{x:l+80+i*26,y:ky-6,width:24,height:12,rx:2,fill: i===0?C("ok-bg"):mix(C("alert-bg"),C("alert"),.12+t*.88)})));
+    svg.appendChild(el("text",{x:l+80+5*26+6,y:ky+4,"font-size":12,fill:C("ink-3")},"6+ pts below"));
+    svg.setAttribute("aria-label","On-time delivery heatmap by region and channel.");
+  },
+  table(){ const rows=[]; DATA.regions.forEach(r=>["mobile","web","partner"].forEach(k=>rows.push([r.name, CH(k).name, r.rows[k][3].toFixed(1)+"%", n0(r.rows[k][2]), n0(r.rows[k][2]*(1-r.rows[k][3]/100))])));
+    return { cols:["Region","Channel","On-time","Orders","Late orders (est.)"], rows }; }
+};
+CHARTS.late = {
+  title:"Late orders by region",
+  about:{ Metric:"Estimated number of orders delivered after the promised date.", Calculation:"Orders × (1 − on-time rate), per channel, summed by region.", Scale:"Starts at zero.", Source:"Fulfilment events, Verano Analytics Portal" },
+  render(svg, W, Hset){
+    clear(svg);
+    const regs = DATA.regions.map(r=>({ r, s:regionStats(r) }));
+    const l = 92, r = 96, top = 8;
+    const rowH = Hset ? Math.min(96,(Hset-top-24)/regs.length) : 58, H = Hset || top + regs.length*rowH + 24; size(svg, W, H);
+    const max = 1000, X = v => l + v/max*(W-l-r);
+    [0,250,500,750,1000].forEach(v=>{ svg.appendChild(el("line",{x1:X(v),x2:X(v),y1:top,y2:H-20,stroke:C("line-soft")}));
+      svg.appendChild(el("text",{x:X(v),y:H-5,"text-anchor":"middle","font-size":12,fill:C("ink-3")},n0(v))); });
+    regs.forEach((g,i)=>{
+      const cy = top + i*rowH + rowH/2, bh = Math.min(32, Math.max(20, rowH*.4)), y = cy - bh/2, grp = el("g");
+      if (STATE.region && STATE.region!==g.r.name) grp.setAttribute("opacity",".3");
+      grp.appendChild(el("text",{x:0,y:cy+5,"font-size":13,"font-weight":600,fill:g.r.flag?C("alert"):C("ink")},g.r.name));
+      grp.appendChild(el("rect",{x:l,y,width:X(g.s.late)-l,height:bh,rx:3,fill:g.r.flag?C("alert"):C("web"),class:"focus-ring"}));
+      const sh = g.s.late/ALL.late*100;
+      grp.appendChild(el("text",{x:X(g.s.late)+8,y:cy+5,"font-size":12.5,"font-weight":600,fill:g.r.flag?C("alert"):C("ink")},`${n0(g.s.late)}`));
+      grp.appendChild(el("text",{x:X(g.s.late)+8+String(n0(g.s.late)).length*7.6+6,y:cy+5,"font-size":12,fill:C("ink-3")},`${sh.toFixed(0)}% of late`));
+      grp.appendChild(el("rect",{x:0,y:cy-rowH/2+4,width:W,height:rowH-8,fill:"transparent"}));
+      hit(grp,{ label:`${g.r.name} ${n0(g.s.late)} late orders`, click:()=>setRegion(STATE.region===g.r.name?null:g.r.name),
+        tip:()=>({ title:g.r.name, rows:[["Late orders (est.)",n0(g.s.late)],["Share of all late orders",sh.toFixed(1)+"%"],["Share of all orders",(g.s.orders/ALL.orders*100).toFixed(1)+"%"],["On-time delivery",g.s.otd.toFixed(1)+"%"]], hint:"Click to filter to "+g.r.name }) });
+      svg.appendChild(grp);
+    });
+    svg.setAttribute("aria-label","Late orders by region. "+regs.map(g=>`${g.r.name} ${n0(g.s.late)}`).join(", "));
+  },
+  table(){ return { cols:["Region","Late orders (est.)","Share of late orders","Share of orders"], rows: DATA.regions.map(r=>{ const s=regionStats(r); return [r.name, n0(s.late), (s.late/ALL.late*100).toFixed(1)+"%", (s.orders/ALL.orders*100).toFixed(1)+"%"]; }) }; }
+};
+function mix(a, b, t){
+  const p = h => { h = h.replace("#",""); return [0,2,4].map(i=>parseInt(h.substr(i,2),16)); };
+  const A = p(a), B = p(b); return "#" + A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join("");
+}
+
+/* =========================================================
+   Rendering
+   ========================================================= */
+const SVG_IDS = { growth:"c-growth", dots:"c-dots", trend:"c-trend", otd:"c-otd", aov:"c-aov", mix:"c-mix", heat:"c-heat", late:"c-late" };
+function renderChart(key){
+  const svg = document.getElementById(SVG_IDS[key]); if (!svg) return;
+  const body = svg.parentElement; const W = body.clientWidth - 32;
+  if (W <= 50) return;
+  if (body.classList.contains("fill")){ const lg = body.querySelector(".legend"); const lgb = lg ? (lg.parentElement===body ? lg : lg.parentElement) : null; const H = body.clientHeight - 18 - (lgb ? lgb.offsetHeight + 8 : 0); CHARTS[key].render(svg, W, Math.max(key==="trend"?90:180, H)); }
+  else CHARTS[key].render(svg, W);
+}
+function renderKPIs(){ return UI()==="classic" ? renderKPIsClassic() : renderKPIsModern(); }
+function renderKPIsClassic(){
+  const host = $("#kpis"); host.innerHTML = "";
+  const rg = STATE.region && DATA.regions.find(r=>r.name===STATE.region), s = rg && regionStats(rg);
+  const tick = `<svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="7" fill="${C("ok")}"/><path d="M4 7.2l2 2 4-4.4" fill="none" stroke="${C("surface")}" stroke-width="1.7"/></svg>`;
+  const cross = `<svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="7" fill="${C("alert")}"/><path d="M4.6 4.6l4.8 4.8M9.4 4.6l-4.8 4.8" stroke="${C("surface")}" stroke-width="1.7"/></svg>`;
+  $("#score").innerHTML = "<i></i>".repeat(4) + '<i class="miss"></i>'.repeat(2);
+  $("#score").setAttribute("role","img"); $("#score").setAttribute("aria-label","4 targets met, 2 missed");
+
+  DATA.targets.forEach(t=>{
+    let val = t.value, valTxt = t.fmt(t.value), delta = "+"+t.delta, down = false, note = `Target ${t.fmt(t.target)}`, tgt = t.target, hasT = true;
+    if (rg){
+      if (t.key==="rev"){ val = s.now/1000; valTxt = "$"+val.toFixed(2)+"M"; delta = pct(s.change); down = s.change<0; note = `${rg.name}. No regional target set`; hasT = false; }
+      else if (t.key==="ret"){ val = rg.retention; valTxt = val.toFixed(1)+"%"; delta = ""; down = val < t.target; note = `${rg.name}, target ${t.fmt(t.target)}`; }
+      else { note = "Company-wide. Not split by region"; }
+    }
+    const met = !hasT || val >= tgt;
+    const d = document.createElement("div"); d.className = "kpi"; d.tabIndex = 0;
+    const span = Math.max(val, tgt)*1.12;
+    d.innerHTML = `<div class="kpi-top"><span class="kpi-ico" style="${met?"":"background:var(--alert-bg);color:var(--alert)"}">${ico(t.icon)}</span>${t.label}</div>
+      <div class="kpi-val">${valTxt}${delta?`<span class="delta ${down?"down":""}">${ico("up")}${delta.replace("+","")}</span>`:""}</div>
+      <div class="kpi-note">${note}</div>
+      <div class="bullet" aria-hidden="true">${hasT?`<b style="width:${val/span*100}%;${met?"":"background:var(--alert)"}"></b><em style="left:${tgt/span*100}%"></em>`:`<b style="width:${val/(t.target*1.12)*100}%;background:var(--web)"></b>`}</div>`;
+    if (down && delta) d.querySelector(".delta svg").style.transform = "rotate(180deg)";
+    d.setAttribute("aria-label", `${t.label} ${valTxt}, ${note}`);
+    hit(d,{ tip:()=>({ title:t.label + (rg && t.regional ? ", "+rg.name : ""), rows:[["July",valTxt]].concat(hasT?[["Target",t.fmt(tgt)],["Status", met?"Target met":"Below target"]]:[]).concat(delta?[["vs June",delta]]:[]) }) });
+    host.appendChild(d);
+  });
+}
+function renderKPIsModern(){
+  const host = $("#kpis"); host.innerHTML = "";
+  const rg = STATE.region && DATA.regions.find(r=>r.name===STATE.region), s = rg && regionStats(rg);
+  const items = DATA.targets.map(t=>{
+    let v = t.fmt(t.value), sm = "+"+t.delta.replace(" pts","pt");
+    if (rg && t.key==="rev"){ v = "$"+(s.now/1000).toFixed(2)+"M"; sm = pct(s.change); }
+    if (rg && t.key==="ret"){ v = rg.retention.toFixed(1)+"%"; sm = rg.retention>=90 ? "met" : "below 90%"; }
+    const met = !(rg && t.key==="ret" && rg.retention < 90);
+    return { label: t.label + (rg && t.regional ? ", "+rg.name : ""), v, sm, met, tip:[["July",v],["Target",t.fmt(t.target)],["vs June","+"+t.delta]] };
+  });
+  items.push({ label:"On-time delivery", v:"96.8%", sm:"target 98%", met:false, issue:"otd", tip:[["July","96.8%"],["Target","98.0%"],["Missed","May, June, July"]] });
+  items.push({ label:"Average order value", v:"$62.40", sm:"target $64", met:false, issue:"aov", tip:[["July","$62.40"],["Target","$64.00"],["June","$63.16"]] });
+  items.forEach(it=>{
+    const d = document.createElement("div"); d.className = "tp " + (it.met?"met":"miss");
+    d.innerHTML = `<label>${it.label}</label><div class="pill" tabindex="0">${it.met?'<span class="tk" aria-hidden="true"><svg viewBox="0 0 10 10"><path d="M2 5.2l2 2 4-4.4" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>':""}${it.v}<small>${it.sm}</small></div>`;
+    const p = d.querySelector(".pill");
+    p.setAttribute("aria-label", `${it.label}: ${it.v}, ${it.met?"target met":"target missed"}`);
+    hit(p,{ tip:()=>({ title:it.label, rows:it.tip.concat([["Status", it.met?"Target met":"Target missed"]]), hint: it.issue?"Click to open the issue":"" }),
+      click: it.issue ? ()=>openIssue(it.issue) : null });
+    if (it.issue) p.style.cursor = "pointer";
+    host.appendChild(d);
+  });
+  const ne = regionStats(DATA.regions.find(r=>r.flag));
+  $("#bignums").innerHTML = `
+    <div class="bn"><b>+8.4%</b><span>${ico("trend")}Revenue vs June</span></div>
+    <div class="bn"><b>${Math.round(DATA.share.mobile[11])}%</b><span>${ico("users")}Mobile share of revenue</span></div>
+    <div class="bn"><b class="bad">${n0(Math.round(ne.late/10)*10)}</b><span>${ico("truck")}Late orders, Northeast</span></div>`;
+}
+function renderNE(){
+  const icons = ["dollar","refresh","truck","share"];
+  $("#ne").innerHTML = neRows().map((r,i)=>`<li tabindex="0" data-i="${i}"><span class="tico">${ico(icons[i])}</span>
+    <span class="tt"><b>${r[0]}</b><small>Others ${r[2]}</small></span><span class="tv">${r[1]}</span>
+    <span class="tx" aria-hidden="true"><svg viewBox="0 0 10 10"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#16202B" stroke-width="1.6"/></svg></span></li>`).join("");
+  $$("#ne li").forEach(li=>{ const go=()=>setRegion(STATE.region==="Northeast"?null:"Northeast"); li.onclick=go; li.onkeydown=e=>{ if(e.key==="Enter") go(); };
+    const r = neRows()[+li.dataset.i];
+    li.onmouseenter = e=>showTip({ title:"Northeast, "+r[0].toLowerCase(), rows:[["Northeast",r[1]],["Other regions",r[2]]], hint:"Click to filter the page to Northeast" }, e);
+    li.onmousemove = moveTip; li.onmouseleave = hideTip; });
+}
+function legendHTML(){
+  return DATA.channels.map(c=>{
+    const sw = c.key==="mobile" ? `<svg width="12" height="12"><circle cx="6" cy="6" r="5.5" fill="${C("mobile")}"/></svg>`
+      : c.key==="web" ? `<svg width="12" height="12"><circle cx="6" cy="6" r="4.3" fill="none" stroke="${C("web")}" stroke-width="2.2"/></svg>`
+      : `<svg width="12" height="12"><rect x="2.2" y="2.2" width="7.6" height="7.6" transform="rotate(45 6 6)" fill="${C("partner")}"/></svg>`;
+    const on = STATE.channel===c.key, dim = STATE.channel && !on;
+    return `<button class="lg ${dim?"dim":""}" data-ch="${c.key}" aria-pressed="${on}">${sw}${c.name}</button>`;
+  }).join("");
+}
+function renderLegends(){
+  ["#legend","#legend2"].forEach(sel=>{ const h = $(sel); if (!h) return; h.innerHTML = legendHTML();
+    h.querySelectorAll(".lg").forEach(b=>b.onclick = ()=>setChannel(STATE.channel===b.dataset.ch?null:b.dataset.ch)); });
+}
+function renderChips(){
+  const h = $("#chips"); const parts = [];
+  if (STATE.region) parts.push(`<button class="chip" data-clear="region" aria-label="Remove region filter">${ico("pin")}${STATE.region}${ico("x")}</button>`);
+  if (STATE.channel) parts.push(`<button class="chip" data-clear="channel" aria-label="Remove channel filter">${ico("filter")}${chName(STATE.channel)}${ico("x")}</button>`);
+  if (parts.length > 1) parts.push(`<button class="chip" data-clear="all" style="background:none;color:var(--mobile)">Clear all</button>`);
+  h.innerHTML = parts.join("");
+  h.querySelectorAll("[data-clear]").forEach(b=>b.onclick=()=>{ const c=b.dataset.clear; if(c!=="channel") STATE.region=null; if(c!=="region") STATE.channel=null; renderAll(); });
+  const n = (STATE.region?1:0)+(STATE.channel?1:0);
+  $("#fcount").hidden = !n; $("#fcount").textContent = n;
+}
+function renderIssue(){
+  ["otd","aov"].forEach(id=>{
+    const I = ISSUES[id], s = I.status, res = s===3, host = $("#sr-"+id); if (!host) return;
+    const cls = res ? "ok" : I.sev==="Critical" ? "" : "warn";
+    host.innerHTML = `<span class="sevtag ${cls}">${ico(res?"check":"alert")}${res?"Resolved":I.sev}</span>
+      <span class="st-text">${res ? "by <b>"+(I.owner||"the team")+"</b>" : "<b>"+STEPS[s]+"</b>"+(I.owner?", "+I.owner:", no owner yet")}</span>
+      <button class="btn">View issue</button>`;
+    const b = host.querySelector("button"); b.onclick = ()=>openIssue(id);
+    b.setAttribute("aria-label", `${I.sev} issue ${I.code}: ${I.title}. Status ${STEPS[s]}. Open workflow`);
+  });
+  renderPageAlert();
+  const I = ISSUES.otd, s = I.status, res = s===3;
+  $("#navBadge").hidden = res;
+  const fs = $("#fstrip");
+  fs.className = "alert-strip" + (res?" resolved":"");
+  fs.innerHTML = `<span class="card-ico ${res?"good":"bad"}">${ico(res?"check":"alert")}</span>
+    <div style="flex:1"><strong>${res?"Resolved: ":""}Northeast on-time delivery is below target for a third month</strong>
+    <p>Status: ${STEPS[s]}. Owner: ${I.owner||"Unassigned"}. Due ${fmtDate(I.due)}.</p></div>
+    <button class="btn ${res||s>=2?"":"primary"}" id="fsOpen">${res?"View issue":s>=2?"View progress":"Review and act"}</button>`;
+  $("#fsOpen").onclick = ()=>openIssue("otd");
+}
+function renderPageAlert(){
+  const pa = $("#pageAlert"); if (!pa || STATE.alertHidden) return;
+  const list = ["otd","aov"].map(id=>({ id, ...ISSUES[id] }));
+  const open = list.filter(i=>i.status<3), done = list.length - open.length;
+  const needs = open.filter(i=>i.status<2 || !i.owner);
+  const esc = [...new Set(open.map(i=>i.escalatedTo).filter(Boolean))];
+  let state, label, text, btn;
+  if (!open.length){ state = "resolved"; label = "Resolved"; text = "<b>Both missed targets</b> have been marked resolved by their owners."; btn = "View issues"; }
+  else if (needs.length){ state = ""; label = `${open.length} ${open.length>1?"targets need":"target needs"} action`;
+    text = open.map(i=>`<b>${i.id==="otd"?"On-time delivery":"Average order value"}</b> (${i.sev}${i.status<2?", "+STEPS[i.status].toLowerCase():""}${i.owner?"":", no owner"})`).join(" and ") + (done?`. ${done} resolved.`:".");
+    btn = `Review ${open.length} issue${open.length>1?"s":""}`; }
+  else { state = "amber"; label = "In progress"; text = `<b>${open.length} issue${open.length>1?"s":""} in progress</b>` + (esc.length?`, escalated to ${esc.join(" and ")}`:"") + `. Owners: ${open.map(i=>i.owner).join(", ")}.` + (done?` ${done} resolved.`:""); btn = "View progress"; }
+  pa.hidden = false; pa.className = "page-alert " + state;
+  pa.innerHTML = `<span class="pa-label">${ico(state==="resolved"?"check":state==="amber"?"clock":"alert")}${label}</span>
+    <span class="pa-text">${text}</span>
+    <button class="pa-btn">${btn}${ico("chev")}</button>
+    ${state==="resolved"?`<button class="pa-x" aria-label="Dismiss alert">${ico("x")}</button>`:""}`;
+  pa.onclick = e=>{ if (e.target.closest(".pa-x")){ STATE.alertHidden = true; pa.hidden = true; toast("Alert dismissed","check"); return; } openIssues(); };
+}
+const fmtDate = d => { try{ return new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }catch(e){ return d; } };
+
+/* Regions view */
+STATE.sort = { key:1, dir:-1 };
+function renderRegions(){
+  const tiles = $("#tiles"); tiles.innerHTML = "";
+  DATA.regions.forEach(r=>{
+    const s = regionStats(r), b = document.createElement("button");
+    b.className = "tile" + (r.flag?" flag":""); b.setAttribute("aria-pressed", STATE.region===r.name);
+    b.innerHTML = `<h3>${r.name}<span class="status ${s.change<0?"bad":""}">${s.change<0?"Declining":"Growing"}</span></h3>
+      <div class="big">$${(s.now/1000).toFixed(2)}M<span class="delta ${s.change<0?"down":""}">${pct(s.change)}</span></div>
+      <dl><dt>On-time</dt><dd style="${s.otd<95?"color:var(--alert)":""}">${s.otd.toFixed(1)}%</dd><dt>Retention</dt><dd style="${r.retention<90?"color:var(--alert)":""}">${r.retention.toFixed(1)}%</dd>
+      <dt>Orders</dt><dd>${n0(s.orders)}</dd><dt>Mobile share</dt><dd>${s.mobileShare.toFixed(1)}%</dd></dl>`;
+    b.onclick = ()=>setRegion(STATE.region===r.name?null:r.name);
+    tiles.appendChild(b);
+  });
+  const t = CHARTS.regtable.table(), raw = DATA.regions.map(r=>{ const s=regionStats(r); return [r.name, s.now, s.change, s.orders, s.aov, s.otd, r.retention, r]; });
+  const { key, dir } = STATE.sort;
+  raw.sort((a,b)=> key===0 ? dir*a[0].localeCompare(b[0]) : dir*(a[key]-b[key]));
+  const maxRev = Math.max(...raw.map(r=>r[1]));
+  const tbl = $("#regTable");
+  tbl.innerHTML = `<thead><tr>${t.cols.map((c,i)=>`<th scope="col" ${key===i?`aria-sort="${dir>0?"ascending":"descending"}"`:""}><button data-k="${i}">${c}${key===i?(dir>0?" \u2191":" \u2193"):""}</button></th>`).join("")}</tr></thead>
+    <tbody>${raw.map(r=>`<tr class="${STATE.region===r[0]?"on":""}" data-r="${r[0]}" tabindex="0"><td><b style="${r[7].flag?"color:var(--alert)":""}">${r[0]}</b></td>
+      <td>$${(r[1]/1000).toFixed(2)}M<span class="inbar"><b style="width:${r[1]/maxRev*100}%"></b></span></td>
+      <td class="${r[2]<0?"bad":""}">${pct(r[2])}</td><td>${n0(r[3])}</td><td>$${r[4].toFixed(2)}</td>
+      <td class="${r[5]<95?"bad":""}">${r[5].toFixed(1)}%</td><td class="${r[6]<90?"bad":""}">${r[6].toFixed(1)}%</td></tr>`).join("")}</tbody>`;
+  tbl.querySelectorAll("th button").forEach(b=>b.onclick=()=>{ const k=+b.dataset.k; STATE.sort = { key:k, dir: STATE.sort.key===k ? -STATE.sort.dir : (k===0?1:-1) }; renderRegions(); });
+  tbl.querySelectorAll("tbody tr").forEach(tr=>{ const go=()=>setRegion(STATE.region===tr.dataset.r?null:tr.dataset.r); tr.onclick=go; tr.onkeydown=e=>{ if(e.key==="Enter") go(); }; });
+}
+function renderFulfil(){
+  const rg = STATE.region && DATA.regions.find(r=>r.name===STATE.region), s = rg ? regionStats(rg) : null;
+  const otd = s ? s.otd : 96.8, late = s ? s.late : ALL.late, orders = s ? s.orders : ALL.orders;
+  const worst = DATA.regions.map(r=>({ r, s:regionStats(r) })).sort((a,b)=>a.s.otd-b.s.otd)[0];
+  const cards = [
+    { icon:"truck", label:"On-time delivery"+(rg?", "+rg.name:""), val:otd.toFixed(1)+"%", note: s ? "Target 98.0%" : "Target 98.0%. Reported figure", bad: otd<98 },
+    { icon:"clock", label:"Late orders (est.)", val:n0(late), note: rg ? `${(late/ALL.late*100).toFixed(0)}% of all late orders` : "Across all regions", bad:true },
+    { icon:"box", label:"Orders delivered", val:n0(orders), note: rg ? `${(orders/ALL.orders*100).toFixed(0)}% of all orders` : "July 2026" },
+    { icon:"pin", label:"Lowest region", val:worst.r.name, note:`${worst.s.otd.toFixed(1)}% on time, ${pts(worst.s.otd-98)} to target`, bad:true }
+  ];
+  $("#fkpis").innerHTML = cards.map(c=>`<div class="kpi"><div class="kpi-top"><span class="kpi-ico" style="${c.bad?"background:var(--alert-bg);color:var(--alert)":""}">${ico(c.icon)}</span>${c.label}</div>
+    <div class="kpi-val" style="${c.bad?"color:var(--alert)":""}">${c.val}</div><div class="kpi-note">${c.note}</div></div>`).join("");
+}
+
+let rafId = 0;
+function renderAll(){
+  cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(()=>{
+    renderChips(); renderLegends(); renderIssue();
+    if (STATE.view==="biz"){ renderKPIs(); if (UI()==="classic"){ $("#ne").innerHTML = CHARTS.ne.html(); bindNE(); } else renderNE(); ["dots","trend","otd","aov"].forEach(renderChart); }
+    if (STATE.view==="regions"){ renderRegions(); renderChart("mix"); renderChart("growth"); }
+    if (STATE.view==="fulfil"){ renderFulfil(); renderChart("heat"); renderChart("late"); }
+    renderBell();
+  });
+}
+function bindNE(){ $$("#ne tr").forEach(tr=>{ const go=()=>setRegion(STATE.region==="Northeast"?null:"Northeast"); tr.onclick=go; tr.onkeydown=e=>{ if(e.key==="Enter") go(); };
+  tr.onmouseenter = e=>showTip({ title:"Northeast", rows:[[tr.cells[0].textContent, tr.cells[1].textContent],["Other regions", tr.cells[2].textContent]], hint:"Click to filter the page to Northeast" }, e);
+  tr.onmousemove = moveTip; tr.onmouseleave = hideTip; }); }
+function setRegion(r){ STATE.region = r; renderAll(); }
+function setChannel(c){ STATE.channel = c; renderAll(); }
+
+/* =========================================================
+   Views
+   ========================================================= */
+const VIEW_NAMES = { biz:"Business review", regions:"Regions", fulfil:"Fulfilment" };
+function setView(v, name){
+  STATE.view = v; STATE.emptyName = name; hideTip(); closeMenu();
+  $$(".nav-item[data-view]").forEach(b=>b.removeAttribute("aria-current"));
+  const btn = $$(".nav-item").find(b=>b.dataset.view===v && (v!=="empty" || b.dataset.name===name));
+  if (btn) btn.setAttribute("aria-current","page");
+  $$(".view").forEach(s=>s.classList.remove("active"));
+  if (v!=="empty" && STATE.period!=="2026-07"){ showPeriodEmpty(); return; }
+  if (v==="empty"){
+    $("#emptyBox").innerHTML = `<div class="empty-ico">${ico("box")}</div><h2>${name} isn't part of this prototype</h2>
+      <p>Business review, Regions and Fulfilment are fully interactive. In the product, ${name.toLowerCase()} would follow the same layout and actions.</p>
+      <button class="btn primary" id="goBiz">Go to Business review</button>`;
+    $("#goBiz").onclick = ()=>setView("biz");
+  }
+  $("#v-"+v).classList.add("active");
+  placeTools();
+  renderAll();
+}
+const EYEBROW = { biz:"Monthly business review, July 2026", regions:"Regions, July 2026", fulfil:"Fulfilment, July 2026" };
+function placeTools(){
+  const t = $("#pageTools"), data = STATE.view in EYEBROW || (STATE.view==="empty" && STATE.period!=="2026-07");
+  if (UI()==="modern"){
+    $("#topTools").appendChild(t); t.style.display = (STATE.view in EYEBROW) ? "flex" : "none";
+    const sep = $(".vsep"); if (sep) sep.style.display = (STATE.view in EYEBROW) ? "" : "none";
+    if ($("#chips")) $("#chips").style.display = (STATE.view in EYEBROW) ? "" : "none";
+    if ($("#ebText")) $("#ebText").textContent = (STATE.view in EYEBROW) ? EYEBROW[STATE.view] : (STATE.emptyName || "");
+  } else {
+    const slot = document.querySelector(".view.active .tools-slot");
+    if (slot){ slot.appendChild(t); t.style.display = "flex"; } else t.style.display = "none";
+  }
+}
+function showPeriodEmpty(){
+  const label = $("#period").selectedOptions[0].textContent;
+  $("#emptyBox").innerHTML = `<div class="empty-ico">${ico("calendar")}</div><h2>No data loaded for ${label}</h2>
+    <p>This prototype holds July 2026 only. In the product, choosing a period reloads every chart and keeps your filters.</p>
+    <button class="btn primary" id="backJuly">Back to July 2026</button>`;
+  $("#v-empty").classList.add("active"); placeTools();
+  $("#backJuly").onclick = ()=>{ $("#period").value="2026-07"; STATE.period="2026-07"; setView(STATE.view); };
+}
+function loading(ms, then){
+  $$(".view").forEach(s=>s.classList.remove("active")); $("#v-load").classList.add("active");
+  setTimeout(()=>{ $("#v-load").classList.remove("active"); then(); }, ms);
+}
+
+/* =========================================================
+   Menus
+   ========================================================= */
+const menu = $("#menu"); let menuOwner = null;
+function openMenu(anchor, html, opts={}){
+  if (menuOwner===anchor && menu.classList.contains("on")){ closeMenu(); return; }
+  menu.className = "menu on " + (opts.cls||""); menu.innerHTML = html; paintIcons(menu); menuOwner = anchor;
+  anchor.setAttribute("aria-expanded","true");
+  const r = rectIn(anchor), w = menu.offsetWidth, h = menu.offsetHeight;
+  let left = r.x + r.w - w; if (left < 8) left = r.x;
+  let top = r.y + r.h + 6; if (top + h > 890) top = r.y - h - 6;
+  menu.style.left = left+"px"; menu.style.top = top+"px";
+  const first = menu.querySelector("button"); if (first) first.focus({preventScroll:true});
+}
+function closeMenu(){ menu.classList.remove("on"); if (menuOwner) menuOwner.setAttribute("aria-expanded","false"); menuOwner = null; }
+document.addEventListener("click", e=>{ if (menu.classList.contains("on") && !menu.contains(e.target) && !(menuOwner && menuOwner.contains(e.target))) closeMenu(); });
+menu.addEventListener("keydown", e=>{
+  const items = [...menu.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+  if (e.key==="ArrowDown"){ e.preventDefault(); items[(i+1)%items.length].focus(); }
+  if (e.key==="ArrowUp"){ e.preventDefault(); items[(i-1+items.length)%items.length].focus(); }
+});
+const mi = (act, icon, label, extra="") => `<button role="menuitem" data-act="${act}">${ico(icon)}${label}${extra}</button>`;
+function cardMenu(key){
+  const c = CHARTS[key], img = !!c.render;
+  return `<h4>View</h4>${mi("expand","expand","Expand")}${mi("table","table","View as data table")}${mi("about","info","About this metric")}<hr>
+    <h4>Export</h4>${img?mi("png","image","Download PNG"):""}${mi("csv","csv","Download CSV")}${mi("link","link","Copy link to chart")}<hr>
+    <h4>Act</h4>${mi("share","share","Share")}${mi("alert","flagAlert","Set an alert")}${mi("report","report","Add to report")}${mi("pin","star","Pin to My dashboard")}<hr>
+    ${mi("comment","chat","Comments", COMMENTS[key]&&COMMENTS[key].length?`<kbd>${COMMENTS[key].length}</kbd>`:"")}`;
+}
+function initCardActions(){
+  $$(".card[data-chart]").forEach(card=>{
+    const key = card.dataset.chart, acts = card.querySelector(".card-acts");
+    if (!acts) return;
+    acts.innerHTML = `<button class="ibtn" data-x="expand" aria-label="Expand chart" title="Expand">${ico("expand")}</button><button class="ibtn" data-x="more" aria-label="More actions" aria-haspopup="menu" title="More actions">${ico("more")}</button>`;
+    acts.querySelector('[data-x="expand"]').onclick = ()=>doAct("expand", key);
+    const more = acts.querySelector('[data-x="more"]');
+    more.onclick = e=>{ e.stopPropagation(); openMenu(more, cardMenu(key));
+      menu.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{ closeMenu(); doAct(b.dataset.act, key); }); };
+  });
+}
+function doAct(act, key){
+  const c = CHARTS[key];
+  if (act==="expand") return expandChart(key);
+  if (act==="table") return openModal({ title:c.title, wide:true, body: tableHTML(c.table()), actions:[{label:"Download CSV", icon:"csv", fn:()=>downloadCSV(key)},{label:"Close", primary:true}] });
+  if (act==="about") return openAbout(key);
+  if (act==="png") return downloadPNG(key);
+  if (act==="csv") return downloadCSV(key);
+  if (act==="link") return copyLink(`#${STATE.view}/${key}`);
+  if (act==="share") return openShare(c.title);
+  if (act==="alert") return openAlert(key);
+  if (act==="report") return toast("Added to the July business review report", "report", { label:"Undo", fn:()=>toast("Removed from the report","report") });
+  if (act==="pin") return toast("Pinned to My dashboard", "star");
+  if (act==="comment") return openComments(key);
+}
+
+/* =========================================================
+   Modals, drawers, toasts
+   ========================================================= */
+const modal = $("#modal"), scrim = $("#scrim"); let lastFocus = null;
+function openModal({ title, body, actions=[], wide=false, onOpen }){
+  closeMenu(); hideTip(); lastFocus = document.activeElement;
+  $("#mTitle").textContent = title; $("#mBody").innerHTML = body; paintIcons($("#mBody"));
+  modal.classList.toggle("wide", wide);
+  const f = $("#mFoot"); f.innerHTML = ""; f.style.display = actions.length ? "flex" : "none";
+  actions.forEach(a=>{ const b = document.createElement("button"); b.className = "btn"+(a.primary?" primary":"")+(a.danger?" danger":"");
+    b.innerHTML = (a.icon?ico(a.icon):"") + a.label; b.onclick = ()=>{ const keep = a.fn && a.fn(); if (keep!==true) closeModal(); }; if (a.left) b.style.marginRight="auto"; f.appendChild(b); });
+  scrim.classList.add("on"); modal.classList.add("on");
+  if (onOpen) onOpen();
+  setTimeout(()=>{ const t = $("#mBody").querySelector("input,textarea,select,button") || modal.querySelector("[data-close]"); t && t.focus({preventScroll:true}); }, 30);
+}
+function closeModal(){ modal.classList.remove("on"); if (!$$(".drawer").some(d=>d.classList.contains("on"))) scrim.classList.remove("on"); lastFocus && lastFocus.focus && lastFocus.focus({preventScroll:true}); }
+modal.querySelector("[data-close]").onclick = closeModal;
+function openDrawer(d){ closeMenu(); hideTip(); lastFocus = document.activeElement; scrim.classList.add("on"); d.classList.add("on"); d.tabIndex = -1; setTimeout(()=>d.focus({preventScroll:true}),60); }
+function closeDrawers(){ $$(".drawer").forEach(d=>d.classList.remove("on")); if (!modal.classList.contains("on")) scrim.classList.remove("on"); }
+scrim.onclick = ()=>{ if (modal.classList.contains("on")) closeModal(); else closeDrawers(); };
+document.addEventListener("keydown", e=>{
+  if (e.key==="Escape"){ if (menu.classList.contains("on")) closeMenu(); else if (modal.classList.contains("on")) closeModal(); else closeDrawers(); hideTip(); }
+  if (/input|textarea|select/i.test(document.activeElement.tagName) || modal.classList.contains("on")) return;
+  if (e.key==="f") openFilters();
+  if (e.key==="n") applyUI(UI()==="modern"?"classic":"modern", true);
+  if (e.key==="d") toggleTheme();
+  if (e.key==="[") toggleSide();
+});
+function toast(msg, icon="check", action){
+  const t = document.createElement("div"); t.className = "toast"; t.innerHTML = ico(icon) + `<span>${msg}</span>`;
+  if (action){ const b = document.createElement("button"); b.textContent = action.label; b.onclick = ()=>{ t.remove(); action.fn(); }; t.appendChild(b); }
+  $("#toasts").appendChild(t); setTimeout(()=>t.remove(), 3800);
+}
+function tableHTML(t){ return `<div style="overflow:auto"><table class="dtable" style="cursor:default"><thead><tr>${t.cols.map(c=>`<th scope="col">${c}</th>`).join("")}</tr></thead><tbody>${t.rows.map(r=>`<tr style="cursor:default">${r.map((v,i)=>`<td>${i===0?`<b>${v}</b>`:v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`; }
+
+function expandChart(key){
+  const c = CHARTS[key];
+  if (!c.render){ return openModal({ title:c.title, wide:true, body: tableHTML(c.table()), actions:[{label:"Close", primary:true}] }); }
+  openModal({ title:c.title, wide:true, body:`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div class="legend" id="mLegend">${["dots","trend","mix","growth"].includes(key)?legendHTML():""}</div><span class="hint">${ico("cursor")}Hover for detail. Filters apply here and on the page.</span></div><svg class="chart" id="mChart"></svg>`,
+    actions:[{label:"Download PNG", icon:"image", left:true, fn:()=>{ downloadPNG(key); return true; }},{label:"Download CSV", icon:"csv", fn:()=>{ downloadCSV(key); return true; }},{label:"Close", primary:true}],
+    onOpen:()=>{ const draw = ()=>{ c.render($("#mChart"), 1000, key==="trend"?320:undefined); const lg=$("#mLegend"); if(lg && lg.innerHTML){ lg.innerHTML = legendHTML(); lg.querySelectorAll(".lg").forEach(b=>b.onclick=()=>{ setChannel(STATE.channel===b.dataset.ch?null:b.dataset.ch); setTimeout(draw,20); }); } };
+      draw(); $("#mChart").addEventListener("click", ()=>setTimeout(draw,20)); } });
+}
+function openAbout(key){
+  const a = CHARTS[key].about;
+  openModal({ title:"About: "+CHARTS[key].title, body:`<div class="about"><dl>${Object.entries(a).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("")}<dt>Last refreshed</dt><dd>1 Aug 2026, 06:00 IST</dd></dl></div>`,
+    actions:[{label:"Open metric definitions", left:true, fn:()=>{ setTimeout(openDefs,10); }},{label:"Done", primary:true}] });
+}
+function downloadCSV(key){
+  const t = CHARTS[key].table(); const q = v => /[",]/.test(v) ? `"${String(v).replace(/"/g,'""')}"` : v;
+  const csv = [t.cols, ...t.rows].map(r=>r.map(q).join(",")).join("\n");
+  save(new Blob(["\ufeff"+csv],{type:"text/csv"}), `verano-${key}-jul-2026.csv`);
+  toast(`Downloaded verano-${key}-jul-2026.csv`, "download");
+}
+function save(blob, name){ const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+function downloadPNG(key){
+  const c = CHARTS[key], W = 1200, pad = 40;
+  const svg = el("svg",{xmlns:NS}); c.render(svg, W, key==="trend"?300:undefined);
+  const H = +svg.getAttribute("height");
+  svg.querySelectorAll(".hit").forEach(n=>n.removeAttribute("class"));
+  const xml = new XMLSerializer().serializeToString(svg).replace("<svg", `<svg style="font-family:${getComputedStyle(document.body).fontFamily.replace(/"/g,"'")}"`);
+  const img = new Image(), s = 2;
+  img.onload = ()=>{
+    const cv = document.createElement("canvas"); cv.width = (W+pad*2)*s; cv.height = (H+pad*2+56)*s;
+    const x = cv.getContext("2d"); x.scale(s,s); x.fillStyle = C("surface"); x.fillRect(0,0,W+pad*2,H+pad*2+56);
+    x.fillStyle = C("ink"); x.font = `600 20px ${getComputedStyle(document.body).fontFamily}`; x.fillText(c.title, pad, pad+8);
+    x.fillStyle = C("ink-3"); x.font = `13px ${getComputedStyle(document.body).fontFamily}`; x.fillText("Verano monthly business review, July 2026. Source: Verano Analytics Portal.", pad, pad+30);
+    x.drawImage(img, pad, pad+56, W, H);
+    cv.toBlob(b=>{ save(b, `verano-${key}-jul-2026.png`); toast(`Downloaded verano-${key}-jul-2026.png`, "image"); });
+  };
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+}
+function copyLink(hash){
+  const url = location.href.split("#")[0] + hash;
+  (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(()=>toast("Link copied to clipboard","link")).catch(()=>toast("Link ready: "+hash,"link"));
+}
+
+/* Share */
+function openShare(what, preset=[]){
+  let picked = [...preset]; let perm = "view";
+  const draw = ()=>{ $("#people").innerHTML = picked.map(p=>`<span class="person"><i>${initials(p)}</i>${p}<button aria-label="Remove ${p}" data-rm="${p}">${ico("x")}</button></span>`).join("") + `<input id="pIn" type="text" placeholder="${picked.length?"":"Add people or emails"}" style="border:0;outline:0;flex:1;min-width:120px;height:28px;background:none">`;
+    $("#sugg").innerHTML = PEOPLE.filter(p=>!picked.includes(p)).map(p=>`<button data-add="${p}">+ ${p}</button>`).join("");
+    $$("[data-rm]").forEach(b=>b.onclick=()=>{ picked = picked.filter(x=>x!==b.dataset.rm); draw(); });
+    $$("[data-add]").forEach(b=>b.onclick=()=>{ picked.push(b.dataset.add); draw(); });
+    $("#pIn").onkeydown = e=>{ if (e.key==="Enter" && e.target.value.trim()){ picked.push(e.target.value.trim()); draw(); $("#pIn").focus(); } };
+  };
+  openModal({ title:"Share "+what, body:`<div class="form"><label>People<div class="people" id="people"></div></label><div class="suggest" id="sugg"></div>
+      <label>Permission<div class="seg" id="perm"><button aria-pressed="true" data-p="view">Can view</button><button aria-pressed="false" data-p="comment">Can comment</button><button aria-pressed="false" data-p="edit">Can edit filters</button></div></label>
+      <label>Message<textarea id="msg">Sharing the July business review. The Northeast delivery issue needs attention this week.</textarea></label>
+      <label class="check"><input type="checkbox" checked> Include my current filters</label></div>`,
+    actions:[{label:"Copy link", icon:"link", left:true, fn:()=>{ copyLink("#"+STATE.view); return true; }},{label:"Cancel"},{label:"Send", icon:"mail", primary:true, fn:()=>{ if(!picked.length){ toast("Add at least one person to share with","info"); return true; } toast(`Shared with ${picked.length===1?picked[0]:picked.length+" people"}`,"share"); }}],
+    onOpen:()=>{ draw(); $$("#perm button").forEach(b=>b.onclick=()=>{ $$("#perm button").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); perm=b.dataset.p; }); } });
+}
+/* Alert */
+function openAlert(key){
+  const defaults = { otd:["On-time delivery","96.0","%"], aov:["Average order value","62.00","$"], dots:["Net revenue change vs prior month","0","%"], trend:["Mobile app share of revenue","25","%"], ne:["Northeast revenue change","-2","%"], heat:["On-time delivery, any cell","94","%"], late:["Late orders, any region","900",""], mix:["Region revenue","900","$K"], regtable:["Region retention","90","%"] }[key] || ["Metric","0",""];
+  openModal({ title:"Set an alert", body:`<div class="form"><label>Metric<input type="text" value="${defaults[0]}" readonly></label>
+    <div class="row2"><label>Condition<select><option>Falls below</option><option>Rises above</option><option>Changes by more than</option></select></label><label>Threshold (${defaults[2]||"count"})<input type="number" id="thr" value="${defaults[1]}" step="0.1"></label></div>
+    <label>Check<div class="seg" id="freq"><button aria-pressed="true">As data refreshes</button><button aria-pressed="false">Daily digest</button><button aria-pressed="false">Weekly digest</button></div></label>
+    <div><label class="check"><input type="checkbox" checked> In-app notification</label><label class="check" style="margin-top:8px"><input type="checkbox" checked> Email to me</label><label class="check" style="margin-top:8px"><input type="checkbox"> Also notify the issue owner</label></div></div>`,
+    actions:[{label:"Cancel"},{label:"Create alert", icon:"bell", primary:true, fn:()=>{ STATE.alerts.push(defaults[0]); NOTIFS.unshift({ icon:"bell", cls:"good", txt:`Alert created: ${defaults[0]} ${$("#mBody select").value.toLowerCase()} ${$("#thr").value}${defaults[2]==="%"?"%":""}.`, time:"Just now", unread:true }); renderBell(); toast("Alert created. You'll be notified when it triggers","bell"); }}],
+    onOpen:()=>{ $$("#freq button").forEach(b=>b.onclick=()=>{ $$("#freq button").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); }); } });
+}
+/* Comments */
+const COMMENTS = { otd:[{ who:"Priya Nair", t:"2 Aug 2026, 10:14", txt:"Carrier recovery plan for Northeast is due 8 Aug. Partner deliveries are the worst affected." }], dots:[{ who:"Mei Chen", t:"1 Aug 2026, 09:02", txt:"Good month for mobile. Can we see whether the starter plan is driving the lower order value?" }] };
+function openComments(key){
+  const list = COMMENTS[key] = COMMENTS[key] || [];
+  const draw = ()=>{ $("#cList").innerHTML = list.length ? list.map(c=>`<div class="comment"><span class="person" style="padding:0;border:0;background:none"><i>${initials(c.who)}</i></span><div><b>${c.who}</b><small>${c.t}</small><p>${c.txt}</p></div></div>`).join("") : `<p style="color:var(--ink-3);margin:4px 0 8px">No comments yet. Start the conversation for this chart.</p>`; };
+  openModal({ title:"Comments: "+CHARTS[key].title, body:`<div id="cList"></div><div class="form" style="margin-top:12px"><label>Add a comment<textarea id="cTxt" placeholder="Type @ to mention someone"></textarea></label></div>`,
+    actions:[{label:"Close"},{label:"Post comment", icon:"chat", primary:true, fn:()=>{ const v=$("#cTxt").value.trim(); if(!v) return true; list.push({ who:"Alex Morgan", t:now(), txt:v }); $("#cTxt").value=""; draw(); toast("Comment posted","chat"); return true; }}],
+    onOpen:draw });
+}
+/* Source checks + definitions */
+function openChecks(){
+  openModal({ title:"Source checks that need review", body:`<div class="form" style="gap:12px">
+    <div class="alert-strip" style="margin:0;background:var(--warn-bg);border-color:transparent"><span class="card-ico" style="color:var(--warn)">${ico("alert")}</span><div><strong>Channel growth does not add up</strong><p>The channel rows sum to +6.3% growth, but the portal reports +8.4%. The page shows the reported figure and flags the gap.</p></div></div>
+    <div class="alert-strip" style="margin:0;background:var(--warn-bg);border-color:transparent"><span class="card-ico" style="color:var(--warn)">${ico("alert")}</span><div><strong>New-subscriber total does not match its rows</strong><p>The total is 12,340 but the rows add up to 19,340. The figure is left off the page until the data owner confirms which is right.</p></div></div>
+    <p style="margin:0;color:var(--ink-3);font-size:12.5px">Data owner: Revenue analytics. Checks run on every refresh.</p></div>`,
+    actions:[{label:"Close"},{label:"Notify data owner", icon:"mail", primary:true, fn:()=>toast("Revenue analytics has been notified about 2 checks","mail")}] });
+}
+function openDefs(){
+  const defs = [["Net revenue","Gross bookings minus refunds and discounts, in USD."],["Active subscribers","Accounts with a paid plan on the last day of the month."],["Retention","Share of last month's subscribers still active this month."],["Net promoter score","Promoters minus detractors from the monthly survey, from −100 to 100."],["On-time delivery","Orders delivered by the promised date ÷ delivered orders."],["Average order value","Net revenue ÷ orders."],["Late orders (est.)","Orders × (1 − on-time rate), by channel."]];
+  openModal({ title:"Metric definitions", body:`<div class="about"><dl>${defs.map(d=>`<dt>${d[0]}</dt><dd>${d[1]}</dd>`).join("")}</dl></div>`, actions:[{label:"Done", primary:true}] });
+}
+
+/* =========================================================
+   Issue workflow (one drawer, one process for every missed target)
+   ========================================================= */
+const inc = $("#incident"); let curIssue = "otd";
+function logInc(txt, c="k"){ ISSUES[curIssue].log.unshift({ t:now(), who:"Alex Morgan", txt, c }); }
+function issueContent(id){
+  if (id==="otd"){
+    const ne = DATA.regions.find(r=>r.flag), ns = regionStats(ne);
+    return {
+      facts:[["Northeast on-time",ns.otd.toFixed(1)+"%",1],["Gap to target",pts(ns.otd-98),1],["Late orders (est.)",n0(ns.late),0]],
+      what:`Company on-time delivery is 96.8% against 98%, missed for three months. Northeast is the cause: it handles ${(ns.orders/ALL.orders*100).toFixed(0)}% of orders but ${(ns.late/ALL.late*100).toFixed(0)}% of late ones. Carrier delays are the main reason, and partner deliveries are lowest at ${ne.rows.partner[3]}%.`,
+      reason:`On-time delivery has missed target for three months (96.8% vs 98%). Northeast is at ${ns.otd.toFixed(1)}%. We need a carrier decision this week.`,
+      view:["Open in Fulfilment","truck",()=>{ STATE.region="Northeast"; setView("fulfil"); }],
+      evidence:()=>[["Channel","Orders","On-time %","Late orders (est.)"], ...["mobile","web","partner"].map(k=>[CH(k).name, ne.rows[k][2], ne.rows[k][3], Math.round(ne.rows[k][2]*(1-ne.rows[k][3]/100))])],
+      file:"INC-0412-on-time-delivery-evidence.csv"
+    };
+  }
+  return {
+    facts:[["July",`$${DATA.aov.value.toFixed(2)}`,1],["Gap to target","\u2212$1.60",1],["vs June","\u22121.2%",1]],
+    what:"Average order value is $62.40 against a $64.00 target, down from $63.16 in June. Customers keep moving to the cheaper starter plan, so revenue grows while each order is worth less.",
+    reason:"Average order value has missed target for three months ($62.40 vs $64.00). We need a decision on starter-plan pricing.",
+    view:["Open in Regions","globe",()=>setView("regions")],
+    evidence:()=>[["Measure","Value"],["July","62.40"],["June","63.16"],["Target","64.00"], ...DATA.regions.map(r=>[r.name+" AOV", regionStats(r).aov.toFixed(2)])],
+    file:"INC-0413-average-order-value-evidence.csv"
+  };
+}
+function renderIncident(){
+  const id = curIssue, I = ISSUES[id], s = I.status, X = issueContent(id), res = s===3;
+  const primary = ["Acknowledge","Start work","Mark resolved","Reopen"][s];
+  const cls = res ? "good" : I.sev==="Critical" ? "bad" : "warn";
+  inc.innerHTML = `<header class="dhead">
+      <div class="dh-main">
+        <button class="backlink" data-a="back">${ico("chev")}All issues</button>
+        <div class="dh-eyebrow"><span class="sevtag ${res?"ok":I.sev==="Critical"?"":"warn"}">${ico(res?"check":"alert")}${res?"Resolved":I.sev}</span><span class="code">${I.code}</span>${I.escalatedTo&&!res?`<span class="esctag">${ico("escalate")}Escalated to ${I.escalatedTo}</span>`:""}</div>
+        <h2 id="incTitle">${I.title}</h2>
+        <p class="meta">Opened 1 Aug 2026 by an automated check</p>
+      </div>
+      <button class="ibtn" data-x="close" aria-label="Close">${ico("x")}</button></header>
+    <div class="dbody">
+      <div class="steps" aria-label="Status: ${STEPS[s]}">${STEPS.map((n,i)=>`<div class="step ${i<s||res?"done":i===s?"cur":""}"><i>${i<s||res?ico("check").replace('class="i"','class="i" style="width:13px;height:13px;stroke-width:2.4"'):i+1}</i>${n}</div>`).join("")}</div>
+      <div class="facts">${X.facts.map(f=>`<div class="fact"><small>${f[0]}</small><b class="${f[2]?"bad":""}">${f[1]}</b></div>`).join("")}</div>
+      <div class="dsec"><h3>What's happening</h3><p>${X.what}</p></div>
+      <div class="dsec form"><div class="row2"><label>Owner<select id="incOwner">${OWNERS.map(o=>`<option value="${o[0]}" ${o[0]===I.owner?"selected":""}>${o[1]}</option>`).join("")}</select></label><label>Due date<input type="date" id="incDue" value="${I.due}"></label></div></div>
+      <div class="dsec"><h3>Actions</h3><div class="acts4">
+        <button class="btn" data-a="esc">${ico("escalate")}Escalate</button><button class="btn" data-a="share">${ico("share")}Share with owner</button>
+        <button class="btn" data-a="export">${ico("download")}Export evidence</button><button class="btn" data-a="view">${ico(X.view[1])}${X.view[0]}</button></div></div>
+      <div class="dsec form"><label>Add a note<textarea id="incNote" placeholder="What did you find or decide?"></textarea></label><div><button class="btn" data-a="note">${ico("note")}Add note</button></div></div>
+      <div class="dsec"><h3>Activity</h3><ul class="log">${I.log.map(l=>`<li><i class="${l.c||""}"></i><div><p>${l.txt}</p><small>${l.who}, ${l.t}</small></div></li>`).join("")}</ul></div>
+    </div>
+    <div class="dfoot"><button class="btn primary" data-a="next">${ico(res?"refresh":"check")}${primary}</button><button class="btn" data-x="close">Close</button></div>`;
+  inc.querySelectorAll('[data-x="close"]').forEach(b=>b.onclick=closeDrawers);
+  $("#incOwner").onchange = e=>{ I.owner = e.target.value; logInc(I.owner ? `Assigned to ${I.owner}.` : "Owner removed."); toast(I.owner?`Assigned to ${I.owner}`:"Owner removed","user"); renderIncident(); renderIssue(); };
+  $("#incDue").onchange = e=>{ I.due = e.target.value; logInc(`Due date set to ${fmtDate(I.due)}.`); renderIncident(); renderIssue(); };
+  inc.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{
+    const a = b.dataset.a;
+    if (a==="back"){ renderIssueList(); return; }
+    if (a==="next"){
+      if (s===1 && !I.owner){ toast("Assign an owner before starting work","user"); $("#incOwner").focus(); return; }
+      I.status = (s+1)%4; logInc(["Reopened the issue.","Acknowledged the issue.",`Work started by ${I.owner}.`,"Marked as resolved."][I.status], "");
+      toast(["Issue reopened","Issue acknowledged","Status: In progress","Issue resolved"][I.status], I.status===3?"check":"flagAlert");
+      if (I.status===3) NOTIFS.unshift({ icon:"check", cls:"good", txt:`${I.code}: ${I.title.toLowerCase()} was marked as resolved.`, time:"Just now", unread:true });
+      renderIncident(); renderIssue(); renderBell();
+    }
+    if (a==="esc") openModal({ title:`Escalate ${I.code}`, body:`<div class="form"><label>Escalate to<select id="escTo"><option>Mei Chen, VP Operations</option><option>Sam Whitfield, Chief Operating Officer</option></select></label>
+        <label>Urgency<div class="seg" id="urg"><button aria-pressed="false">Normal</button><button aria-pressed="true">High</button><button aria-pressed="false">Urgent</button></div></label>
+        <label>Reason<textarea id="escWhy">${X.reason}</textarea></label>
+        <label class="check"><input type="checkbox" checked> Attach evidence (charts and CSV)</label></div>`,
+        actions:[{label:"Cancel"},{label:"Escalate", icon:"escalate", primary:true, fn:()=>{ const to=$("#escTo").value.split(",")[0]; I.escalatedTo = to; logInc(`Escalated to ${to}.`,"a");
+          if (!I.owner){ I.owner = to; logInc(`${to} is the owner until someone is assigned.`,""); }
+          if (I.status < 2){ I.status = 2; logInc("Status moved to In progress.",""); }
+          renderIssue(); NOTIFS.unshift({ icon:"escalate", cls:"bad", txt:`You escalated ${I.code} to ${to}.`, time:"Just now", unread:true }); renderBell(); renderIncident(); toast(`Escalated to ${to}. Status: In progress`,"escalate"); }}],
+        onOpen:()=>$$("#urg button").forEach(x=>x.onclick=()=>{ $$("#urg button").forEach(y=>y.setAttribute("aria-pressed","false")); x.setAttribute("aria-pressed","true"); }) });
+    if (a==="share") openShare(`issue ${I.code}`, I.owner?[I.owner]:[]);
+    if (a==="export"){ const rows = [["Issue",I.code],["Title",I.title],["Severity",I.sev],["Status",STEPS[I.status]],["Owner",I.owner||"Unassigned"],["Due",I.due],[""], ...X.evidence(), [""],["Activity"], ...I.log.map(l=>[l.t, l.who, l.txt])];
+      save(new Blob(["\ufeff"+rows.map(r=>r.map(v=>/[",]/.test(v)?`"${v}"`:v).join(",")).join("\n")],{type:"text/csv"}), X.file); logInc("Exported evidence."); renderIncident(); toast(`Downloaded ${I.code} evidence`,"download"); }
+    if (a==="view"){ closeDrawers(); X.view[2](); }
+    if (a==="note"){ const v = $("#incNote").value.trim(); if (!v){ $("#incNote").focus(); return; } logInc(v,""); renderIncident(); toast("Note added","note"); }
+  });
+}
+function openIssue(id, fromList){ curIssue = id; STATE.fromList = !!fromList; renderIncident(); if (!inc.classList.contains("on")) openDrawer(inc); inc.querySelector(".dbody").scrollTop = 0; }
+function openIssues(){ renderIssueList(); if (!inc.classList.contains("on")) openDrawer(inc); }
+function renderIssueList(){
+  const list = ["otd","aov"].map(id=>({ id, ...ISSUES[id] })), open = list.filter(i=>i.status<3).length;
+  inc.innerHTML = `<header class="dhead"><div class="dh-main">
+      <div class="dh-eyebrow"><span class="code">2 of 6 targets missed in July</span></div>
+      <h2 id="incTitle">${open ? `${open} issue${open>1?"s":""} to review` : "All issues resolved"}</h2>
+      <p class="meta">Pick one to assign, escalate or update</p></div>
+      <button class="ibtn" data-x="close" aria-label="Close">${ico("x")}</button></header>
+    <div class="dbody"><div class="ilist">${list.map(i=>{
+      const res = i.status===3, cls = res?"ok":i.sev==="Critical"?"":"warn";
+      return `<button class="irow" data-id="${i.id}"><div class="ir-main">
+        <div class="ir-top"><span class="sevtag ${cls}">${ico(res?"check":"alert")}${res?"Resolved":i.sev}</span><span class="code">${i.code}</span>${i.escalatedTo&&!res?`<span class="esctag">${ico("escalate")}Escalated to ${i.escalatedTo}</span>`:""}</div>
+        <h3>${i.title}</h3>
+        <div class="ir-meta"><span class="stpill ${res?"done":i.status===2?"prog":""}">${STEPS[i.status]}</span><span>Owner <b>${i.owner||"Unassigned"}</b></span><span>Due <b>${fmtDate(i.due)}</b></span></div>
+      </div>${ico("chev")}</button>`; }).join("")}</div>
+      <p class="ihint">Escalating an issue moves it to In progress. It's only marked resolved when its owner confirms the fix.</p></div>
+    <div class="dfoot"><span style="flex:1"></span><button class="btn" data-x="close">Close</button></div>`;
+  inc.querySelectorAll('[data-x="close"]').forEach(b=>b.onclick=closeDrawers);
+  inc.querySelectorAll(".irow").forEach(b=>b.onclick=()=>openIssue(b.dataset.id, true));
+  setTimeout(()=>{ const f = inc.querySelector(".irow"); f && f.focus({preventScroll:true}); }, 60);
+}
+const openIncident = ()=>openIssue("otd");
+
+/* =========================================================
+   Filters drawer
+   ========================================================= */
+const fil = $("#filters");
+function openFilters(){
+  let reg = STATE.region || "", ch = STATE.channel || "";
+  fil.innerHTML = `<header><span class="card-ico">${ico("filter")}</span><div style="flex:1"><h2 id="filTitle">Filters</h2><p>Apply to every chart on every view</p></div><button class="ibtn" data-x="close" aria-label="Close">${ico("x")}</button></header>
+    <div class="dbody form">
+      <label>Period<select id="fPeriod">${[...$("#period").options].map(o=>`<option value="${o.value}" ${o.value===STATE.period?"selected":""}>${o.textContent}</option>`).join("")}</select></label>
+      <div class="fgroup"><h3>Region</h3>${["","West","South","Midwest","Northeast"].map(r=>`<label class="check"><input type="radio" name="fr" value="${r}" ${r===reg?"checked":""}> ${r||"All regions"}</label>`).join("")}</div>
+      <div class="fgroup"><h3>Channel</h3>${[["","All channels"],...DATA.channels.map(c=>[c.key,c.name])].map(c=>`<label class="check"><input type="radio" name="fc" value="${c[0]}" ${c[0]===ch?"checked":""}> ${c[1]}</label>`).join("")}</div>
+      <div class="fgroup"><h3>Compare with</h3><div class="seg"><button aria-pressed="true">Previous month</button><button aria-pressed="false" disabled title="Not loaded in this prototype" style="opacity:.5">Same month last year</button></div></div>
+    </div>
+    <div class="dfoot"><button class="btn" id="fReset">Reset</button><span style="flex:1"></span><button class="btn" data-x="close">Cancel</button><button class="btn primary" id="fApply">Apply filters</button></div>`;
+  fil.querySelectorAll('[data-x="close"]').forEach(b=>b.onclick=closeDrawers);
+  $("#fReset").onclick = ()=>{ fil.querySelectorAll('input[value=""]').forEach(i=>i.checked=true); $("#fPeriod").value="2026-07"; };
+  $("#fApply").onclick = ()=>{ STATE.region = fil.querySelector('input[name=fr]:checked').value || null; STATE.channel = fil.querySelector('input[name=fc]:checked').value || null;
+    const p = $("#fPeriod").value; closeDrawers();
+    if (p!==STATE.period){ STATE.period = p; $("#period").value = p; loading(600, ()=>setView(STATE.view)); } else renderAll();
+    toast("Filters applied","filter"); };
+  openDrawer(fil);
+}
+
+/* =========================================================
+   Notifications, export, account
+   ========================================================= */
+const NOTIFS = [
+  { icon:"alert", cls:"bad", txt:"Northeast on-time delivery is below target for a third month.", time:"1 Aug 2026, 06:00", unread:true, go:"incident" },
+  { icon:"alert", cls:"warn", txt:"Average order value is below target. Rhea Kapoor acknowledged it.", time:"1 Aug 2026, 09:40", unread:false, go:"aov" },
+  { icon:"alert", cls:"warn", txt:"2 source checks need review before this report is shared.", time:"1 Aug 2026, 06:00", unread:true, go:"checks" },
+  { icon:"mail", cls:"good", txt:"The July business review was delivered to 6 recipients.", time:"1 Aug 2026, 06:05", unread:true }
+];
+function renderBell(){ const n = NOTIFS.filter(x=>x.unread).length; $("#bellDot").hidden = !n; $("#bellDot").textContent = n; }
+function bellClick(e){ e.stopPropagation();
+  openMenu($("#bellBtn"), `<header><span>Notifications</span><button data-act="read">Mark all as read</button></header>${NOTIFS.map((n,i)=>`<button class="n ${n.unread?"unread":""}" data-n="${i}"><span class="card-ico ${n.cls}">${ico(n.icon)}</span><div><p>${n.txt}</p><small>${n.time}</small></div></button>`).join("")}`, { cls:"notif" });
+  menu.querySelector('[data-act="read"]').onclick = ev=>{ ev.stopPropagation(); NOTIFS.forEach(n=>n.unread=false); renderBell(); closeMenu(); toast("All notifications marked as read"); };
+  menu.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{ const n = NOTIFS[+b.dataset.n]; n.unread=false; renderBell(); closeMenu(); if (n.go==="incident") openIssue("otd"); if (n.go==="aov") openIssue("aov"); if (n.go==="checks") openChecks(); });
+}
+$("#exportBtn").onclick = e=>{ e.stopPropagation();
+  openMenu($("#exportBtn"), `<h4>This view</h4>${mi("pdf","pdf","Export as PDF")}${mi("csv","csv","Download all data (CSV)")}${mi("link","link","Copy link to this view")}<hr><h4>Recurring</h4>${mi("sched","calendar","Schedule a report")}`);
+  menu.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{ closeMenu(); const a=b.dataset.act;
+    if (a==="pdf"){ toast("Opening print dialog. Choose Save as PDF","pdf"); setTimeout(()=>print(), 500); }
+    if (a==="csv"){ const all = Object.keys(CHARTS).map(k=>{ const t=CHARTS[k].table(); return [[CHARTS[k].title], t.cols, ...t.rows, []].map(r=>r.join(",")).join("\n"); }).join("\n");
+      save(new Blob(["\ufeff"+all],{type:"text/csv"}),"verano-business-review-jul-2026.csv"); toast("Downloaded verano-business-review-jul-2026.csv","download"); }
+    if (a==="link") copyLink("#"+STATE.view);
+    if (a==="sched") openSchedule();
+  }); };
+function openSchedule(){
+  openModal({ title:"Schedule a report", body:`<div class="form"><label>Report<input type="text" value="Monthly business review" readonly></label>
+    <div class="row2"><label>Frequency<select><option>Monthly, first working day</option><option>Weekly, Monday</option><option>Daily</option></select></label><label>Send at<select><option>09:00 IST</option><option>06:00 IST</option><option>12:00 IST</option></select></label></div>
+    <label>Format<div class="seg" id="fmt"><button aria-pressed="true">PDF</button><button aria-pressed="false">PowerPoint</button><button aria-pressed="false">CSV data</button></div></label>
+    <label>Recipients<div class="people"><span class="person"><i>MC</i>Mei Chen</span><span class="person"><i>SW</i>Sam Whitfield</span><span class="person"><i>PN</i>Priya Nair</span></div></label>
+    <label class="check"><input type="checkbox" checked> Only send when source checks pass</label></div>`,
+    actions:[{label:"Cancel"},{label:"Schedule report", icon:"calendar", primary:true, fn:()=>toast("Report scheduled: monthly, 3 recipients","calendar")}],
+    onOpen:()=>$$("#fmt button").forEach(x=>x.onclick=()=>{ $$("#fmt button").forEach(y=>y.setAttribute("aria-pressed","false")); x.setAttribute("aria-pressed","true"); }) });
+}
+function avatarClick(e){ e.stopPropagation();
+  openMenu($("#avatarBtn"), `<div style="padding:8px 10px 6px"><b style="display:block">Alex Morgan</b><small style="color:var(--ink-3)">VP Commercial</small></div><hr>${mi("ui", UI()==="modern"?"refresh":"star", UI()==="modern"?"Switch to classic view":"Try the new look")}<hr>${mi("prof","user","Profile and preferences")}${mi("keys","keyboard","Keyboard shortcuts")}<hr>${mi("out","logout","Sign out")}`);
+  menu.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{ closeMenu(); const a=b.dataset.act;
+    if (a==="keys") openModal({ title:"Keyboard shortcuts", body:`<div class="about"><dl><dt>F</dt><dd>Open filters</dd><dt>N</dt><dd>Switch between the new and classic look</dd>${UI()==="classic"?"<dt>D</dt><dd>Switch light and dark mode</dd>":""}<dt>[</dt><dd>Collapse or expand the menu</dd><dt>Enter</dt><dd>Filter by the focused chart item</dd><dt>Esc</dt><dd>Close menus, panels and dialogs</dd></dl></div>`, actions:[{label:"Done",primary:true}] });
+    if (a==="prof") setView("empty","Settings");
+    if (a==="out") toast("Sign-out is disabled in this prototype","logout");
+    if (a==="ui") applyUI(UI()==="modern"?"classic":"modern", true);
+  }); }
+
+/* =========================================================
+   Theme, sidebar, top bar wiring
+   ========================================================= */
+function toggleTheme(){
+  if (UI()!=="classic") return;
+  STATE.theme = STATE.theme==="light" ? "dark" : "light";
+  document.documentElement.dataset.theme = STATE.theme;
+  paintTheme();
+  try{ localStorage.setItem("verano-theme", STATE.theme); }catch(e){}
+  renderAll();
+}
+function paintTheme(){ const b = $("#themeBtn"); if (!b) return; b.innerHTML = ico(STATE.theme==="light"?"moon":"sun"); b.setAttribute("aria-label", STATE.theme==="light"?"Switch to dark mode":"Switch to light mode"); b.title = b.getAttribute("aria-label"); }
+function toggleSide(){
+  const app = $("#app"), c = app.classList.toggle("collapsed"), b = $("#collapseBtn");
+  b.setAttribute("aria-expanded", !c);
+  const lbl = b.querySelector(".nav-label");
+  if (lbl){ lbl.textContent = c ? "Expand menu" : "Collapse menu"; b.querySelector("svg").innerHTML = ICONS[c?"sidebarOpen":"sidebar"]; }
+  else { b.setAttribute("aria-label", c ? "Expand menu" : "Collapse menu"); b.title = b.getAttribute("aria-label"); }
+  navtip.classList.remove("on");
+  setTimeout(renderAll, 240);
+}
+const navtip = $("#navtip");
+document.addEventListener("click", e=>{
+  const app = $("#app");
+  if (UI()==="modern" && !app.classList.contains("collapsed") && !e.target.closest(".side") && !e.target.closest("#collapseBtn")) toggleSide();
+});
+function bindChrome(){
+  $("#collapseBtn").onclick = e=>{ e.stopPropagation(); toggleSide(); };
+  $$(".nav-item[data-view], .brand").forEach(b=>b.addEventListener("click", e=>{ e.preventDefault(); setView(b.dataset.view, b.dataset.name);
+    if (UI()==="modern" && b.closest(".side") && !$("#app").classList.contains("collapsed")) setTimeout(toggleSide, 120); }));
+  $$(".side .nav-item").forEach(b=>{
+    b.addEventListener("mouseenter", ()=>{ if (!$("#app").classList.contains("collapsed")) return; const r = rectIn(b); navtip.textContent = b.querySelector(".nav-label").textContent; navtip.style.left = (r.x+r.w+10)+"px"; navtip.style.top = (r.y+r.h/2-13)+"px"; navtip.classList.add("on"); });
+    b.addEventListener("mouseleave", ()=>navtip.classList.remove("on"));
+  });
+  $("#bellBtn").onclick = bellClick;
+  $("#avatarBtn").onclick = avatarClick;
+  if ($("#themeBtn")){ $("#themeBtn").onclick = toggleTheme; paintTheme(); }
+  $$("[data-uiswitch]").forEach(b=>b.onclick = ()=>applyUI(UI()==="modern"?"classic":"modern", true));
+  if ($("#neCta")) $("#neCta").onclick = ()=>{ STATE.region = "Northeast"; setView("fulfil"); };
+  renderBell();
+}
+
+/* =========================================================
+   New look / classic switch. One data model and workflow,
+   two shells. Switching keeps page, filters and issue states.
+   ========================================================= */
+function UI(){ return document.documentElement.dataset.ui || "modern"; }
+function applyUI(mode, announce){
+  closeMenu(); hideTip(); closeDrawers(); navtip.classList.remove("on");
+  const stageEl = $("#stage");
+  stageEl.appendChild($("#pageTools"));
+  document.documentElement.dataset.ui = mode;
+  document.documentElement.dataset.theme = mode==="classic" ? STATE.theme : "light";
+  $("#chrome").innerHTML = ""; $("#chrome").appendChild($("#t-chrome-"+mode).content.cloneNode(true));
+  $("#v-biz").innerHTML = ""; $("#v-biz").appendChild($("#t-biz-"+mode).content.cloneNode(true));
+  $("#app").classList.add("collapsed");
+  paintIcons($("#chrome")); paintIcons($("#v-biz"));
+  bindChrome(); initCardActions(); observeCharts();
+  try{ localStorage.setItem("verano-ui", mode); }catch(e){}
+  setView(STATE.view, STATE.emptyName);
+  stageEl.classList.remove("swapping"); void stageEl.offsetWidth; stageEl.classList.add("swapping");
+  if (announce){ $$("#toasts .toast").forEach(t=>t.remove()); }
+  if (announce) toast(mode==="modern" ? "You're using the new look. Switch back to classic from your profile menu at any time." : "You're using the classic view. Try the new look from the top bar at any time.", mode==="modern"?"star":"refresh");
+}
+$("#period").onchange = e=>{ STATE.period = e.target.value; loading(600, ()=>setView(STATE.view)); };
+$("#filtersBtn").onclick = openFilters;
+$("#shareBtn").onclick = ()=>openShare("this view");
+$("#checksBtn").onclick = openChecks;
+$("#defsBtn").onclick = openDefs;
+
+/* Re-draw charts when their card changes width */
+const ro = new ResizeObserver(()=>renderAll());
+function observeCharts(){ ro.disconnect(); Object.values(SVG_IDS).forEach(id=>{ const s = document.getElementById(id); if (s) ro.observe(s.parentElement); }); }
+
+/* Init */
+paintIcons();
+try{ const t = localStorage.getItem("verano-theme"); if (t==="dark") STATE.theme = "dark"; }catch(e){}
+let startUI = "modern"; try{ startUI = localStorage.getItem("verano-ui") || "modern"; }catch(e){}
+applyUI(startUI, false);
+</script>
+</body>
+</html>
